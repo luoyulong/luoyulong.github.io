@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T19:00:31+08:00</updated>
+  <updated>2014-06-19T19:02:47+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -203,21 +203,23 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
+</span><span class='line'>  
+</span><span class='line'>  kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
 </span><span class='line'>
-</span><span class='line'>kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
-</span><span class='line'>
-</span><span class='line'>mysql-x86_64.conf                  torque.conf
-</span><span class='line'><span class="sb">```</span>
-</span><span class='line'>3. 新建java.conf，添加libjvm.so的路径：
+</span><span class='line'>  mysql-x86_64.conf                  torque.conf
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p> bash
-/usr/local/jdk1.6/jre/lib/amd64/server
-&#8220;`</p>
+<ol>
+<li>新建java.conf，添加libjvm.so的路径：</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/local/jdk1.6/jre/lib/amd64/server
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ol>
 <li>执行ldconfig,重新加载库</li>
