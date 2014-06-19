@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T12:24:52+08:00</updated>
+  <updated>2014-06-19T12:26:57+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -154,9 +154,9 @@
   
   <entry>
     <title type="html"><![CDATA[r_行与列的操作]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/19/r-xing-yu-lie-de-cao-zuo/"/>
+    <link href="http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/"/>
     <updated>2014-06-19T09:43:53+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/19/r-xing-yu-lie-de-cao-zuo</id>
+    <id>http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo</id>
     <content type="html"><![CDATA[<h1>R 行与列的操作</h1>
 
 <h2>选择列</h2>
