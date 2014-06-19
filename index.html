@@ -164,63 +164,6 @@
   
 
 
-<time datetime="2014-06-19T17:16:08+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/lun-wen-yue-du/'>论文阅读</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/reading/" itemprop="url">&#8220;Split Tiling for GPUs: Automatic Parallelization Using Trapezoidal Tiles&#8221;论文阅读</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>算法描述</h2>
-
-<ol>
-<li>首先使用多个等距离、平行于时间轴的超平面划分迭代空间为时间带&#8221;time band&#8221;
-
-<blockquote><p>As a first step, we partition the iteration space by placing equally distanced hyperplanes orthogonal to the axis of the time dimension.</p></blockquote></li>
-<li>在每个<em>time band</em>中构建金字塔，每个金字塔是一个可以并行计算点得集合</li>
-<li>在空间任选一个顶点X,X是某个金字塔的顶点，而金字塔包含了在“time band”中所有计算X所依赖的点</li>
-<li>沿着时间轴推进，把X的所有依赖点加入金字塔</li>
-<li>扩展该金字塔
-
-<ol>
-<li> 为了使得金字塔变宽，首先选取一个需要扩展的方向D</li>
-<li> 在该方向上，复制金字塔中点，这些点所有非D方向的坐标保持不变，而D方向的坐标进行扩展</li>
-<li> 除了在一个维度扩展，还可以对多个维度的组合进行扩展
-
-<blockquote><p>In addition to the first color, we derive one color for each space dimension in the input. The shape of a color Cx (where x corre- sponds to some space dimension) is derived by stretching the pyra- mid of C0 along the x-dimension and by subsequently subtracting the shapes of all previously calculated colors.
-In the case of more than one space dimension, additional colors are needed. Besides the initial color C0 and the colors for indi- vidual dimensions, we introduce a color for each combination of dimensions. This means, for a 3D input, the colors Cxy, Cxz, Cyz as well as Cxyz are introduced.</p></blockquote></li>
-</ol>
-</li>
-<li>使用金字塔去划分每个”time band“为多个颜色的tiles，每种颜色的tiles在相同的“time band”内可以并行执行</li>
-</ol>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
 <time datetime="2014-06-19T09:54:51+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
 		<div class="tags">
 
