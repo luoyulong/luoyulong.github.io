@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T21:36:31+08:00</updated>
+  <updated>2014-06-19T22:23:53+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -176,6 +176,141 @@
 <ul>
 <li>安装Texmarker/Texstudio，即可运行</li>
 </ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TAU 中的profile和trace]]></title>
+    <link href="http://luoyulong.github.io/blog/2013/12/19/tau/"/>
+    <updated>2013-12-19T20:51:00+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2013/12/19/tau</id>
+    <content type="html"><![CDATA[<h2>预备知识</h2>
+
+<ul>
+<li><p>profile侧重结果，trace侧重过程。</p></li>
+<li><p>对于两个不同类型的测试（profile or trace），需要指定不同的makefile文件，各类makefile文件在tau编译配置时根据参数指定生成。</p></li>
+</ul>
+
+
+<h2>自动化插桩的过程：</h2>
+
+<ul>
+<li><p>添加或者设需要的makefile</p></li>
+<li><p>根据待插桩的源码，设置相应的tau编译器（可在makefile中替换或者直接使用tau编译器编译）</p></li>
+</ul>
+
+
+<h3>例子：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#设置tau makefile</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">TAU_MAKEFILE</span><span class="o">=</span>/home/xxxx/tools/tau_TRACE_PAPIWALLCLOCK/x86_64/lib/Makefile.tau-papi-pdt-trace
+</span><span class='line'>
+</span><span class='line'><span class="c">#设置插桩参数</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">TAU_THROTTLE</span><span class="o">=</span>0
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER1</span><span class="o">=</span>P_WALL_CLOCK_TIME
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER2</span><span class="o">=</span>PAPI_L1_DCM
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER3</span><span class="o">=</span>PAPI_FP_INS
+</span><span class='line'>
+</span><span class='line'><span class="c">#调用tau编译器</span>
+</span><span class='line'>tau_f90.sh  -c  hps_em_comp.f90
+</span><span class='line'>tau_cxx.sh  main.cpp  hps_em_comp.o -o mytest
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>此外，进一步的详细插桩可以通过在编译时指定配置文件</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>tau_f90.sh -tau_options<span class="o">=</span>-optTauSelectFile<span class="o">=</span>ins_file -c  hps_em_comp.f90
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置文件格式如下：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Tell tau to not profile these functions</span>
+</span><span class='line'>BEGIN_EXCLUDE_LIST
+</span><span class='line'>double* get<span class="o">(</span>int size<span class="o">)</span>
+</span><span class='line'>END_EXCLUDE_LIST
+</span><span class='line'>
+</span><span class='line'><span class="c">#Exclude these files from profiling</span>
+</span><span class='line'>
+</span><span class='line'>BEGIN_FILE_EXCLUDE_LIST
+</span><span class='line'>*.so
+</span><span class='line'>END_FILE_EXCLUDE_LIST
+</span><span class='line'>
+</span><span class='line'>BEGIN_INSTRUMENT_SECTION
+</span><span class='line'><span class="c">#插桩所有在文件loop_test.cpp中函数multiply内的循环</span>
+</span><span class='line'>loops <span class="nv">file</span><span class="o">=</span><span class="s2">&quot;loop_test.cpp&quot;</span> <span class="nv">routine</span><span class="o">=</span><span class="s2">&quot;multiply&quot;</span>
+</span><span class='line'><span class="c">#插入代码段</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">file</span> <span class="o">=</span> <span class="s2">&quot;line_test.cpp&quot;</span> <span class="nv">line</span> <span class="o">=</span> 9 <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;printf(\&quot;i=%d: \&quot;, i);&quot;</span>
+</span><span class='line'><span class="nb">exit </span><span class="nv">routine</span> <span class="o">=</span><span class="s2">&quot;int foo()&quot;</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;cout &lt;&lt;\&quot;exiting foo\&quot;&lt;&lt;endl;&quot;</span>
+</span><span class='line'>entry <span class="nv">routine</span> <span class="o">=</span><span class="s2">&quot;int foo()&quot;</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;cout &lt;&lt;\&quot;entering foo\&quot;&lt;&lt;endl;i&quot;</span>
+</span><span class='line'>END_INSTRUMENT_SECTION
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>使用PAPI测量更多指标，首先下指定使用papi参数编译的tau ，makefile，其次，使用环境变量PAPI_EVENT</p></li>
+<li><p>当一次要采集多个指标时，可以通过设置COUNT &lt;1-25>来实现</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">COUNTER1</span><span class="o">=</span>P_WALL_CLOCK_TIME
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER2</span><span class="o">=</span>PAPI_L1_DCM
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER3</span><span class="o">=</span>PAPI_FP_INS
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>之后用paraprof –pack 命令打包结果成ppk，上传至数据库。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>paraprof --pack pdata.ppk
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
