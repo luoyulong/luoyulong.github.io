@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
+  <title>R Language:variable - My Octopress Blog</title>
   <meta name="author" content="Your Name">
 
   
@@ -19,7 +19,7 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue ">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://luoyulong.github.io">
+  <link rel="canonical" href="http://luoyulong.github.io/blog/2014/06/19/r-language-variable">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
@@ -64,15 +64,12 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue ">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/06/19/r-language-variable/">R Language:variable</a></h1>
+      <h1 class="entry-title">R Language:variable</h1>
     
     
       <p class="meta">
@@ -95,7 +92,7 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue ">
   </header>
 
 
-  <div class="entry-content"><h1>R语言的变量</h1>
+<div class="entry-content"><h1>R语言的变量</h1>
 
 <h2>对全局变量的赋值</h2>
 
@@ -116,22 +113,16 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue ">
 </ol>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/19/r-xing-yu-lie-de-cao-zuo/">R_行与列的操作</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
 
 
 
@@ -143,103 +134,32 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue ">
   
 
 
-<time datetime="2014-06-19T09:43:53+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
-        
-      </p>
+<time datetime="2014-06-19T09:54:51+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
+      
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/" data-via="" data-counturl="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/" >Tweet</a>
+  
+  
+  
+</div>
 
-
-  <div class="entry-content"><h1>R 行与列的操作</h1>
-
-<h2>选择列</h2>
-
-<h3>数据框列的引用：</h3>
-
-<ul>
-<li><code>dn、d[,n]、d"name"、d[,"name"]、d$name</code> 得到某一列组成的矢量。</li>
-<li><code>d[n]、d["name"]</code> 得到某一列组成的数据框。</li>
-<li><code>d[c(m,n,...)]、d[,c(m,n,...)]、d[,c("name1","name2",...)]</code> 得到若干列组成的数据框。</li>
-</ul>
-
-
-<h3>其它技巧：</h3>
-
-<ul>
-<li>负号表示剔除。</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  allnames=names(rawdata)
-</span><span class='line'>  vnames=c("OptType","OptConfig","Gflops")
-</span><span class='line'>  vnames2=allnames %in% vnames
-</span><span class='line'>  snames=allnames[!vnames2]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>可以用 <code>grep()</code> 搜索变量名。比如 <code>mydata[grep("^q", names(mydata))]</code> 选择名称以“q”开头的数据列。</li>
-</ul>
-
-
-<h2>选择行</h2>
-
-<h3>数据框行的引用：</h3>
-
-<ul>
-<li><code>d[n,]</code> 得到某一行组成的数据框。</li>
-<li><code>d[c(m,n,...),n]</code> 得到若干行组成的数据框。</li>
-<li><code>head()</code> 得到前6行组成的数据框。</li>
-<li><code>tail()</code> 得到最后6行组成的数据框。</li>
-</ul>
-
-
-<h3>条件引用。例如：</h3>
-
-<ul>
-<li><code>d[d$y&gt;8,]</code> 得到d中满足y>8的行组成的数据框。</li>
-<li><code>d$x[d$y&gt;8]</code> 得到d中满足y>8的行的列x组成的矢量。</li>
-</ul>
-
-
-<h3>数据库行的遍历</h3>
-
-<ul>
-<li>使用索引进行遍历</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for(i in 1:nrow(rawdata))
-</span><span class='line'>  dosomething(rawdata[i,])</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>list</h1>
-
-<h2>list列的引用</h2>
-
-<ul>
-<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
-<li></li>
-</ul>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/19/r-xing-yu-lie-de-cao-zuo/" title="Previous Post: r_行与列的操作">&laquo; r_行与列的操作</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -263,6 +183,7 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue ">
 
   
 </aside>
+
 
     </div>
   </div>

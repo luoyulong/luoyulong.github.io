@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T09:52:09+08:00</updated>
+  <updated>2014-06-19T09:55:36+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R Language:variable]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/"/>
+    <updated>2014-06-19T09:54:51+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/19/r-language-variable</id>
+    <content type="html"><![CDATA[<h1>R语言的变量</h1>
+
+<h2>对全局变量的赋值</h2>
+
+<ol>
+<li> 在函数外部：
+
+<ul>
+<li>global_variable&lt;-newvalue</li>
+<li>global_variable=newvalue</li>
+</ul>
+</li>
+<li> 在函数内部：
+
+<ul>
+<li>global_variable&lt;&lt;-newvalue</li>
+</ul>
+</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R_行与列的操作]]></title>
