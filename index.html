@@ -140,7 +140,7 @@
 	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/collect-performance-data-using-gprofile/" itemprop="url">Collect Performance Data Using Gprofile</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -180,46 +180,47 @@
 <span class='line-number'>38</span>
 <span class='line-number'>39</span>
 <span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Created on 2013-6-22
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Created on 2013-6-22
 </span><span class='line'>
 </span><span class='line'>@author: luoyulong
 </span><span class='line'>import os
 </span><span class='line'>
-</span><span class='line'>def filterFiles(folder, exts):
-</span><span class='line'>    def anyTrue(predicate, sequence): 
-</span><span class='line'>        return True in map(predicate, sequence)
-</span><span class='line'>    r=[] 
-</span><span class='line'>    for fileName in os.listdir(folder): 
-</span><span class='line'>        if os.path.isdir(folder + '/' + fileName): 
-</span><span class='line'>            filterFiles(folder + '/' + fileName, exts) 
-</span><span class='line'>        elif anyTrue(fileName.endswith, exts): 
-</span><span class='line'>                r.append(fileName)
-</span><span class='line'>    return r
+</span><span class='line'>def filterFiles<span class="o">(</span>folder, exts<span class="o">)</span>:
+</span><span class='line'>    def anyTrue<span class="o">(</span>predicate, sequence<span class="o">)</span>:
+</span><span class='line'>        <span class="k">return </span>True in map<span class="o">(</span>predicate, sequence<span class="o">)</span>
+</span><span class='line'>    <span class="nv">r</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="k">for </span>fileName in os.listdir<span class="o">(</span>folder<span class="o">)</span>:
+</span><span class='line'>        <span class="k">if </span>os.path.isdir<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName<span class="o">)</span>:
+</span><span class='line'>            filterFiles<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName, exts<span class="o">)</span>
+</span><span class='line'>        <span class="k">elif </span>anyTrue<span class="o">(</span>fileName.endswith, exts<span class="o">)</span>:
+</span><span class='line'>                r.append<span class="o">(</span>fileName<span class="o">)</span>
+</span><span class='line'>    <span class="k">return </span>r
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>exts = ['.txt'] 
-</span><span class='line'>funs =['ICT::CMPM::UpdateStressCell']
-</span><span class='line'>funs.append('ICT::CMPM::EdgeMomentum')
-</span><span class='line'>funs.append('_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2')
-</span><span class='line'>funs.append('ICT::CMPM::EdgeMomentum')
-</span><span class='line'>funs.append('ICT::CMPM::UpdateMPV')
+</span><span class='line'><span class="nv">exts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;.txt&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="nv">funs</span> <span class="o">=[</span><span class="s1">&#39;ICT::CMPM::UpdateStressCell&#39;</span><span class="o">]</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::UpdateMPV&#39;</span><span class="o">)</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>os.popen("rm ./Result.txt")
+</span><span class='line'>os.popen<span class="o">(</span><span class="s2">&quot;rm ./Result.txt&quot;</span><span class="o">)</span>
 </span><span class='line'>
-</span><span class='line'>files=filterFiles(os.getcwd(), exts) 
-</span><span class='line'>for fun in funs:
-</span><span class='line'>    records=[]
-</span><span class='line'>    for file in files:
-</span><span class='line'>        s=os.popen("grep "+fun+" ./"+file).read()
-</span><span class='line'>        x=s.split()
-</span><span class='line'>        if(len(x)&gt;1):
-</span><span class='line'>            y=x[1].split('%')
-</span><span class='line'>            records.append(y[0])
-</span><span class='line'>    os.popen("echo "+fun+"&gt;&gt; Result.txt")
-</span><span class='line'>    os.popen("echo "+str(len(records))+" "+"&gt;&gt; Result.txt")
-</span><span class='line'>    for r in records:
-</span><span class='line'>        os.popen("echo "+r+"&gt;&gt; Result.txt")</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="nv">files</span><span class="o">=</span>filterFiles<span class="o">(</span>os.getcwd<span class="o">()</span>, exts<span class="o">)</span>
+</span><span class='line'><span class="k">for </span>fun in funs:
+</span><span class='line'>    <span class="nv">records</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="k">for </span>file in files:
+</span><span class='line'>        <span class="nv">s</span><span class="o">=</span>os.popen<span class="o">(</span><span class="s2">&quot;grep &quot;</span>+fun+<span class="s2">&quot; ./&quot;</span>+file<span class="o">)</span>.read<span class="o">()</span>
+</span><span class='line'>        <span class="nv">x</span><span class="o">=</span>s.split<span class="o">()</span>
+</span><span class='line'>        <span class="k">if</span><span class="o">(</span>len<span class="o">(</span>x<span class="o">)</span>&gt;1<span class="o">)</span>:
+</span><span class='line'>            <span class="nv">y</span><span class="o">=</span>x<span class="o">[</span>1<span class="o">]</span>.split<span class="o">(</span><span class="s1">&#39;%&#39;</span><span class="o">)</span>
+</span><span class='line'>            records.append<span class="o">(</span>y<span class="o">[</span>0<span class="o">])</span>
+</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+fun+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+str<span class="o">(</span>len<span class="o">(</span>records<span class="o">))</span>+<span class="s2">&quot; &quot;</span>+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">for </span>r in records:
+</span><span class='line'>        os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+r+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>`</p>
