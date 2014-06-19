@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2014-06-19T19:00:31+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[error while loading shared libraries: libjvm.so]]></title>
+    <link href="http://luoyulong.github.io/blog/2013/12/14/oldblog/"/>
+    <updated>2013-12-14T18:39:01+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2013/12/14/oldblog</id>
+    <content type="html"><![CDATA[<h2>问题：</h2>
+
+<p>一个开源项目依赖java的库，在配置编译时，一直报错error while loading shared libraries: libjvm.so</p>
+
+<h2>解决方法：</h2>
+
+<p>下面是找到解决方案</p>
+
+<ol>
+<li>cat /etc/ld.so.conf
+发现里面 include ld.so.conf.d/*.conf</li>
+<li><p>进入ld.so.conf.d文件夹，内容如下
+``` bash
+ atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
+
+<p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
+
+<p> mysql-x86_64.conf                  torque.conf
+ ```</p></li>
+<li><p>新建java.conf，添加libjvm.so的路径：
+<code>bash
+/usr/local/jdk1.6/jre/lib/amd64/server
+</code></p></li>
+<li><p>执行ldconfig,重新加载库</p></li>
+<li>执行ldconfig -p |grep jvm，查看是否成功加载</li>
+<li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -5,12 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>oldblog - 零露漙兮</title>
+	<title>error while loading shared libraries: libjvm.so - 零露漙兮</title>
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Oldblog 问题： 一个开源项目依赖java的库，在配置编译时，一直报错error while loading shared libraries: libjvm.so 解决方法： 下面是找到解决方案 cat /etc/ld.so.conf
-发现里面 include ld.so.conf.d &hellip;">
+	<meta name="description" content="Error While Loading Shared Libraries: libjvm.so 问题： 一个开源项目依赖java的库，在配置编译时，一直报错error while loading shared libraries: libjvm.so 解决方法： 下面是找到解决方案 cat / &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,7 +98,7 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Oldblog</h1>
+	<h1 class="title" itemprop="name">Error While Loading Shared Libraries: libjvm.so</h1>
 	<div class="entry-content" itemprop="articleBody"><h2>问题：</h2>
 
 <p>一个开源项目依赖java的库，在配置编译时，一直报错error while loading shared libraries: libjvm.so</p>
@@ -120,23 +119,21 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>atlas-x86_64.conf               python3.34lib.conf  xulrunner-64.conf
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
 </span><span class='line'>
 </span><span class='line'>kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
 </span><span class='line'>
 </span><span class='line'>mysql-x86_64.conf                  torque.conf
+</span><span class='line'><span class="sb">```</span>
+</span><span class='line'>3. 新建java.conf，添加libjvm.so的路径：
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>新建java.conf，添加libjvm.so的路径：</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/local/jdk1.6/jre/lib/amd64/server
-</span></code></pre></td></tr></table></div></figure>
-
+<p> bash
+/usr/local/jdk1.6/jre/lib/amd64/server
+&#8220;`</p>
 
 <ol>
 <li>执行ldconfig,重新加载库</li>
