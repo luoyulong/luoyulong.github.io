@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T16:21:12+08:00</updated>
+  <updated>2014-06-19T16:23:06+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -48,20 +48,24 @@
 
 <h3>数据框/dataframe:</h3>
 
+<h4>引用：</h4>
+
 <ul>
 <li>dn、d[,n]、d"name"、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
 <li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
-<li><p>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。</p>
+<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
 
-<h3>其它技巧：</h3></li>
-<li><p>负号表示剔除。
+<h4>其它技巧：</h4></li>
+<li>负号表示剔除。
 <code>
 allnames=names(rawdata)
 vnames=c("OptType","OptConfig","Gflops")
 vnames2=allnames %in% vnames
 snames=allnames[!vnames2]
-</code></p></li>
-<li>可以用 grep() 搜索变量名。比如 <code>mydata[grep("^q", names(mydata))]</code> 选择名称以“q”开头的数据列。</li>
+</code></li>
+<li>可以用 grep() 搜索变量名。比如
+<code>mydata[grep("^q", names(mydata))]</code>
+选择名称以“q”开头的数据列。</li>
 </ul>
 
 

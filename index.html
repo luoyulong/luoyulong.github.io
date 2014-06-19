@@ -772,13 +772,15 @@ In  this day and age（这是最牛的说法）</li>
 
 <h3>数据框/dataframe:</h3>
 
+<h4>引用：</h4>
+
 <ul>
 <li>dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
 <li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
-<li><p>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。</p>
+<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
 
-<h3>其它技巧：</h3></li>
-<li><p>负号表示剔除。</p></li>
+<h4>其它技巧：</h4></li>
+<li>负号表示剔除。</li>
 </ul>
 
 
@@ -793,7 +795,9 @@ In  this day and age（这是最牛的说法）</li>
 
 
 <ul>
-<li>可以用 grep() 搜索变量名。比如 <code>mydata[grep("^q", names(mydata))]</code> 选择名称以“q”开头的数据列。</li>
+<li>可以用 grep() 搜索变量名。比如
+<code>mydata[grep("^q", names(mydata))]</code>
+选择名称以“q”开头的数据列。</li>
 </ul>
 
 
