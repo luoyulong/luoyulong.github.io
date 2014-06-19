@@ -5,11 +5,20 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Categories - 零露漙兮</title>
+	<title>roseproblem - 零露漙兮</title>
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content=" 写作 [ 1 ] 技术积累 [ 1 ] Rose [ 1 ] R [ 2 ] ">
+	<meta name="description" content="Roseproblem 问题 1
+2
+3
+4
+5
+6
+Internal error(!): called tree traversal mechanism for illegal object:
+static: SgNode
+dynamic: SgNode
+Aborting ... &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +28,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://luoyulong.github.io/blog/categories/">
+	<link rel="canonical" href="http://luoyulong.github.io/blog/2014/03/30/roseproblem/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -97,25 +106,59 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><article class="page">
-    
-    <h1 class="title">Categories</h1>
-    
-    <div class="entry-content"><ul>
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Roseproblem</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>问题</h2>
 
-    <li><a href="/blog/categories/写作/">写作</a> [ 1 ]</li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Internal error<span class="o">(</span>!<span class="o">)</span>: called tree traversal mechanism <span class="k">for </span>illegal object:
+</span><span class='line'>static: SgNode
+</span><span class='line'>dynamic:  SgNode
+</span><span class='line'>Aborting ...
+</span><span class='line'>my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
+</span><span class='line'>size_t SgNode::get_numberOfTraversalSuccessors<span class="o">()</span>: Assertion <span class="sb">`</span><span class="nb">false</span><span class="err">&#39;</span> failed.
+</span></code></pre></td></tr></table></div></figure>
 
-    <li><a href="/blog/categories/技术积累/">技术积累</a> [ 1 ]</li>
 
-    <li><a href="/blog/categories/rose/">Rose</a> [ 1 ]</li>
+<h2>解决方法</h2>
 
-    <li><a href="/blog/categories/R/">R</a> [ 2 ]</li>
-
-</ul>
-
+<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
 </div>
+
 </article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section><h1>Comments</h1><div id="comments" aria-live="polite">
+<!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread">
+</div><script type="text/javascript"> 
+var duoshuoQuery = {short_name:"linglublog"}; 
+(function() {    var ds = document.createElement('script'); 
+ ds.type = 'text/javascript';ds.async = true;  
+ ds.src = 'http://static.duoshuo.com/embed.js';  
+ ds.charset = 'UTF-8';  
+ (document.getElementsByTagName('head')[0]     || document.getElementsByTagName('body')[0]).appendChild(ds);  })();
+ </script>
+<!-- Duoshuo Comment END -->
+ </div> 
+</section>
 
 </div>
 			</div>

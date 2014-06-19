@@ -280,6 +280,60 @@ global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue Jun
   
 
 
+<time datetime="2014-03-30T21:30:45+08:00" data-updated="true" itemprop="datePublished">Mar 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rose/'>rose</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/30/roseproblem/" itemprop="url">Roseproblem</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>问题</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Internal error<span class="o">(</span>!<span class="o">)</span>: called tree traversal mechanism <span class="k">for </span>illegal object:
+</span><span class='line'>static: SgNode
+</span><span class='line'>dynamic:  SgNode
+</span><span class='line'>Aborting ...
+</span><span class='line'>my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
+</span><span class='line'>size_t SgNode::get_numberOfTraversalSuccessors<span class="o">()</span>: Assertion <span class="sb">`</span><span class="nb">false</span><span class="err">&#39;</span> failed.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>解决方法</h2>
+
+<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-03-13T10:37:02+08:00" data-updated="true" itemprop="datePublished">Mar 13<span>th</span>, 2014</time></div>
 		<div class="tags">
 

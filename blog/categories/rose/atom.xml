@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rose | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/rose/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2014-06-19T21:33:27+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[roseproblem]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/03/30/roseproblem/"/>
+    <updated>2014-03-30T21:30:45+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/03/30/roseproblem</id>
+    <content type="html"><![CDATA[<h2>问题</h2>
+
+<p><code>bash
+Internal error(!): called tree traversal mechanism for illegal object:
+static: SgNode
+dynamic:  SgNode
+Aborting ...
+my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
+size_t SgNode::get_numberOfTraversalSuccessors(): Assertion `false' failed.
+</code></p>
+
+<h2>解决方法</h2>
+
+<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
+]]></content>
+  </entry>
+  
+</feed>
