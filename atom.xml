@@ -1,17 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[天行健 君子以自强不息]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T10:40:09+08:00</updated>
+  <updated>2014-06-19T10:49:51+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[luoyulong]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[collect performance data using gprofile]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/19/collect-performance-data-using-gprofile/"/>
+    <updated>2014-06-19T10:45:10+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/19/collect-performance-data-using-gprofile</id>
+    <content type="html"><![CDATA[<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Created on 2013-6-22
+</span><span class='line'>
+</span><span class='line'>@author: luoyulong
+</span><span class='line'>import os
+</span><span class='line'>
+</span><span class='line'>def filterFiles(folder, exts):
+</span><span class='line'>    def anyTrue(predicate, sequence): 
+</span><span class='line'>        return True in map(predicate, sequence)
+</span><span class='line'>    r=[] 
+</span><span class='line'>    for fileName in os.listdir(folder): 
+</span><span class='line'>        if os.path.isdir(folder + '/' + fileName): 
+</span><span class='line'>            filterFiles(folder + '/' + fileName, exts) 
+</span><span class='line'>        elif anyTrue(fileName.endswith, exts): 
+</span><span class='line'>                r.append(fileName)
+</span><span class='line'>    return r
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>exts = ['.txt'] 
+</span><span class='line'>funs =['ICT::CMPM::UpdateStressCell']
+</span><span class='line'>funs.append('ICT::CMPM::EdgeMomentum')
+</span><span class='line'>funs.append('_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2')
+</span><span class='line'>funs.append('ICT::CMPM::EdgeMomentum')
+</span><span class='line'>funs.append('ICT::CMPM::UpdateMPV')
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>os.popen("rm ./Result.txt")
+</span><span class='line'>
+</span><span class='line'>files=filterFiles(os.getcwd(), exts) 
+</span><span class='line'>for fun in funs:
+</span><span class='line'>    records=[]
+</span><span class='line'>    for file in files:
+</span><span class='line'>        s=os.popen("grep "+fun+" ./"+file).read()
+</span><span class='line'>        x=s.split()
+</span><span class='line'>        if(len(x)&gt;1):
+</span><span class='line'>            y=x[1].split('%')
+</span><span class='line'>            records.append(y[0])
+</span><span class='line'>    os.popen("echo "+fun+"&gt;&gt; Result.txt")
+</span><span class='line'>    os.popen("echo "+str(len(records))+" "+"&gt;&gt; Result.txt")
+</span><span class='line'>    for r in records:
+</span><span class='line'>        os.popen("echo "+r+"&gt;&gt; Result.txt")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[miktex+texmarker:texstudio enviroment setup]]></title>

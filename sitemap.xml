@@ -15,8 +15,14 @@
         <lastmod>2014-06-19T10:38:00+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://luoyulong.github.io/blog/2014/06/19/collect-performance-data-using-gprofile/
+        </loc>
+        <lastmod>2014-06-19T10:45:42+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://luoyulong.github.io/blog/archives/</loc>
-        <lastmod>2014-06-19T10:38:00+08:00</lastmod>
+        <lastmod>2014-06-19T10:45:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://luoyulong.github.io/blog/categories/</loc>
@@ -24,7 +30,7 @@
     </url>
     <url>
         <loc>http://luoyulong.github.io/</loc>
-        <lastmod>2014-06-19T10:38:00+08:00</lastmod>
+        <lastmod>2014-06-19T10:45:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://luoyulong.github.io/robots.txt</loc>
