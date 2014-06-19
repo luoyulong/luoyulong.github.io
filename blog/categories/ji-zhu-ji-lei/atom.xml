@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T19:20:39+08:00</updated>
+  <updated>2014-06-19T19:27:21+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -26,24 +26,39 @@
 
 <p>下面是找到解决方案</p>
 
-<ol>
+<ul>
 <li>cat /etc/ld.so.conf
 发现里面 include ld.so.conf.d/*.conf</li>
-<li>进入ld.so.conf.d文件夹，内容如下</li>
-<li><p>``` bash
- atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
+<li>进入ld.so.conf.d文件夹，内容如下:</li>
+</ul>
 
-<p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
 
-<p> mysql-x86_64.conf                  torque.conf```</p></li>
-<li>新建java.conf，添加libjvm.so的路径：
-<code>bash
-/usr/local/jdk1.6/jre/lib/amd64/server
-</code></li>
+<p>``` bash</p>
+
+<pre><code>atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
+
+kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
+
+mysql-x86_64.conf                  torque.conf
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>新建java.conf，添加libjvm.so的路径：</li>
+</ul>
+
+
+<p>``` bash</p>
+
+<p>/usr/local/jdk1.6/jre/lib/amd64/server
+```</p>
+
+<ul>
 <li>执行ldconfig,重新加载库</li>
 <li>执行ldconfig -p |grep jvm，查看是否成功加载</li>
 <li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
-</ol>
+</ul>
 
 ]]></content>
   </entry>

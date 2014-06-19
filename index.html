@@ -45,9 +45,9 @@
 
 <nav id="main-nav">
 <section class="aboutme">
-  <p>
+  <h1><a href="/">
  ====零露漙兮====
-  </p>
+ </a></h1>
   <p>
     A blogging for high performance optimizing study.
   </p>
@@ -400,18 +400,29 @@
 
 <p>下面是找到解决方案</p>
 
-<ol>
+<ul>
 <li>cat /etc/ld.so.conf
 发现里面 include ld.so.conf.d/*.conf</li>
-<li>进入ld.so.conf.d文件夹，内容如下</li>
-<li><p>&#8220;` bash
- atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
+<li>进入ld.so.conf.d文件夹，内容如下:</li>
+</ul>
 
-<p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
 
-<p> mysql-x86_64.conf                  torque.conf&#8220;`</p></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
+</span><span class='line'>  
+</span><span class='line'>  kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
+</span><span class='line'>
+</span><span class='line'>  mysql-x86_64.conf                  torque.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
 <li>新建java.conf，添加libjvm.so的路径：</li>
-</ol>
+</ul>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -419,11 +430,11 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
+<ul>
 <li>执行ldconfig,重新加载库</li>
 <li>执行ldconfig -p |grep jvm，查看是否成功加载</li>
 <li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
-</ol>
+</ul>
 
 
 		
