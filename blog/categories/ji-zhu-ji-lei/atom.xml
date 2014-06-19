@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T19:02:47+08:00</updated>
+  <updated>2014-06-19T19:04:25+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -30,14 +30,14 @@
 <li>cat /etc/ld.so.conf
 发现里面 include ld.so.conf.d/*.conf</li>
 <li><p>进入ld.so.conf.d文件夹，内容如下
-``` bash</p>
+ ``` bash</p>
 
-<p>  atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
+<p> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
 
-<p>  kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
+<p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
 
-<p>  mysql-x86_64.conf                  torque.conf
-```</p></li>
+<p> mysql-x86_64.conf                  torque.conf
+ ```</p></li>
 <li><p>新建java.conf，添加libjvm.so的路径：
 <code>bash
 /usr/local/jdk1.6/jre/lib/amd64/server

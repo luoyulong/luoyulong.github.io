@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T19:02:47+08:00</updated>
+  <updated>2014-06-19T19:04:25+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -194,25 +194,16 @@
 <ol>
 <li>cat /etc/ld.so.conf
 发现里面 include ld.so.conf.d/*.conf</li>
-<li>进入ld.so.conf.d文件夹，内容如下</li>
-</ol>
+<li><p>进入ld.so.conf.d文件夹，内容如下
+ &#8220;` bash</p>
 
+<p> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
-</span><span class='line'>  
-</span><span class='line'>  kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
-</span><span class='line'>
-</span><span class='line'>  mysql-x86_64.conf                  torque.conf
-</span></code></pre></td></tr></table></div></figure>
+<p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
 
-
-<ol>
-<li>新建java.conf，添加libjvm.so的路径：</li>
+<p> mysql-x86_64.conf                  torque.conf
+ &#8220;`</p></li>
+<li><p>新建java.conf，添加libjvm.so的路径：</p></li>
 </ol>
 
 
