@@ -9,8 +9,8 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jun 19th, 2014 写作 英语作文中常用替换高级词汇 （一） 形容词. 贫穷的. poor = needy = impoverished = poverty-stricken
-富裕的. rich = wealthy = affluent = well-to-do = well-off &hellip;">
+	<meta name="description" content="Jun 19th, 2014 R R语言 变量 对全局变量的赋值 在函数外部： global_variable&lt;-newvalue
+global_variable=newvalue 在函数内部： global_variable&lt;&lt;-newvalue Jun 19th, 2014 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -113,7 +113,334 @@
   
 
 
-<time datetime="2014-06-19T16:07:51+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
+<time datetime="2014-06-19T09:54:51+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/r-language-variable/" itemprop="url">R语言 变量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>对全局变量的赋值</h2>
+
+<ol>
+<li> 在函数外部：
+
+<ul>
+<li>global_variable&lt;-newvalue</li>
+<li>global_variable=newvalue</li>
+</ul>
+</li>
+<li> 在函数内部：
+
+<ul>
+<li>global_variable&lt;&lt;-newvalue</li>
+</ul>
+</li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T09:43:53+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/" itemprop="url">R语言 行与列的操作</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>选择列</h2>
+
+<h3>数据框/dataframe:</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
+<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
+<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
+
+<h4>其它技巧：</h4></li>
+<li>负号表示剔除。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  allnames=names(rawdata)
+</span><span class='line'>  vnames=c("OptType","OptConfig","Gflops")
+</span><span class='line'>  vnames2=allnames %in% vnames
+</span><span class='line'>  snames=allnames[!vnames2]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>可以用 grep() 搜索变量名。比如
+<code>mydata[grep("^q", names(mydata))]</code>
+选择名称以“q”开头的数据列。</li>
+</ul>
+
+
+<h3>列表/List：</h3>
+
+<h4>list列的引用</h4>
+
+<ul>
+<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
+</ul>
+
+
+<h2>选择行</h2>
+
+<h3>数据框：</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>d[n,] 得到某一行组成的数据框。</li>
+<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
+<li>head() 得到前6行组成的数据框。</li>
+<li>tail() 得到最后6行组成的数据框。</li>
+</ul>
+
+
+<h4>条件引用。例如：</h4>
+
+<ul>
+<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
+<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
+</ul>
+
+
+<h4>数据框行的遍历</h4>
+
+<ul>
+<li>使用索引进行遍历</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for(i in 1:nrow(rawdata))
+</span><span class='line'>  dosomething(rawdata[i,])</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-13T10:37:02+08:00" data-updated="true" itemprop="datePublished">Mar 13<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/" itemprop="url">Miktex+ Texmarker/Texstudio环境的配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>步骤</h2>
+
+<ol>
+<li><p>下载miktex移植版本：
+<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
+<li><p>解压</p></li>
+<li><p>设置系统环境变量PATH。例如：</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span>E:<span class="se">\P</span>rogram Files<span class="se">\m</span>iktex-portable<span class="se">\m</span>iktex<span class="se">\b</span>in
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>安装Texmarker/Texstudio，即可运行</li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-22T16:23:10+08:00" data-updated="true" itemprop="datePublished">Jun 22<span>nd</span>, 2013</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/06/22/collect-performance-data-using-gprofile/" itemprop="url">使用gprofile收集性能数据</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Created on 2013-6-22
+</span><span class='line'>
+</span><span class='line'>@author: luoyulong
+</span><span class='line'>import os
+</span><span class='line'>
+</span><span class='line'>def filterFiles<span class="o">(</span>folder, exts<span class="o">)</span>:
+</span><span class='line'>    def anyTrue<span class="o">(</span>predicate, sequence<span class="o">)</span>:
+</span><span class='line'>        <span class="k">return </span>True in map<span class="o">(</span>predicate, sequence<span class="o">)</span>
+</span><span class='line'>    <span class="nv">r</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="k">for </span>fileName in os.listdir<span class="o">(</span>folder<span class="o">)</span>:
+</span><span class='line'>        <span class="k">if </span>os.path.isdir<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName<span class="o">)</span>:
+</span><span class='line'>            filterFiles<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName, exts<span class="o">)</span>
+</span><span class='line'>        <span class="k">elif </span>anyTrue<span class="o">(</span>fileName.endswith, exts<span class="o">)</span>:
+</span><span class='line'>                r.append<span class="o">(</span>fileName<span class="o">)</span>
+</span><span class='line'>    <span class="k">return </span>r
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nv">exts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;.txt&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="nv">funs</span> <span class="o">=[</span><span class="s1">&#39;ICT::CMPM::UpdateStressCell&#39;</span><span class="o">]</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::UpdateMPV&#39;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>os.popen<span class="o">(</span><span class="s2">&quot;rm ./Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">files</span><span class="o">=</span>filterFiles<span class="o">(</span>os.getcwd<span class="o">()</span>, exts<span class="o">)</span>
+</span><span class='line'><span class="k">for </span>fun in funs:
+</span><span class='line'>    <span class="nv">records</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="k">for </span>file in files:
+</span><span class='line'>        <span class="nv">s</span><span class="o">=</span>os.popen<span class="o">(</span><span class="s2">&quot;grep &quot;</span>+fun+<span class="s2">&quot; ./&quot;</span>+file<span class="o">)</span>.read<span class="o">()</span>
+</span><span class='line'>        <span class="nv">x</span><span class="o">=</span>s.split<span class="o">()</span>
+</span><span class='line'>        <span class="k">if</span><span class="o">(</span>len<span class="o">(</span>x<span class="o">)</span>&gt;1<span class="o">)</span>:
+</span><span class='line'>            <span class="nv">y</span><span class="o">=</span>x<span class="o">[</span>1<span class="o">]</span>.split<span class="o">(</span><span class="s1">&#39;%&#39;</span><span class="o">)</span>
+</span><span class='line'>            records.append<span class="o">(</span>y<span class="o">[</span>0<span class="o">])</span>
+</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+fun+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+str<span class="o">(</span>len<span class="o">(</span>records<span class="o">))</span>+<span class="s2">&quot; &quot;</span>+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">for </span>r in records:
+</span><span class='line'>        os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+r+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-20T16:07:51+08:00" data-updated="true" itemprop="datePublished">Dec 20<span>th</span>, 2012</time></div>
 		<div class="tags">
 
 
@@ -123,7 +450,7 @@
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/%E5%86%99%E4%BD%9C%E8%AF%8D%E6%B1%87%E6%94%B6%E9%9B%86/" itemprop="url">英语作文中常用替换高级词汇</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/12/20/%E5%86%99%E4%BD%9C%E8%AF%8D%E6%B1%87%E6%94%B6%E9%9B%86/" itemprop="url">英语作文中常用替换高级词汇</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<h2>（一）</h2>
 
@@ -535,333 +862,6 @@ In present-day society
 In  this day and age（这是最牛的说法）</li>
 </ol>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-19T09:54:51+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/r/'>R</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/r-language-variable/" itemprop="url">R语言 变量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>对全局变量的赋值</h2>
-
-<ol>
-<li> 在函数外部：
-
-<ul>
-<li>global_variable&lt;-newvalue</li>
-<li>global_variable=newvalue</li>
-</ul>
-</li>
-<li> 在函数内部：
-
-<ul>
-<li>global_variable&lt;&lt;-newvalue</li>
-</ul>
-</li>
-</ol>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-19T09:43:53+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/r/'>R</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/" itemprop="url">R语言 行与列的操作</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>选择列</h2>
-
-<h3>数据框/dataframe:</h3>
-
-<h4>引用：</h4>
-
-<ul>
-<li>dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
-<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
-<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
-
-<h4>其它技巧：</h4></li>
-<li>负号表示剔除。</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  allnames=names(rawdata)
-</span><span class='line'>  vnames=c("OptType","OptConfig","Gflops")
-</span><span class='line'>  vnames2=allnames %in% vnames
-</span><span class='line'>  snames=allnames[!vnames2]</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>可以用 grep() 搜索变量名。比如
-<code>mydata[grep("^q", names(mydata))]</code>
-选择名称以“q”开头的数据列。</li>
-</ul>
-
-
-<h3>列表/List：</h3>
-
-<h4>list列的引用</h4>
-
-<ul>
-<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
-</ul>
-
-
-<h2>选择行</h2>
-
-<h3>数据框：</h3>
-
-<h4>引用：</h4>
-
-<ul>
-<li>d[n,] 得到某一行组成的数据框。</li>
-<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
-<li>head() 得到前6行组成的数据框。</li>
-<li>tail() 得到最后6行组成的数据框。</li>
-</ul>
-
-
-<h4>条件引用。例如：</h4>
-
-<ul>
-<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
-<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
-</ul>
-
-
-<h4>数据框行的遍历</h4>
-
-<ul>
-<li>使用索引进行遍历</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for(i in 1:nrow(rawdata))
-</span><span class='line'>  dosomething(rawdata[i,])</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-13T10:37:02+08:00" data-updated="true" itemprop="datePublished">Mar 13<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/" itemprop="url">Miktex+ Texmarker/Texstudio环境的配置</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>步骤</h2>
-
-<ol>
-<li><p>下载miktex移植版本：
-<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
-<li><p>解压</p></li>
-<li><p>设置系统环境变量PATH。例如：</p></li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span>E:<span class="se">\P</span>rogram Files<span class="se">\m</span>iktex-portable<span class="se">\m</span>iktex<span class="se">\b</span>in
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>安装Texmarker/Texstudio，即可运行</li>
-</ol>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-22T16:23:10+08:00" data-updated="true" itemprop="datePublished">Jun 22<span>nd</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/06/22/collect-performance-data-using-gprofile/" itemprop="url">使用gprofile收集性能数据</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Created on 2013-6-22
-</span><span class='line'>
-</span><span class='line'>@author: luoyulong
-</span><span class='line'>import os
-</span><span class='line'>
-</span><span class='line'>def filterFiles<span class="o">(</span>folder, exts<span class="o">)</span>:
-</span><span class='line'>    def anyTrue<span class="o">(</span>predicate, sequence<span class="o">)</span>:
-</span><span class='line'>        <span class="k">return </span>True in map<span class="o">(</span>predicate, sequence<span class="o">)</span>
-</span><span class='line'>    <span class="nv">r</span><span class="o">=[]</span>
-</span><span class='line'>    <span class="k">for </span>fileName in os.listdir<span class="o">(</span>folder<span class="o">)</span>:
-</span><span class='line'>        <span class="k">if </span>os.path.isdir<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName<span class="o">)</span>:
-</span><span class='line'>            filterFiles<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName, exts<span class="o">)</span>
-</span><span class='line'>        <span class="k">elif </span>anyTrue<span class="o">(</span>fileName.endswith, exts<span class="o">)</span>:
-</span><span class='line'>                r.append<span class="o">(</span>fileName<span class="o">)</span>
-</span><span class='line'>    <span class="k">return </span>r
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="nv">exts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;.txt&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="nv">funs</span> <span class="o">=[</span><span class="s1">&#39;ICT::CMPM::UpdateStressCell&#39;</span><span class="o">]</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2&#39;</span><span class="o">)</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::UpdateMPV&#39;</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>os.popen<span class="o">(</span><span class="s2">&quot;rm ./Result.txt&quot;</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">files</span><span class="o">=</span>filterFiles<span class="o">(</span>os.getcwd<span class="o">()</span>, exts<span class="o">)</span>
-</span><span class='line'><span class="k">for </span>fun in funs:
-</span><span class='line'>    <span class="nv">records</span><span class="o">=[]</span>
-</span><span class='line'>    <span class="k">for </span>file in files:
-</span><span class='line'>        <span class="nv">s</span><span class="o">=</span>os.popen<span class="o">(</span><span class="s2">&quot;grep &quot;</span>+fun+<span class="s2">&quot; ./&quot;</span>+file<span class="o">)</span>.read<span class="o">()</span>
-</span><span class='line'>        <span class="nv">x</span><span class="o">=</span>s.split<span class="o">()</span>
-</span><span class='line'>        <span class="k">if</span><span class="o">(</span>len<span class="o">(</span>x<span class="o">)</span>&gt;1<span class="o">)</span>:
-</span><span class='line'>            <span class="nv">y</span><span class="o">=</span>x<span class="o">[</span>1<span class="o">]</span>.split<span class="o">(</span><span class="s1">&#39;%&#39;</span><span class="o">)</span>
-</span><span class='line'>            records.append<span class="o">(</span>y<span class="o">[</span>0<span class="o">])</span>
-</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+fun+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
-</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+str<span class="o">(</span>len<span class="o">(</span>records<span class="o">))</span>+<span class="s2">&quot; &quot;</span>+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="k">for </span>r in records:
-</span><span class='line'>        os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+r+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
 
 		
 		
