@@ -1,6 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://luoyulong.github.io/blog/2013/06/22/collect-performance-data-using-gprofile/
+        </loc>
+        <lastmod>2014-06-19T16:27:51+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://luoyulong.github.io/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/
+        </loc>
+        <lastmod>2014-06-19T16:25:44+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/</loc>
         <lastmod>2014-06-19T16:22:45+08:00</lastmod>
     </url>
@@ -10,25 +22,13 @@
     </url>
     <url>
         <loc>
-            http://luoyulong.github.io/blog/2014/06/19/miktex-plus-texmarker-texstudio-enviroment-setup/
-        </loc>
-        <lastmod>2014-06-19T16:12:04+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://luoyulong.github.io/blog/2014/06/19/collect-performance-data-using-gprofile/
-        </loc>
-        <lastmod>2014-06-19T12:22:23+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
             http://luoyulong.github.io/blog/2014/06/19/%E5%86%99%E4%BD%9C%E8%AF%8D%E6%B1%87%E6%94%B6%E9%9B%86/
         </loc>
         <lastmod>2014-06-19T16:09:37+08:00</lastmod>
     </url>
     <url>
         <loc>http://luoyulong.github.io/blog/archives/</loc>
-        <lastmod>2014-06-19T16:22:45+08:00</lastmod>
+        <lastmod>2014-06-19T16:27:51+08:00</lastmod>
     </url>
     <url>
         <loc>http://luoyulong.github.io/blog/categories/</loc>
@@ -36,7 +36,7 @@
     </url>
     <url>
         <loc>http://luoyulong.github.io/</loc>
-        <lastmod>2014-06-19T16:22:45+08:00</lastmod>
+        <lastmod>2014-06-19T16:27:51+08:00</lastmod>
     </url>
     <url>
         <loc>http://luoyulong.github.io/robots.txt</loc>

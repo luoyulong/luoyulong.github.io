@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T16:23:06+08:00</updated>
+  <updated>2014-06-19T16:28:08+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -432,120 +432,6 @@ In  this day and age（这是最牛的说法）</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[collect performance data using gprofile]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/19/collect-performance-data-using-gprofile/"/>
-    <updated>2014-06-19T10:45:10+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/19/collect-performance-data-using-gprofile</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Created on 2013-6-22
-</span><span class='line'>
-</span><span class='line'>@author: luoyulong
-</span><span class='line'>import os
-</span><span class='line'>
-</span><span class='line'>def filterFiles<span class="o">(</span>folder, exts<span class="o">)</span>:
-</span><span class='line'>    def anyTrue<span class="o">(</span>predicate, sequence<span class="o">)</span>:
-</span><span class='line'>        <span class="k">return </span>True in map<span class="o">(</span>predicate, sequence<span class="o">)</span>
-</span><span class='line'>    <span class="nv">r</span><span class="o">=[]</span>
-</span><span class='line'>    <span class="k">for </span>fileName in os.listdir<span class="o">(</span>folder<span class="o">)</span>:
-</span><span class='line'>        <span class="k">if </span>os.path.isdir<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName<span class="o">)</span>:
-</span><span class='line'>            filterFiles<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName, exts<span class="o">)</span>
-</span><span class='line'>        <span class="k">elif </span>anyTrue<span class="o">(</span>fileName.endswith, exts<span class="o">)</span>:
-</span><span class='line'>                r.append<span class="o">(</span>fileName<span class="o">)</span>
-</span><span class='line'>    <span class="k">return </span>r
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="nv">exts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;.txt&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="nv">funs</span> <span class="o">=[</span><span class="s1">&#39;ICT::CMPM::UpdateStressCell&#39;</span><span class="o">]</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2&#39;</span><span class="o">)</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
-</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::UpdateMPV&#39;</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>os.popen<span class="o">(</span><span class="s2">&quot;rm ./Result.txt&quot;</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">files</span><span class="o">=</span>filterFiles<span class="o">(</span>os.getcwd<span class="o">()</span>, exts<span class="o">)</span>
-</span><span class='line'><span class="k">for </span>fun in funs:
-</span><span class='line'>    <span class="nv">records</span><span class="o">=[]</span>
-</span><span class='line'>    <span class="k">for </span>file in files:
-</span><span class='line'>        <span class="nv">s</span><span class="o">=</span>os.popen<span class="o">(</span><span class="s2">&quot;grep &quot;</span>+fun+<span class="s2">&quot; ./&quot;</span>+file<span class="o">)</span>.read<span class="o">()</span>
-</span><span class='line'>        <span class="nv">x</span><span class="o">=</span>s.split<span class="o">()</span>
-</span><span class='line'>        <span class="k">if</span><span class="o">(</span>len<span class="o">(</span>x<span class="o">)</span>&gt;1<span class="o">)</span>:
-</span><span class='line'>            <span class="nv">y</span><span class="o">=</span>x<span class="o">[</span>1<span class="o">]</span>.split<span class="o">(</span><span class="s1">&#39;%&#39;</span><span class="o">)</span>
-</span><span class='line'>            records.append<span class="o">(</span>y<span class="o">[</span>0<span class="o">])</span>
-</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+fun+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
-</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+str<span class="o">(</span>len<span class="o">(</span>records<span class="o">))</span>+<span class="s2">&quot; &quot;</span>+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="k">for </span>r in records:
-</span><span class='line'>        os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+r+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Miktex+ Texmarker/Texstudio环境的配置  ]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/19/miktex-plus-texmarker-texstudio-enviroment-setup/"/>
-    <updated>2014-06-19T10:37:02+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/19/miktex-plus-texmarker-texstudio-enviroment-setup</id>
-    <content type="html"><![CDATA[<h2>步骤</h2>
-
-<ol>
-<li><p>下载miktex移植版本：
-<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
-<li><p>解压</p></li>
-<li><p>设置系统环境变量PATH。例如：</p>
-
-<p> <code>bash
- PATH=E:\Program Files\miktex-portable\miktex\bin
-</code></p></li>
-<li><p>安装Texmarker/Texstudio，即可运行</p></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[R语言 变量]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/"/>
     <updated>2014-06-19T09:54:51+08:00</updated>
@@ -654,6 +540,120 @@ In  this day and age（这是最牛的说法）</li>
 
 
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Miktex+ Texmarker/Texstudio环境的配置  ]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/"/>
+    <updated>2014-03-13T10:37:02+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup</id>
+    <content type="html"><![CDATA[<h2>步骤</h2>
+
+<ol>
+<li><p>下载miktex移植版本：
+<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
+<li><p>解压</p></li>
+<li><p>设置系统环境变量PATH。例如：</p>
+
+<p> <code>bash
+ PATH=E:\Program Files\miktex-portable\miktex\bin
+</code></p></li>
+<li><p>安装Texmarker/Texstudio，即可运行</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[collect performance data using gprofile]]></title>
+    <link href="http://luoyulong.github.io/blog/2013/06/22/collect-performance-data-using-gprofile/"/>
+    <updated>2013-06-22T16:23:10+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2013/06/22/collect-performance-data-using-gprofile</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Created on 2013-6-22
+</span><span class='line'>
+</span><span class='line'>@author: luoyulong
+</span><span class='line'>import os
+</span><span class='line'>
+</span><span class='line'>def filterFiles<span class="o">(</span>folder, exts<span class="o">)</span>:
+</span><span class='line'>    def anyTrue<span class="o">(</span>predicate, sequence<span class="o">)</span>:
+</span><span class='line'>        <span class="k">return </span>True in map<span class="o">(</span>predicate, sequence<span class="o">)</span>
+</span><span class='line'>    <span class="nv">r</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="k">for </span>fileName in os.listdir<span class="o">(</span>folder<span class="o">)</span>:
+</span><span class='line'>        <span class="k">if </span>os.path.isdir<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName<span class="o">)</span>:
+</span><span class='line'>            filterFiles<span class="o">(</span>folder + <span class="s1">&#39;/&#39;</span> + fileName, exts<span class="o">)</span>
+</span><span class='line'>        <span class="k">elif </span>anyTrue<span class="o">(</span>fileName.endswith, exts<span class="o">)</span>:
+</span><span class='line'>                r.append<span class="o">(</span>fileName<span class="o">)</span>
+</span><span class='line'>    <span class="k">return </span>r
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nv">exts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;.txt&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="nv">funs</span> <span class="o">=[</span><span class="s1">&#39;ICT::CMPM::UpdateStressCell&#39;</span><span class="o">]</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="o">)</span>
+</span><span class='line'>funs.append<span class="o">(</span><span class="s1">&#39;ICT::CMPM::UpdateMPV&#39;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>os.popen<span class="o">(</span><span class="s2">&quot;rm ./Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">files</span><span class="o">=</span>filterFiles<span class="o">(</span>os.getcwd<span class="o">()</span>, exts<span class="o">)</span>
+</span><span class='line'><span class="k">for </span>fun in funs:
+</span><span class='line'>    <span class="nv">records</span><span class="o">=[]</span>
+</span><span class='line'>    <span class="k">for </span>file in files:
+</span><span class='line'>        <span class="nv">s</span><span class="o">=</span>os.popen<span class="o">(</span><span class="s2">&quot;grep &quot;</span>+fun+<span class="s2">&quot; ./&quot;</span>+file<span class="o">)</span>.read<span class="o">()</span>
+</span><span class='line'>        <span class="nv">x</span><span class="o">=</span>s.split<span class="o">()</span>
+</span><span class='line'>        <span class="k">if</span><span class="o">(</span>len<span class="o">(</span>x<span class="o">)</span>&gt;1<span class="o">)</span>:
+</span><span class='line'>            <span class="nv">y</span><span class="o">=</span>x<span class="o">[</span>1<span class="o">]</span>.split<span class="o">(</span><span class="s1">&#39;%&#39;</span><span class="o">)</span>
+</span><span class='line'>            records.append<span class="o">(</span>y<span class="o">[</span>0<span class="o">])</span>
+</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+fun+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>    os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+str<span class="o">(</span>len<span class="o">(</span>records<span class="o">))</span>+<span class="s2">&quot; &quot;</span>+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">for </span>r in records:
+</span><span class='line'>        os.popen<span class="o">(</span><span class="s2">&quot;echo &quot;</span>+r+<span class="s2">&quot;&gt;&gt; Result.txt&quot;</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
 ]]></content>
   </entry>
   
