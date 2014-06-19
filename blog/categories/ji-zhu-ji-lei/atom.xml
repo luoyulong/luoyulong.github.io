@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T19:06:20+08:00</updated>
+  <updated>2014-06-19T19:11:09+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -29,27 +29,19 @@
 <ol>
 <li>cat /etc/ld.so.conf
 发现里面 include ld.so.conf.d/*.conf</li>
-<li>进入ld.so.conf.d文件夹，内容如下</li>
-</ol>
+<li><p>进入ld.so.conf.d文件夹，内容如下
+``` bash
+ atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
 
+<p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
 
-<p> ```bash</p>
-
-<pre><code>atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
-
-kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
-
-mysql-x86_64.conf                  torque.conf
-</code></pre>
-
-<p> ```</p>
-
-<ol>
-<li><p>新建java.conf，添加libjvm.so的路径：
+<p> mysql-x86_64.conf                  torque.conf
+```</p></li>
+<li>新建java.conf，添加libjvm.so的路径：
 <code>bash
 /usr/local/jdk1.6/jre/lib/amd64/server
-</code></p></li>
-<li><p>执行ldconfig,重新加载库</p></li>
+</code></li>
+<li>执行ldconfig,重新加载库</li>
 <li>执行ldconfig -p |grep jvm，查看是否成功加载</li>
 <li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
 </ol>
