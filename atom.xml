@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T16:07:42+08:00</updated>
+  <updated>2014-06-19T16:17:19+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -133,7 +133,7 @@ Sth is increasingly popular with the advancement of sth.</li>
 </ol>
 
 
-<h3>（三）</h3>
+<h2>（三）</h2>
 
 <ol>
 <li> accelerate.  后面接名词，表示“加速”，中性词，好事坏事都能用。</li>
@@ -189,7 +189,7 @@ Sth is increasingly popular with the advancement of sth.</li>
 </ol>
 
 
-<h3>（四）</h3>
+<h2>（四）</h2>
 
 <ol>
 <li>individuals,characters, folks替换(people ,persons)</li>
@@ -238,7 +238,7 @@ Sth is increasingly popular with the advancement of sth.</li>
 </ol>
 
 
-<h3>（五）</h3>
+<h2>（五）</h2>
 
 <ol>
 <li> 因果
@@ -329,7 +329,7 @@ My conviction stands on the following three…</li>
 </ol>
 
 
-<h4>动词替换.</h4>
+<h3>动词替换.</h3>
 
 <ol>
 <li>Improve 提高.
@@ -363,7 +363,7 @@ call for（这也是个很高级的用法，奥巴马就用这个【我不晓得
 </ol>
 
 
-<h4>形容词替换.</h4>
+<h3>形容词替换.</h3>
 
 <ol>
 <li> Everywhere 普遍的
@@ -524,18 +524,21 @@ In  this day and age（这是最牛的说法）</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[miktex+texmarker:texstudio enviroment setup]]></title>
+    <title type="html"><![CDATA[Miktex+ Texmarker/Texstudio环境的配置  ]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/19/miktex-plus-texmarker-texstudio-enviroment-setup/"/>
     <updated>2014-06-19T10:37:02+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/06/19/miktex-plus-texmarker-texstudio-enviroment-setup</id>
-    <content type="html"><![CDATA[<h1>Miktex+ Texmarker/Texstudio环境的配置</h1>
+    <content type="html"><![CDATA[<h2>步骤</h2>
 
 <ol>
 <li><p>下载miktex移植版本：
 <a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
 <li><p>解压</p></li>
-<li><p>设置系统环境变量PATH。例如：
-<code>PATH=E:\Program Files\miktex-portable\miktex\bin</code></p></li>
+<li><p>设置系统环境变量PATH。例如：</p>
+
+<p> <code>bash
+ PATH=E:\Program Files\miktex-portable\miktex\bin
+</code></p></li>
 <li><p>安装Texmarker/Texstudio，即可运行</p></li>
 </ol>
 
@@ -543,13 +546,11 @@ In  this day and age（这是最牛的说法）</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[r language:variable]]></title>
+    <title type="html"><![CDATA[R语言: 变量]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/"/>
     <updated>2014-06-19T09:54:51+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/06/19/r-language-variable</id>
-    <content type="html"><![CDATA[<h1>R语言的变量</h1>
-
-<h2>对全局变量的赋值</h2>
+    <content type="html"><![CDATA[<h2>对全局变量的赋值</h2>
 
 <ol>
 <li> 在函数外部：
@@ -571,27 +572,21 @@ In  this day and age（这是最牛的说法）</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[r_行与列的操作]]></title>
+    <title type="html"><![CDATA[R Hangg Yu Lie De Cao Zuo]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/"/>
-    <updated>2014-06-19T09:43:53+08:00</updated>
+    <updated>2014-06-19T00:00:00+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo</id>
-    <content type="html"><![CDATA[<h1>R 行与列的操作</h1>
+    <content type="html"><![CDATA[<h2>选择列</h2>
 
-<h2>选择列</h2>
-
-<h3>数据框列的引用：</h3>
+<h3>数据框/dataframe:</h3>
 
 <ul>
-<li><code>dn、d[,n]、d"name"、d[,"name"]、d$name</code> 得到某一列组成的矢量。</li>
-<li><code>d[n]、d["name"]</code> 得到某一列组成的数据框。</li>
-<li><code>d[c(m,n,...)]、d[,c(m,n,...)]、d[,c("name1","name2",...)]</code> 得到若干列组成的数据框。</li>
-</ul>
+<li>dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
+<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
+<li><p>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。</p>
 
-
-<h3>其它技巧：</h3>
-
-<ul>
-<li>负号表示剔除。</li>
+<h3>其它技巧：</h3></li>
+<li><p>负号表示剔除。</p></li>
 </ul>
 
 
@@ -606,31 +601,42 @@ In  this day and age（这是最牛的说法）</li>
 
 
 <ul>
-<li>可以用 <code>grep()</code> 搜索变量名。比如 <code>mydata[grep("^q", names(mydata))]</code> 选择名称以“q”开头的数据列。</li>
+<li>可以用 grep() 搜索变量名。比如 <code>mydata[grep("^q", names(mydata))]</code> 选择名称以“q”开头的数据列。</li>
+</ul>
+
+
+<h3>列表/List：</h3>
+
+<h4>list列的引用</h4>
+
+<ul>
+<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
 </ul>
 
 
 <h2>选择行</h2>
 
-<h3>数据框行的引用：</h3>
+<h3>数据框：</h3>
+
+<h4>引用：</h4>
 
 <ul>
-<li><code>d[n,]</code> 得到某一行组成的数据框。</li>
-<li><code>d[c(m,n,...),n]</code> 得到若干行组成的数据框。</li>
-<li><code>head()</code> 得到前6行组成的数据框。</li>
-<li><code>tail()</code> 得到最后6行组成的数据框。</li>
+<li>d[n,] 得到某一行组成的数据框。</li>
+<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
+<li>head() 得到前6行组成的数据框。</li>
+<li>tail() 得到最后6行组成的数据框。</li>
 </ul>
 
 
-<h3>条件引用。例如：</h3>
+<h4>条件引用。例如：</h4>
 
 <ul>
-<li><code>d[d$y&gt;8,]</code> 得到d中满足y>8的行组成的数据框。</li>
-<li><code>d$x[d$y&gt;8]</code> 得到d中满足y>8的行的列x组成的矢量。</li>
+<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
+<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
 </ul>
 
 
-<h3>数据库行的遍历</h3>
+<h4>数据框行的遍历</h4>
 
 <ul>
 <li>使用索引进行遍历</li>
@@ -643,14 +649,6 @@ In  this day and age（这是最牛的说法）</li>
 </span><span class='line'>  dosomething(rawdata[i,])</span></code></pre></td></tr></table></div></figure>
 
 
-<h1>list</h1>
-
-<h2>list列的引用</h2>
-
-<ul>
-<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
-<li></li>
-</ul>
 
 ]]></content>
   </entry>
