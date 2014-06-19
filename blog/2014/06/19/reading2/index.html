@@ -1,0 +1,154 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>“A Stencil Compiler for Short-Vector SIMD Architectures”论文笔记 - 零露漙兮</title>
+	<meta name="author" content="luoyulong">
+
+	
+	<meta name="description" content="“a Stencil Compiler for Short-Vector SIMD Architectures”论文笔记 领域中抽象出特有的语义属性，非常利于优化 a significant advantage is that semantic properties derived from &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://luoyulong.github.io/blog/2014/06/19/reading2/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'-->
+  	<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+  <img src="/images/avatar.jpg" alt="Profile Picture" style="width: 160px;" />
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+	</script>
+</div>
+
+<nav id="main-nav">
+<section class="aboutme">
+  <p>
+    A blogging for high performance optimizing study.
+  </p>
+</section>
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="email" href="mailto:luoyulong@ncic.ac.cn" title="Email">Email</a>
+		
+		
+			<a class="facebook" href="http://www.facebook.com/yulong.luo.1" title="Facebook">Facebook</a>
+		
+		
+		
+		
+			<a class="github" href="https://github.com/luoyulong" title="GitHub">GitHub</a>
+		
+		
+		
+		
+			<a class="linkedin" href="http://www.linkedin.com/pub/luo-yulong/86/5b1/568" title="LinkedIn">LinkedIn</a>
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">“a Stencil Compiler for Short-Vector SIMD Architectures”论文笔记</h1>
+	<div class="entry-content" itemprop="articleBody"><ul>
+<li><p>领域中抽象出特有的语义属性，非常利于优化</p>
+
+<blockquote><p>a significant advantage is that semantic properties derived from the high-level abstractions can be utilized to develop powerful special- ized compiler transformations that can be tailored to the character- istics of different architectural platforms.</p></blockquote></li>
+<li><p><strong>DLT优化</strong>
+<img src="./1403018072433.png" alt="Alt text" /></p></li>
+<li><p><strong>时间tiling优化</strong>：figure3中可以看到，对于unskew的stencil空间，基于时间的分块划分的tiles是一个平行四边形，平行四边形内部具有依赖关系（以及局部性），需要串行执行；平行四边形之间也存在依赖。</p></li>
+<li><p><strong>同时使用DLT和Tiling的问题</strong>：DLT会把一些空间上分散的数组元素放入一个向量使用simd执行，这要求这些分散的数据能够并行执行(例如数组元素B[0],B[6],B[12],B[18])。但是显然，通常的<em>时间分块方法无法保证块在水平方向能够并行</em>。</p></li>
+<li><p><strong>标准分块和分割-分块</strong></p>
+
+<blockquote><p>DLT <strong>causes spatially separated data elements</strong> (for example, B[0], B[6], B[12], B[18] in Fig. (1)) to be gathered together in a single vector and therefore must be operated upon concurrently
+<img src="./1403055017350.png" alt="Alt text" />
+<strong>说明</strong>：y轴表示了变化的时间步，x轴是一维的stencil空间。图a、b中的<em>平行四边形和梯形</em>表示使用不同tiling方案划分得到的tile，每个tile包含了stenc il空间的一个子集，而其中的<em>圆圈</em>表示所在tile执行的顺序</p></blockquote></li>
+<li><p>解决方法：使用分割-分块法把stencil时空划分成两类tiles.在时间方向上得依赖不变，但所有的正梯形(unright)可以在水平上并行执行，而倒梯形虽然依赖于水平方向相邻的两个梯形，但在正梯形执行完后，所有的倒梯形也可以并行执行。 所以，通过合适的分块尺寸，把应该在一个向量内的所有元素划分入相同类型的矩形内即可实现两种优化的并存。</p>
+
+<blockquote><p>shows a different form of tiling – split-tiles. Here, up- right and inverted tiles alternate and the inter-tile dependences are only from an upright tile to its two neighboring inverted tiles. As a result, concurrent execution of all upright tiles over a given time range is feasible, followed by concurrent execution of the inverted tiles over the same time range. Again, the circled values within the tiles indicate the sequence of execution of the tiles, where tiles with the same sequence number can be executed concurrently. With such a tiling strategy, it is now feasible to use DLT, as long as all data elements grouped into each vector are all within upright tiles or all within inverted tiles. Further, unlike execution required with standard tiling, the schedule for parallel tile execution with split- tiles is fully load balanced and does not have a sequential start and gradual build up of inter-tile parallelism as required for wavefront- parallel standard tiling.</p></blockquote></li>
+</ul>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    luoyulong
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

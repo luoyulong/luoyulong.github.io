@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T17:19:21+08:00</updated>
+  <updated>2014-06-19T17:27:34+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[“A Stencil Compiler for Short-Vector SIMD Architectures”论文笔记]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/19/reading2/"/>
+    <updated>2014-06-19T17:25:41+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/19/reading2</id>
+    <content type="html"><![CDATA[<ul>
+<li><p>领域中抽象出特有的语义属性，非常利于优化</p>
+
+<blockquote><p>a significant advantage is that semantic properties derived from the high-level abstractions can be utilized to develop powerful special- ized compiler transformations that can be tailored to the character- istics of different architectural platforms.</p></blockquote></li>
+<li><p><strong>DLT优化</strong>
+<img src="./1403018072433.png" alt="Alt text" /></p></li>
+<li><p><strong>时间tiling优化</strong>：figure3中可以看到，对于unskew的stencil空间，基于时间的分块划分的tiles是一个平行四边形，平行四边形内部具有依赖关系（以及局部性），需要串行执行；平行四边形之间也存在依赖。</p></li>
+<li><p><strong>同时使用DLT和Tiling的问题</strong>：DLT会把一些空间上分散的数组元素放入一个向量使用simd执行，这要求这些分散的数据能够并行执行(例如数组元素B[0],B[6],B[12],B[18])。但是显然，通常的<em>时间分块方法无法保证块在水平方向能够并行</em>。</p></li>
+<li><p><strong>标准分块和分割-分块</strong></p>
+
+<blockquote><p>DLT <strong>causes spatially separated data elements</strong> (for example, B[0], B[6], B[12], B[18] in Fig. (1)) to be gathered together in a single vector and therefore must be operated upon concurrently
+<img src="./1403055017350.png" alt="Alt text" />
+<strong>说明</strong>：y轴表示了变化的时间步，x轴是一维的stencil空间。图a、b中的<em>平行四边形和梯形</em>表示使用不同tiling方案划分得到的tile，每个tile包含了stenc il空间的一个子集，而其中的<em>圆圈</em>表示所在tile执行的顺序</p></blockquote></li>
+<li><p>解决方法：使用分割-分块法把stencil时空划分成两类tiles.在时间方向上得依赖不变，但所有的正梯形(unright)可以在水平上并行执行，而倒梯形虽然依赖于水平方向相邻的两个梯形，但在正梯形执行完后，所有的倒梯形也可以并行执行。 所以，通过合适的分块尺寸，把应该在一个向量内的所有元素划分入相同类型的矩形内即可实现两种优化的并存。</p>
+
+<blockquote><p>shows a different form of tiling – split-tiles. Here, up- right and inverted tiles alternate and the inter-tile dependences are only from an upright tile to its two neighboring inverted tiles. As a result, concurrent execution of all upright tiles over a given time range is feasible, followed by concurrent execution of the inverted tiles over the same time range. Again, the circled values within the tiles indicate the sequence of execution of the tiles, where tiles with the same sequence number can be executed concurrently. With such a tiling strategy, it is now feasible to use DLT, as long as all data elements grouped into each vector are all within upright tiles or all within inverted tiles. Further, unlike execution required with standard tiling, the schedule for parallel tile execution with split- tiles is fully load balanced and does not have a sequential start and gradual build up of inter-tile parallelism as required for wavefront- parallel standard tiling.</p></blockquote></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA["Split Tiling for GPUs: Automatic Parallelization Using Trapezoidal Tiles"论文阅读]]></title>
