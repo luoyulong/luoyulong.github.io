@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T17:17:28+08:00</updated>
+  <updated>2014-06-19T17:19:21+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA['Split Tiling for GPUs: Automatic Parallelization Using Trapezoidal Tiles'论文阅读]]></title>
+    <title type="html"><![CDATA["Split Tiling for GPUs: Automatic Parallelization Using Trapezoidal Tiles"论文阅读]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/19/reading/"/>
     <updated>2014-06-19T17:16:08+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/06/19/reading</id>
