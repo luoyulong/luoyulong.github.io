@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T17:31:46+08:00</updated>
+  <updated>2014-06-19T17:36:02+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[“A Stencil Compiler for Short-Vector SIMD Architectures”论文笔记]]></title>
+    <title type="html"><![CDATA[“A Stencil Compiler for Short-Vector SIMD Architectures”论文阅读]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/19/reading2/"/>
     <updated>2014-06-19T17:25:41+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/06/19/reading2</id>
