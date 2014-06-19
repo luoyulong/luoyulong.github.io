@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-19T19:19:19+08:00</updated>
+  <updated>2014-06-19T19:20:39+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -194,7 +194,8 @@
 <ol>
 <li>cat /etc/ld.so.conf
 发现里面 include ld.so.conf.d/*.conf</li>
-<li><p>进入ld.so.conf.d文件夹，内容如下&#8220;` bash
+<li>进入ld.so.conf.d文件夹，内容如下</li>
+<li><p>&#8220;` bash
  atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf</p>
 
 <p> kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf</p>
