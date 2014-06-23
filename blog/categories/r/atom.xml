@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-23T15:38:52+08:00</updated>
+  <updated>2014-06-23T15:39:28+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R语言 使用循环构建dataframe]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/23/raddcolumnbyloop/"/>
+    <updated>2014-06-23T15:31:06+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/23/raddcolumnbyloop</id>
+    <content type="html"><![CDATA[<ul>
+<li>目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe</li>
+</ul>
+
+
+<p>```
+ for(item in dataItems)
+  {</p>
+
+<pre><code>itempair &lt;- unlist(strsplit(item, "="))
+eval(parse(text=sprintf("%s=itempair[2]",itempair[1])))
+if(datadf_str!="")
+  datadf_str=paste(datadf_str,itempair[1],sep=",")
+else
+  datadf_str=itempair[1]
+print(datadf_str)
+</code></pre>
+
+<p>  }
+  datadf=eval(parse(text=sprintf(&ldquo;data.frame(%s)&rdquo;,datadf_str)))
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R语言 变量]]></title>
