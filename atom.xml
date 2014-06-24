@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-24T09:24:35+08:00</updated>
+  <updated>2014-06-24T09:25:49+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -14,19 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[R String Manipulate]]></title>
+    <title type="html"><![CDATA[R 字符操作函数]]></title>
     <link href="http://luoyulong.github.io/blog/2014/06/24/r-string-manipulate/"/>
-    <updated>2014-06-24T00:00:00+08:00</updated>
+    <updated>2014-06-24T09:20:29+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/06/24/r-string-manipulate</id>
-    <content type="html"><![CDATA[<p>*&mdash;&ndash;
-layout: post
-title: &ldquo;R 字符操作函数&rdquo;
-date: 2014-06-24 09:20:29 +0800
-comments: true</p>
-
-<h2>categories: R</h2>
-
-<table>
+    <content type="html"><![CDATA[<table>
 <thead>
 <tr>
 <th> 函数     </th>
