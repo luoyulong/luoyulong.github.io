@@ -9,17 +9,11 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jun 23rd, 2014 R R语言 使用循环构建dataframe 目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11 for( &hellip;">
+	<meta name="description" content="R String Manipulate *&mdash;&ndash;
+layout: post
+title: &ldquo;R 字符操作函数&rdquo;
+date: 2014-06-24 09:20:29 +0800
+comments: true categories: R 函数 描述 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -109,6 +103,91 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-24T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/24/r-string-manipulate/" itemprop="url">R String Manipulate</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>*&mdash;&ndash;
+layout: post
+title: &ldquo;R 字符操作函数&rdquo;
+date: 2014-06-24 09:20:29 +0800
+comments: true</p>
+
+<h2>categories: R</h2>
+
+<table>
+<thead>
+<tr>
+<th> 函数     </th>
+<th>   描述    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nchar(x)  </td>
+<td> 计算x中的字符数量</td>
+</tr>
+<tr>
+<td>substr(x, start, stop)</td>
+<td>   字符串截取 |  </td>
+</tr>
+<tr>
+<td>grep(pattern, x, ignore. case=FALSE, fixed=FALSE)     </td>
+<td>  字符串内的查找 |  </td>
+</tr>
+<tr>
+<td>paste(&hellip;, sep = &ldquo; &rdquo;, collapse = NULL)</td>
+<td>字符串连接|</td>
+</tr>
+<tr>
+<td>strsplit(x, split, extended = TRUE, fixed = FALSE, perl = FALSE)</td>
+<td>字符串分割|</td>
+</tr>
+<tr>
+<td>tolower()</td>
+<td>把x变成小写|</td>
+</tr>
+<tr>
+<td>toupper(x)</td>
+<td>把x变成大写|</td>
+</tr>
+<tr>
+<td>casefold(x, upper = FALSE)</td>
+<td>通过指定upper,把x变成大写或者小写|</td>
+</tr>
+<tr>
+<td>chartr(old, new, x)</td>
+<td>把x中每个在old中出现的字符翻译成new中相应位置的字符 |</td>
+</tr>
+</tbody>
+</table>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
