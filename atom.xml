@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-24T09:26:53+08:00</updated>
+  <updated>2014-06-24T09:27:47+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -43,7 +43,7 @@
 <td>字符串连接</td>
 </tr>
 <tr>
-<td>strsplit(x, split, extended = TRUE, fixed = FALSE, perl = FALSE)</td>
+<td>strsplit(x, split)</td>
 <td>字符串分割</td>
 </tr>
 <tr>
