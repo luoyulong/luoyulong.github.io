@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-24T09:27:47+08:00</updated>
+  <updated>2014-06-29T16:06:09+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cudatexture]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/29/cudatexture/"/>
+    <updated>2014-06-29T00:00:00+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/29/cudatexture</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>stencilexample.cu<span class="o">(</span>147<span class="o">)</span>: error: no instance of overloaded <span class="k">function</span> <span class="s2">&quot;tex1Dfetch&quot;</span> matches the argument list argument types are: <span class="o">(</span>texture&lt;double, 1, cudaReadModeElementType&gt;, int<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>解决方法</h1>
+
+<p>cuda的纹理存储器不支持 double</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 字符操作函数]]></title>
