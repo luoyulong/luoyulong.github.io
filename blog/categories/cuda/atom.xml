@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CUDA | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-29T16:06:48+08:00</updated>
+  <updated>2014-06-29T16:08:58+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -21,7 +21,10 @@
     <content type="html"><![CDATA[<h1>问题</h1>
 
 <p><code>bash
-stencilexample.cu(147): error: no instance of overloaded function "tex1Dfetch" matches the argument list argument types are: (texture&lt;double, 1, cudaReadModeElementType&gt;, int)
+stencilexample.cu(147): error:
+no instance of overloaded function "tex1Dfetch"
+matches the argument list argument types are:
+(texture&lt;double, 1, cudaReadModeElementType&gt;, int)
 </code></p>
 
 <h1>解决方法</h1>
