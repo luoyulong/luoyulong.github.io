@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-30T16:34:27+08:00</updated>
+  <updated>2014-06-30T21:51:34+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[检测Linux下 ODBC是否配置成功]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/30/linuxodbc/"/>
+    <updated>2014-06-30T21:48:21+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/30/linuxodbc</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>测试ODBC安装是否成功</p>
+
+<h1>解决方案</h1>
+
+<p>使用isql测试数据源是否配置正确</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>imysql -v datasourcename dbname dbpsw</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ROSE 编程要点]]></title>
