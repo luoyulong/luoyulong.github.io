@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-30T10:07:09+08:00</updated>
+  <updated>2014-06-30T16:34:27+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -45,7 +45,8 @@ SgVariableDeclaration* vdecl=buildVariableDeclaration(&ldquo;texture_a&rdquo;,te
     <id>http://luoyulong.github.io/blog/2014/06/29/cudatexture</id>
     <content type="html"><![CDATA[<h1>问题</h1>
 
-<p><code>bash
+<p>在使用cuda的纹理存储器时，编译器报错
+<code>bash
 stencilexample.cu(147): error:
 no instance of overloaded function "tex1Dfetch"
 matches the argument list argument types are:
@@ -54,7 +55,7 @@ matches the argument list argument types are:
 
 <h1>解决方法</h1>
 
-<p>cuda的纹理存储器不支持 double</p>
+<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
 ]]></content>
   </entry>
   

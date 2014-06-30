@@ -9,11 +9,10 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Error: No Instance of Overloaded Function "tex1Dfetch" Matches the Argument List Argument Types Are: (Texture, Int) 问题 1
+	<meta name="description" content="Error: No Instance of Overloaded Function "tex1Dfetch" Matches the Argument List Argument Types Are: (Texture, Int) 问题 在使用cuda的纹理存储器时，编译器报错 1
 2
 3
-4
-stencilexample.cu(147 &hellip;">
+4 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,6 +104,8 @@ stencilexample.cu(147 &hellip;">
 	<h1 class="title" itemprop="name">Error: No Instance of Overloaded Function "tex1Dfetch" Matches the Argument List Argument Types Are: (Texture<double, 1, cudaReadModeElementType>, Int)</h1>
 	<div class="entry-content" itemprop="articleBody"><h1>问题</h1>
 
+<p>在使用cuda的纹理存储器时，编译器报错</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -118,7 +119,7 @@ stencilexample.cu(147 &hellip;">
 
 <h1>解决方法</h1>
 
-<p>cuda的纹理存储器不支持 double</p>
+<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
 </div>
 
 </article>
