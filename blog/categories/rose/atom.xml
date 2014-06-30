@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: rose | 零露漙兮]]></title>
+  <title><![CDATA[Category: ROSE | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/rose/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-29T16:08:58+08:00</updated>
+  <updated>2014-06-30T09:53:06+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -14,24 +14,27 @@
 
   
   <entry>
-    <title type="html"><![CDATA[A Rose Problem:  SgNode::get_numberOfTraversalSuccessors(): Assertion 'false' failed]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/03/30/roseproblem/"/>
-    <updated>2014-03-30T21:30:45+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/03/30/roseproblem</id>
-    <content type="html"><![CDATA[<h2>问题</h2>
+    <title type="html"><![CDATA[ROSE 创建模板类变量的一个取巧办法]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/30/rose-create-template-variable/"/>
+    <updated>2014-06-30T09:42:36+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/30/rose-create-template-variable</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
 
-<p><code>bash
-Internal error(!): called tree traversal mechanism for illegal object:
-static: SgNode
-dynamic:  SgNode
-Aborting ...
-my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
-size_t SgNode::get_numberOfTraversalSuccessors(): Assertion `false' failed.
-</code></p>
+<p>用ROSE产生cuda代码时，为了性能需要，使用到了纹理存储器。但在纹理存储器变量声明的时候，遇到了点问题：纹理寄存器变量的类型是模板类实例，e.g,<code>texture&lt;DATATYPE,1,cudaReadModeElementType&gt; t_a</code>,但是rose中模板类变量貌似不怎么好声明，尝试了半天都没有成功。</p>
 
-<h2>解决方法</h2>
+<h1>解决方案</h1>
 
-<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
+<p>使用万金油式的buildOpaqueType直接创建模板类型,然后使用该类型创建纹理存储器变量</p>
+
+<p>``` C++</p>
+
+<p>//create a template instance type directly: texture&lt;DATATYPE,1,cudaReadModelElementType>
+SgType* textureType=buildOpaqueType(&ldquo;texture&lt;DATATYPE,1,cudaReadModelElementType>&rdquo;,node->get_scope());</p>
+
+<p>//create the texture type variable &ldquo;texture_a&rdquo;
+SgVariableDeclaration* vdecl=buildVariableDeclaration(&ldquo;texture_a&rdquo;,textureType,node->get_scope());</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
