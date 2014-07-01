@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-01T14:39:29+08:00</updated>
+  <updated>2014-07-01T14:41:09+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -119,10 +119,9 @@ matches the argument list argument types are:
 
 <p> 出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p>
 
-<p> ```
- The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.</p>
-
-<p>```</p>
+<p> <code>
+ The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.
+</code></p>
 ]]></content>
   </entry>
   
