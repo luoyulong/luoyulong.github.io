@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-06-30T22:21:01+08:00</updated>
+  <updated>2014-07-01T12:06:03+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ROSE 在源文件的include语句之前插入语句]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/01/rose-insertstatementbeforeheader/"/>
+    <updated>2014-07-01T11:50:40+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/01/rose-insertstatementbeforeheader</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
+
+<h1>解决方法</h1>
+
+<p>通过比较scope和scope中语句的名字，找到当前源文件中第一个SgStatement</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'> <span class="c1">//find the first statement of current source file</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">firststatement</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">SgStatementPtrList</span> <span class="n">statelist</span><span class="o">=</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">generateStatementList</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">statelist</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">tmp</span><span class="o">=</span><span class="n">statelist</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">()</span><span class="o">==</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>    <span class="n">firststatement</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>                                                                     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[检测Linux下 ODBC是否配置成功]]></title>
