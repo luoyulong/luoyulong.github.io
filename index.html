@@ -400,13 +400,30 @@
 
 <h1>解决方法</h1>
 
-<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
-
-<p> 出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p>
-
-<p> <code>
+<p>经过研究，发现原来cuda的纹理存储器不能直接支持double
+ <code>
  The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.
-</code></p>
+</code>
+ 出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p>
+
+<p>非要加速的话，可以使用一个int2类型的向量拼接成一个double</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="c1">//declarate the texture using int2 type</span>
+</span><span class='line'><span class="n">texture</span> <span class="o">&lt;</span><span class="kt">int2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cudaReadModeElementType</span><span class="o">&gt;</span> <span class="n">Atex</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//used in global function(cuda kernel)</span>
+</span><span class='line'><span class="kt">int2</span> <span class="n">A1</span><span class="o">=</span><span class="n">tex1Dfetch</span><span class="p">(</span><span class="n">Atex</span><span class="p">,(</span><span class="n">texoff</span><span class="o">+</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="n">offset</span><span class="p">)</span> <span class="o">*</span><span class="n">lda</span> <span class="o">+</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">));</span>
+</span><span class='line'><span class="n">Bs</span><span class="p">[</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span>   <span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">__hiloint2double</span><span class="p">(</span><span class="n">A1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="n">A1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 		
 		
