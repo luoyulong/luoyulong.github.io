@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CUDA | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-02T10:07:06+08:00</updated>
+  <updated>2014-07-02T15:13:52+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CUDA 计时的方法]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/02/cuda-timing/"/>
+    <updated>2014-07-02T15:04:09+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/02/cuda-timing</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>测试CUDA应用的时间</p>
+
+<h1>解决方案</h1>
+
+<p>引用自stackoverflow：</p>
+
+<blockquote><p>You could do sth along the lines of :</p></blockquote>
+
+<p>``` cuda</p>
+
+<h1>include&lt;sys/time.h></h1>
+
+<p>struct timeval t1, t2;</p>
+
+<p>gettimeofday(&amp;t1, 0);</p>
+
+<p>kernel_call&lt;&lt;&lt;dimGrid, dimBlock, 0>>>();</p>
+
+<p>HANDLE_ERROR(cudaThreadSynchronize();)</p>
+
+<p>gettimeofday(&amp;t2, 0);</p>
+
+<p>double time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000000.0;</p>
+
+<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
+<code>
+or:
+</code>
+float time;
+cudaEvent_t start, stop;</p>
+
+<p>HANDLE_ERROR( cudaEventCreate(&amp;start) );
+HANDLE_ERROR( cudaEventCreate(&amp;stop) );
+HANDLE_ERROR( cudaEventRecord(start, 0) );</p>
+
+<p>kernel_call&lt;&lt;&lt;dimGrid, dimBlock, 0>>>();</p>
+
+<p>HANDLE_ERROR( cudaEventRecord(stop, 0) );
+HANDLE_ERROR( cudaEventSynchronize(stop) );
+HANDLE_ERROR( cudaEventElapsedTime(&amp;time, start, stop) );</p>
+
+<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ROSE 声明CUDA类型的变量]]></title>

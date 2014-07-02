@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-02T10:07:06+08:00</updated>
+  <updated>2014-07-02T15:13:52+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CUDA 计时的方法]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/02/cuda-timing/"/>
+    <updated>2014-07-02T15:04:09+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/02/cuda-timing</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>测试CUDA应用的时间</p>
+
+<h1>解决方案</h1>
+
+<p>引用自stackoverflow：</p>
+
+<blockquote><p>You could do sth along the lines of :</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="cp">#include&lt;sys/time.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">timeval</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">();)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">double</span> <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1000000.0</span><span class="o">*</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">tv_sec</span><span class="o">-</span><span class="n">t1</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">)</span> <span class="o">+</span> <span class="n">t2</span><span class="p">.</span><span class="n">tv_usec</span><span class="o">-</span><span class="n">t1</span><span class="p">.</span><span class="n">tv_usec</span><span class="p">)</span><span class="o">/</span><span class="mf">1000000.0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
+</span><span class='line'><span class="n">cudaEvent_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ROSE 在源文件的include语句之前插入语句]]></title>
