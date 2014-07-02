@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-02T22:11:46+08:00</updated>
+  <updated>2014-07-02T22:16:28+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -31,6 +31,7 @@ Failures are costly in terms of &hellip;</li>
 <li>In terms of xxx &mdash;&ndash; 对于xxx方面</li>
 <li>To the best of our knowledge this is the first proposed scheme that &hellip;
 reads have no option but to wait at the memory controller.</li>
+<li>Guard against forgetting &mdash;-防止XXXX</li>
 </ul>
 
 ]]></content>
