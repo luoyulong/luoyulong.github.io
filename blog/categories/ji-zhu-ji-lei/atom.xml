@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-03T17:55:36+08:00</updated>
+  <updated>2014-07-03T18:01:55+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -24,7 +24,6 @@
 <li><p>shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位</p></li>
 <li><p>warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理一个block kernel时，会经可能多的发射warp，每个warp内线程的大小为32.</p></li>
 <li><p><span id="anchor1"></span>每个SM可以同时驻留多个 block执行（active block），这主要取决于当前SM是否拥有足够的硬件资源，如Register，shared-memory等等.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p></li>
-<li><p><a href="#anchor1">上一条</a>引出一个tradeoff，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
 <li><p>在200机器上的GPU，每个SM拥有256*256个32位的寄存器（即平均每个线程有256个32-bite的寄存器），49152byte的shared memory,65536byte的constant memory。</p></li>
 </ol>
 
@@ -36,6 +35,7 @@
 <li><p>有些常量经常被用到，且占用的空间很小。之前使用常量存储器，现改用参数传递，放入寄存器进行加速。</p></li>
 <li><p>把与threadIdx无关的公共计算提到host端计算，再把结果使用参数传递给kernel函数</p></li>
 <li><p>写回的变量不使用shared-memory</p></li>
+<li><p>shared-memory和分块大小之间有一个<a href="#anchor1">tradeoff</a>，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
 </ol>
 
 <div class="footnotes">
