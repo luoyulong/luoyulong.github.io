@@ -9,8 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 2nd, 2014 写作, 英语 英语写作 句子 句子 xxxx,to the best of our knowledge,not been previously studied and is now more compelling than ever
-While a large &hellip;">
+	<meta name="description" content="Jul 3rd, 2014 论文写作 论文写作经验 对reviewer的误区 Reviewers will carefully read my paper. Totally wrong! A reviewer often has a pile of papers to review A &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,11 +115,49 @@ While a large &hellip;">
   
 
 
+<time datetime="2014-07-03T09:28:32+08:00" data-updated="true" itemprop="datePublished">Jul 3<span>rd</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/lun-wen-xie-zuo/'>论文写作</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/03/paperwritting/" itemprop="url">论文写作经验</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>对reviewer的误区</h2>
+
+<p>Reviewers will carefully read my paper. <strong>Totally wrong!</strong><em> A reviewer often has a pile of papers to review</em> A reviewer typically makes up his/her mind after 5-minute browsing <strong><em>title/author->abstract->conclusions->references &ndash;>introduction</em></strong>, then spends &lt; 1h to justify (moving to main body of the paper)
+Your action:<em> make your points EARLY</em> bring up your results QUICK<em> highlight your contributions FAST</em> make your paper easy to read, clear to follow, and good to learn</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-07-02T21:57:54+08:00" data-updated="true" itemprop="datePublished">Jul 2<span>nd</span>, 2014</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/xie-zuo/'>写作</a>, <a class='category' href='/blog/categories/ying-yu/'>英语</a>
+	<a class='category' href='/blog/categories/ying-yu/'>英语</a>, <a class='category' href='/blog/categories/lun-wen-xie-zuo/'>论文写作</a>
 
 
 </div>
@@ -663,68 +700,6 @@ reads have no option but to wait at the memory controller.</li>
 </tr>
 </tbody>
 </table>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-23T15:31:06+08:00" data-updated="true" itemprop="datePublished">Jun 23<span>rd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/r/'>R</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/23/raddcolumnbyloop/" itemprop="url">R语言 使用循环构建dataframe</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<ul>
-<li>目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> for(item in dataItems)
-</span><span class='line'>  {
-</span><span class='line'>    itempair &lt;- unlist(strsplit(item, "="))
-</span><span class='line'>    eval(parse(text=sprintf("%s=itempair[2]",itempair[1])))
-</span><span class='line'>    if(datadf_str!="")
-</span><span class='line'>      datadf_str=paste(datadf_str,itempair[1],sep=",")
-</span><span class='line'>    else
-</span><span class='line'>      datadf_str=itempair[1]
-</span><span class='line'>    print(datadf_str)
-</span><span class='line'>  }
-</span><span class='line'>  datadf=eval(parse(text=sprintf("data.frame(%s)",datadf_str)))</span></code></pre></td></tr></table></div></figure>
 
 
 		
