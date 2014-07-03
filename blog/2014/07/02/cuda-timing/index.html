@@ -147,7 +147,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">();)</span>
+</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">());</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </span><span class='line'>
@@ -190,7 +190,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudadevicesynchronize），否则测的的时间是最后一个kernel 启动的时间。</p>
+<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
 </div>
 
 </article>
