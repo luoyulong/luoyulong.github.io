@@ -9,8 +9,8 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 3rd, 2014 CUDA, 技术积累 Gpuexperiences 硬件模型 shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位
-warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理一个block kernel时， &hellip;">
+	<meta name="description" content="Jul 3rd, 2014 CUDA, 技术积累 CUDA 优化经验 硬件模型 shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位
+warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理一个block kernel时，会经可能多的发射warp， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -126,7 +126,7 @@ warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/03/gpuexperiences/" itemprop="url">Gpuexperiences</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/03/gpuexperiences/" itemprop="url">CUDA 优化经验</a></h1>
 	<div class="entry-content" itemprop="articleBody">
 		<h1>硬件模型</h1>
 

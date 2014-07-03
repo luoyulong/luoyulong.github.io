@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-03T17:55:16+08:00</updated>
+  <updated>2014-07-03T17:55:36+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[gpuexperiences]]></title>
+    <title type="html"><![CDATA[CUDA 优化经验]]></title>
     <link href="http://luoyulong.github.io/blog/2014/07/03/gpuexperiences/"/>
     <updated>2014-07-03T17:45:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/07/03/gpuexperiences</id>
