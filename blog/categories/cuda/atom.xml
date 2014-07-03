@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CUDA | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-03T18:38:41+08:00</updated>
+  <updated>2014-07-03T18:41:32+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -45,20 +45,21 @@
 
 <h2>Maximize Utilization</h2>
 
-<h3>Application Level</h3>
-
-<h3>Device Level</h3>
-
-<ol>
-<li>For devices of compute capability 1.x, only one kernel can execute on a device at one time, so the kernel should be launched with at least <strong>as many thread blocks as</strong> there are multiprocessors in the device.2. For devices of compute capability 2.x and higher, multiple kernels can <strong>execute concurrently</strong> on a device, so maximum utilization can also be achieved by using streams to enable enough kernels to execute concurrently as described in Asynchronous Concurrent Execution.</li>
-</ol>
-
+<p>XXXX###Application Level
+XXXX###Device Level
+1. For devices of compute capability 1.x, only one kernel can execute on a device at one time, so the kernel should be launched with at least <strong>as many thread blocks as</strong> there are multiprocessors in the device.2. For devices of compute capability 2.x and higher, multiple kernels can <strong>execute concurrently</strong> on a device, so maximum utilization can also be achieved by using streams to enable enough kernels to execute concurrently as described in Asynchronous Concurrent Execution.</p>
 
 <h3>Multiprocessor Level</h3>
 
+<p>XXXX</p>
+
 <h2>Maximize Memory Throughput</h2>
 
+<p>XXXX</p>
+
 <h3>Device Memory Accesses</h3>
+
+<p>XXXX</p>
 
 <h4>Shared Memory<em> Because it is on-chip, shared memory has much higher bandwidth and much lower latency than local or global memory.To achieve high bandwidth, shared memory is divided into equally-sized memory modules, called banks, which can be accessed simultaneously. Any memory read or write request made of n addresses that fall in n distinct memory banks can therefore be serviced simultaneously, yielding an overall bandwidth that is n times as high as the bandwidth of a single module.</em> However, if two addresses of a memory request fall in the same memory bank, there is a <strong>bank conflict</strong> and the access has to be serialized. The hardware splits a memory request with bank conflicts into as many separate conflict-free requests as necessary, decreasing throughput by a factor equal to the number of separate memory requests. If the number of separate memory requests is n, the initial memory request is said to cause n-way bank conflicts.* To get maximum performance, it is therefore important to understand how memory addresses map to memory banks in order to schedule the memory requests so as to minimize bank conflicts. This is described in Compute Capability 1.x,Compute Capability 2.x, Compute Capability 3.x, and Compute Capability 5.0 for devices of compute capability 1.x, 2.x, 3.x, and 5.0, respectively.</h4>
 <div class="footnotes">
