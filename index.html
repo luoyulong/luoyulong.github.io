@@ -358,7 +358,7 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'>
 </span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">());</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">());</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 </span><span class='line'>
@@ -387,15 +387,15 @@ reads have no option but to wait at the memory controller.</li>
 </pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
 </span><span class='line'><span class="n">cudaEvent_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">HANDLE_ERROR</span><span class="p">(</span> <span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>

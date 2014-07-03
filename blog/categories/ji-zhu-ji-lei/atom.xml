@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-03T19:03:06+08:00</updated>
+  <updated>2014-07-03T20:31:25+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -104,7 +104,7 @@ XXXX###Device Level
 
 <p>kernel_call&lt;&lt;&lt;dimGrid, dimBlock, 0>>>();</p>
 
-<p>HANDLE_ERROR(cudaThreadSynchronize());</p>
+<p>gpuErrchk(cudaThreadSynchronize());</p>
 
 <p>gettimeofday(&amp;t2, 0);</p>
 
@@ -117,15 +117,15 @@ or:
 float time;
 cudaEvent_t start, stop;</p>
 
-<p>HANDLE_ERROR( cudaEventCreate(&amp;start) );
-HANDLE_ERROR( cudaEventCreate(&amp;stop) );
-HANDLE_ERROR( cudaEventRecord(start, 0) );</p>
+<p>gpuErrchk( cudaEventCreate(&amp;start) );
+gpuErrchk( cudaEventCreate(&amp;stop) );
+gpuErrchk( cudaEventRecord(start, 0) );</p>
 
 <p>kernel_call&lt;&lt;&lt;dimGrid, dimBlock, 0>>>();</p>
 
-<p>HANDLE_ERROR( cudaEventRecord(stop, 0) );
-HANDLE_ERROR( cudaEventSynchronize(stop) );
-HANDLE_ERROR( cudaEventElapsedTime(&amp;time, start, stop) );</p>
+<p>gpuErrchk( cudaEventRecord(stop, 0) );
+gpuErrchk( cudaEventSynchronize(stop) );
+gpuErrchk( cudaEventElapsedTime(&amp;time, start, stop) );</p>
 
 <p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
 ```</p>
