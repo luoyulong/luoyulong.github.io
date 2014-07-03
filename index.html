@@ -309,6 +309,8 @@ reads have no option but to wait at the memory controller.</li>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudadevicesynchronize），否则测的的时间是最后一个kernel 启动的时间。</p>
+
 		
 		
 	</div>

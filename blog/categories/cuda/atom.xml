@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CUDA | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-03T13:21:14+08:00</updated>
+  <updated>2014-07-03T14:50:06+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -63,6 +63,8 @@ HANDLE_ERROR( cudaEventElapsedTime(&amp;time, start, stop) );</p>
 
 <p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
 ```</p>
+
+<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudadevicesynchronize），否则测的的时间是最后一个kernel 启动的时间。</p>
 ]]></content>
   </entry>
   
