@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T11:31:48+08:00</updated>
+  <updated>2014-07-06T11:33:33+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -20,7 +20,7 @@
     <id>http://luoyulong.github.io/blog/2014/07/06/r-dotchart</id>
     <content type="html"><![CDATA[<p>对于一个具有二维属性，一维结果的数据库，想把它表现成二维点图的形式，我们可以使用plot函数来绘画，其中使用X，Y两个维度来表示其属性，通过点的颜色，大小来表示其结果</p>
 
-<ol>
+<ul>
 <li>首先，我们先根据其结果值，生成相应的颜色代码，这里我们通过颜色的深浅来表示值的大小，颜色越深，值越大：
 ``` r
 
@@ -33,8 +33,11 @@ col &lt;&ndash; rgb(1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>,1-(val
 return (col)
 }
 ```</p></li>
-<li><p>其次，我们使用plot绘画二维点图
-``` r</p>
+<li><p>其次，我们使用plot绘画二维点图</p>
+
+<ul>
+<li>代码
+``` r
 
 <h1>some preprocess</h1>
 
@@ -48,8 +51,10 @@ result$col &lt;&ndash; result$Gflops
 <h1>using function plot</h1>
 
 <p>plot(result$x, result$y, ylim=c(0,max(result$y)), xlim=c(0, max(result$x)), pch=18, col=GetRGB(result$col), type=&ldquo;p&rdquo;, xlab=&ldquo;X&rdquo;, ylab=&ldquo;Y&rdquo;, cex=0.7)
-```
-<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p></li>
+```</p></li>
+<li>图片<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></li>
+</ul>
+</li>
 <li><p>对于重要的点，使用point进行飘红强调
 ``` r</p>
 
@@ -62,7 +67,7 @@ bestresult &lt;&ndash; result[1:100, ]
 <p>points(bestresult$x, bestresult$y, pch=19, col=&ldquo;red&rdquo;, type=&ldquo;p&rdquo; ,cex=0.7) <br/>
 ```
 <img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p></li>
-</ol>
+</ul>
 
 ]]></content>
   </entry>
