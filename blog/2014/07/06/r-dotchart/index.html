@@ -133,22 +133,22 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#some preprocess</span>
 </span><span class='line'>result<span class="o">$</span>x <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">2</span><span class="p">)))</span>
 </span><span class='line'>result<span class="o">$</span>y <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">3</span><span class="p">)))</span>
-</span><span class='line'>
 </span><span class='line'><span class="c1">#achieve the color for value vector</span>
 </span><span class='line'>result<span class="o">$</span>col <span class="o">&lt;-</span> result<span class="o">$</span>Gflops
-</span><span class='line'>
 </span><span class='line'><span class="c1">#using function plot </span>
 </span><span class='line'>plot<span class="p">(</span>result<span class="o">$</span>x<span class="p">,</span> result<span class="o">$</span>y<span class="p">,</span> ylim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span>max<span class="p">(</span>result<span class="o">$</span>y<span class="p">)),</span> xlim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span> max<span class="p">(</span>result<span class="o">$</span>x<span class="p">)),</span> pch<span class="o">=</span><span class="m">18</span><span class="p">,</span> col<span class="o">=</span>GetRGB<span class="p">(</span>result<span class="o">$</span>col<span class="p">),</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> xlab<span class="o">=</span><span class="s">&quot;X&quot;</span><span class="p">,</span> ylab<span class="o">=</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" />
-3. 对于重要的点，使用point进行飘红强调</p>
+<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p>
+
+<ol>
+<li>对于重要的点，使用point进行飘红强调</li>
+</ol>
+
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

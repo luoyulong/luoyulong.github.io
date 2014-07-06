@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T11:30:36+08:00</updated>
+  <updated>2014-07-06T11:31:48+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -33,37 +33,37 @@ col &lt;&ndash; rgb(1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>,1-(val
 return (col)
 }
 ```</p></li>
-<li>其次，我们使用plot绘画二维点图
-``` r
+<li><p>其次，我们使用plot绘画二维点图
+``` r</p>
 
 <h1>some preprocess</h1>
 
-<p>result$x &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 2)))
-result$y &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 3)))</p></li>
-</ol>
-
+result$x &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 2)))
+result$y &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 3)))
 
 <h1>achieve the color for value vector</h1>
 
-<p>result$col &lt;&ndash; result$Gflops</p>
+result$col &lt;&ndash; result$Gflops
 
 <h1>using function plot</h1>
 
 <p>plot(result$x, result$y, ylim=c(0,max(result$y)), xlim=c(0, max(result$x)), pch=18, col=GetRGB(result$col), type=&ldquo;p&rdquo;, xlab=&ldquo;X&rdquo;, ylab=&ldquo;Y&rdquo;, cex=0.7)
-<code>
-![图片貌似出错啦](https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg)
-3. 对于重要的点，使用point进行飘红强调
-</code> r</p>
+```
+<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p></li>
+<li><p>对于重要的点，使用point进行飘红强调
+``` r</p>
 
 <h1>achieve the first 100 results</h1>
 
-<p>bestresult &lt;&ndash; result[1:100, ]</p>
+bestresult &lt;&ndash; result[1:100, ]
 
 <h1>paint the 100 results using red</h1>
 
 <p>points(bestresult$x, bestresult$y, pch=19, col=&ldquo;red&rdquo;, type=&ldquo;p&rdquo; ,cex=0.7) <br/>
 ```
-<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p>
+<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p></li>
+</ol>
+
 ]]></content>
   </entry>
   
