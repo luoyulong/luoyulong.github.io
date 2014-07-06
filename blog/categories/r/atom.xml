@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T10:50:49+08:00</updated>
+  <updated>2014-07-06T11:20:50+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -22,43 +22,53 @@
 
 <ol>
 <li>首先，我们先根据其结果值，生成相应的颜色代码，这里我们通过颜色的深浅来表示值的大小，颜色越深，值越大：
-<code>r
-GetRGB &lt;- function(val)
+``` r
+
+<h1>function GetRBG convert value to a color number</h1>
+
+<p>GetRGB &lt;&ndash; function(val)
 {
-maxval &lt;- max(val)
-col &lt;- rgb(1-(val/maxval)^4,1-(val/maxval)^4,1-(val/maxval)^4)
-return (coo)
+maxval &lt;&ndash; max(val)
+col &lt;&ndash; rgb(1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>)
+return (col)
 }
-</code></li>
-<li>其次，我们使用plot绘画二维点图
+```</p></li>
+<li>其次，我们使用plot绘画二维点图</li>
+<li>code
 ``` r
 
 <h1>some preprocess</h1>
 
-result$x &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 2)))
-result$y &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 3)))
-
-<h1>achieve the coo for value vector</h1>
-
-<p>result$col &lt;&ndash; result$Gflops</p></li>
+<p>result$x &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 2)))
+result$y &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 3)))</p></li>
 </ol>
 
 
+<h1>achieve the color for value vector</h1>
+
+<p>result$col &lt;&ndash; result$Gflops</p>
+
 <h1>using function plot</h1>
 
-<p>plot(result$x, result$y, ylim=c(0,max(result$y)), xlim=c(0, max(result$x)), pch=19, col=GetRGB(result$col), type=&ldquo;p&rdquo;, xlab=&ldquo;X&rdquo;, ylab=&ldquo;Y&rdquo;)
-<code>
-3. 对于重要的点，使用point进行飘红强调
-</code> r</p>
+<p>plot(result$x, result$y, ylim=c(0,max(result$y)), xlim=c(0, max(result$x)), pch=18, col=GetRGB(result$col), type=&ldquo;p&rdquo;, xlab=&ldquo;X&rdquo;, ylab=&ldquo;Y&rdquo;, cex=0.7)
+```
+* 图
+<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/1403018072433.png" alt="图片貌似出错啦" /></p>
+
+<ol>
+<li>对于重要的点，使用point进行飘红强调
+``` r
 
 <h1>achieve the first 100 results</h1>
 
-<p>bestresult &lt;&ndash; result[1:100, ]</p>
+bestresult &lt;&ndash; result[1:100, ]
 
 <h1>paint the 100 results using red</h1>
 
-<p>points(bestresult$x, bestresult$y, pch=19, col=&ldquo;red&rdquo;, type=&ldquo;p&rdquo;) <br/>
-```</p>
+<p>points(bestresult$x, bestresult$y, pch=19, col=&ldquo;red&rdquo;, type=&ldquo;p&rdquo; ,cex=0.7) <br/>
+```</p></li>
+</ol>
+
 ]]></content>
   </entry>
   
