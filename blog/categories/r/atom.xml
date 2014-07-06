@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T11:24:02+08:00</updated>
+  <updated>2014-07-06T11:29:25+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -33,8 +33,7 @@ col &lt;&ndash; rgb(1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>,1-(val
 return (col)
 }
 ```</p></li>
-<li> 其次，我们使用plot绘画二维点图</li>
-<li> code
+<li>其次，我们使用plot绘画二维点图
 ``` r
 
 <h1>some preprocess</h1>
@@ -52,7 +51,6 @@ result$y &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromSt
 
 <p>plot(result$x, result$y, ylim=c(0,max(result$y)), xlim=c(0, max(result$x)), pch=18, col=GetRGB(result$col), type=&ldquo;p&rdquo;, xlab=&ldquo;X&rdquo;, ylab=&ldquo;Y&rdquo;, cex=0.7)
 ```
-   * 图
 <img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p>
 
 <ol>
