@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-03T20:31:25+08:00</updated>
+  <updated>2014-07-06T10:49:48+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -36,6 +36,8 @@
 <li><p>把与threadIdx无关的公共计算提到host端计算，再把结果使用参数传递给kernel函数</p></li>
 <li><p>写回的变量不使用shared-memory</p></li>
 <li><p>shared-memory和分块大小之间有一个<a href="#anchor1">tradeoff</a>，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
+<li><p>除法非常耗时，如果精度允许的话，使用被除数的倒数组成乘法替换除法。</p></li>
+<li><p>GPU适合小而多的运算，对于复杂运算（例如许多除法，大尺寸工作集），CPU反而占据性能优势</p></li>
 </ol>
 
 
