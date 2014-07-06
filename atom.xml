@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T11:20:50+08:00</updated>
+  <updated>2014-07-06T11:24:02+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -43,8 +43,8 @@
 
 
 <p>
-2. 其次，我们使用plot绘画二维点图
-* code</p>
+2.   其次，我们使用plot绘画二维点图
+   * code</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -68,8 +68,8 @@
 
 
 <ul>
-<li><p>图
-<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/1403018072433.png" alt="图片貌似出错啦" /></p></li>
+<li><p> 图
+<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p></li>
 <li><p>对于重要的点，使用point进行飘红强调</p></li>
 </ul>
 
@@ -84,6 +84,8 @@
 </span><span class='line'>points<span class="p">(</span>bestresult<span class="o">$</span>x<span class="p">,</span> bestresult<span class="o">$</span>y<span class="p">,</span> pch<span class="o">=</span><span class="m">19</span><span class="p">,</span> col<span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span> <span class="p">,</span>cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p>
 ]]></content>
   </entry>
   
