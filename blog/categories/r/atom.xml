@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T11:38:00+08:00</updated>
+  <updated>2014-07-06T21:39:10+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R 设置工作路径为当前文件所在路径]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/06/r-setcurrentpath/"/>
+    <updated>2014-07-06T21:34:32+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/06/r-setcurrentpath</id>
+    <content type="html"><![CDATA[<h1>问题：</h1>
+
+<p>对于R语言来说，要include另一个文件，需要用到命令source；对于在源文件中的R脚本，要source当前文件所在目录下的其他文件，还需要把R语言解释器的工作路径设置为当前文件所在路径，否则source某个文件就需要使用绝对路径，不利于项目的移植。</p>
+
+<h1>解决方案:</h1>
+
+<p>通过下方的一块代码片段，就可以把R语言的工作路径设置为文件所在路径
+<code>r
+frame_files &lt;- lapply(sys.frames(), function(x) x$ofile)
+frame_files &lt;- Filter(Negate(is.null), frame_files)
+TOPDIR &lt;- dirname(frame_files[[length(frame_files)]])
+setwd(TOPDIR)
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 二维点图的绘画]]></title>
@@ -173,80 +194,6 @@ print(datadf_str)
 </ul>
 </li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R语言 行与列的操作]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/"/>
-    <updated>2014-06-19T09:43:53+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo</id>
-    <content type="html"><![CDATA[<h2>选择列</h2>
-
-<h3>数据框/dataframe:</h3>
-
-<h4>引用：</h4>
-
-<ul>
-<li>dn、d[,n]、d"name"、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
-<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
-<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
-
-<h4>其它技巧：</h4></li>
-<li>负号表示剔除。
-<code>
-allnames=names(rawdata)
-vnames=c("OptType","OptConfig","Gflops")
-vnames2=allnames %in% vnames
-snames=allnames[!vnames2]
-</code></li>
-<li>可以用 grep() 搜索变量名。比如
-<code>mydata[grep("^q", names(mydata))]</code>
-选择名称以“q”开头的数据列。</li>
-</ul>
-
-
-<h3>列表/List：</h3>
-
-<h4>list列的引用</h4>
-
-<ul>
-<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
-</ul>
-
-
-<h2>选择行</h2>
-
-<h3>数据框：</h3>
-
-<h4>引用：</h4>
-
-<ul>
-<li>d[n,] 得到某一行组成的数据框。</li>
-<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
-<li>head() 得到前6行组成的数据框。</li>
-<li>tail() 得到最后6行组成的数据框。</li>
-</ul>
-
-
-<h4>条件引用。例如：</h4>
-
-<ul>
-<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
-<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
-</ul>
-
-
-<h4>数据框行的遍历</h4>
-
-<ul>
-<li>使用索引进行遍历
-<code>
-for(i in 1:nrow(rawdata))
-dosomething(rawdata[i,])
-</code></li>
-</ul>
 
 ]]></content>
   </entry>

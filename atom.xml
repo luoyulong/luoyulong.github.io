@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T11:38:00+08:00</updated>
+  <updated>2014-07-06T21:39:10+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R 设置工作路径为当前文件所在路径]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/06/r-setcurrentpath/"/>
+    <updated>2014-07-06T21:34:32+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/06/r-setcurrentpath</id>
+    <content type="html"><![CDATA[<h1>问题：</h1>
+
+<p>对于R语言来说，要include另一个文件，需要用到命令source；对于在源文件中的R脚本，要source当前文件所在目录下的其他文件，还需要把R语言解释器的工作路径设置为当前文件所在路径，否则source某个文件就需要使用绝对路径，不利于项目的移植。</p>
+
+<h1>解决方案:</h1>
+
+<p>通过下方的一块代码片段，就可以把R语言的工作路径设置为文件所在路径</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'>frame_files <span class="o">&lt;-</span> lapply<span class="p">(</span>sys.frames<span class="p">(),</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> x<span class="o">$</span>ofile<span class="p">)</span>
+</span><span class='line'>frame_files <span class="o">&lt;-</span> Filter<span class="p">(</span>Negate<span class="p">(</span>is.null<span class="p">),</span> frame_files<span class="p">)</span>
+</span><span class='line'>TOPDIR <span class="o">&lt;-</span> dirname<span class="p">(</span>frame_files<span class="p">[[</span>length<span class="p">(</span>frame_files<span class="p">)]])</span>
+</span><span class='line'>setwd<span class="p">(</span>TOPDIR<span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 二维点图的绘画]]></title>
@@ -911,98 +937,6 @@ reads have no option but to wait at the memory controller.</li>
 <li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用gprofile收集性能数据]]></title>
-    <link href="http://luoyulong.github.io/blog/2013/06/22/collect-performance-data-using-gprofile/"/>
-    <updated>2013-06-22T16:23:10+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2013/06/22/collect-performance-data-using-gprofile</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">Created</span> <span class="n">on</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="mi">22</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@author</span><span class="p">:</span> <span class="n">luoyulong</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">filterFiles</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">exts</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">anyTrue</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="n">sequence</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">r</span><span class="o">=</span><span class="p">[]</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">fileName</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">):</span>
-</span><span class='line'>            <span class="n">filterFiles</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">exts</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">elif</span> <span class="n">anyTrue</span><span class="p">(</span><span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">,</span> <span class="n">exts</span><span class="p">):</span>
-</span><span class='line'>                <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">r</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">exts</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;.txt&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="n">funs</span> <span class="o">=</span><span class="p">[</span><span class="s">&#39;ICT::CMPM::UpdateStressCell&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="n">funs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">funs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;_ZN3ICT4CMPM13ComputingCellEPNS_3MPM    5CCellEb.clone.2&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">funs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;ICT::CMPM::EdgeMomentum&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">funs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;ICT::CMPM::UpdateMPV&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">&quot;rm ./Result.txt&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">files</span><span class="o">=</span><span class="n">filterFiles</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">exts</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">fun</span> <span class="ow">in</span> <span class="n">funs</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">records</span><span class="o">=</span><span class="p">[]</span>
-</span><span class='line'>    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">s</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">&quot;grep &quot;</span><span class="o">+</span><span class="n">fun</span><span class="o">+</span><span class="s">&quot; ./&quot;</span><span class="o">+</span><span class="nb">file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">x</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">):</span>
-</span><span class='line'>            <span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;%&#39;</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">&quot;echo &quot;</span><span class="o">+</span><span class="n">fun</span><span class="o">+</span><span class="s">&quot;&gt;&gt; Result.txt&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">&quot;echo &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">))</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span><span class="s">&quot;&gt;&gt; Result.txt&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">&quot;echo &quot;</span><span class="o">+</span><span class="n">r</span><span class="o">+</span><span class="s">&quot;&gt;&gt; Result.txt&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
 ]]></content>
   </entry>
   
