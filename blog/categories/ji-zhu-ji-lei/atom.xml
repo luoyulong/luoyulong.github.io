@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-07T19:03:06+08:00</updated>
+  <updated>2014-07-07T19:05:06+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R 函数内使用load加载全局变量]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function/"/>
+    <updated>2014-07-07T18:55:04+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，反正load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+
+<h1>解决方案</h1>
+
+<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。
+<code>r
+ load("globalmodels.saved")
+ global.model &lt;&lt;- global.model
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 设置工作路径为当前文件所在路径]]></title>
@@ -208,42 +227,6 @@ gpuErrchk( cudaEventElapsedTime(&amp;time, start, stop) );</p>
 ```</p>
 
 <p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ROSE 在源文件的include语句之前插入语句]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/07/01/rose-insertstatementbeforeheader/"/>
-    <updated>2014-07-01T11:50:40+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/07/01/rose-insertstatementbeforeheader</id>
-    <content type="html"><![CDATA[<h1>问题</h1>
-
-<p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
-
-<h1>解决方法</h1>
-
-<p>通过比较scope和scope中语句的名字，找到当前源文件中第一个SgStatement
-``` c++
- //find the first statement of current source file
-  SgStatement<em> firststatement=NULL;
-  SgStatementPtrList statelist=currentscope->generateStatementList();
-  for(int i=0;i&lt;statelist.size();i++)
-  {
-  SgStatement</em> tmp=statelist[i];
-  if(tmp->get_file_info()&ndash;>get_filenameString()==currentscope->get_file_info()&ndash;>get_filenameString())</p>
-
-<pre><code>{
-firststatement=tmp;
-break;
-}
-</code></pre>
-
-<p>   }</p>
-
-<pre><code>                                                                 }
-</code></pre>
-
-<p>```</p>
 ]]></content>
   </entry>
   

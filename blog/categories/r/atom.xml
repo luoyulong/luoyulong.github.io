@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-07T19:03:06+08:00</updated>
+  <updated>2014-07-07T19:05:06+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R 函数内使用load加载全局变量]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function/"/>
+    <updated>2014-07-07T18:55:04+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，反正load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+
+<h1>解决方案</h1>
+
+<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。
+<code>r
+ load("globalmodels.saved")
+ global.model &lt;&lt;- global.model
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 设置工作路径为当前文件所在路径]]></title>
@@ -169,32 +188,6 @@ print(datadf_str)
 <p>  }
   datadf=eval(parse(text=sprintf(&ldquo;data.frame(%s)&rdquo;,datadf_str)))
 ```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R语言 变量]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/"/>
-    <updated>2014-06-19T09:54:51+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/19/r-language-variable</id>
-    <content type="html"><![CDATA[<h2>对全局变量的赋值</h2>
-
-<ol>
-<li> 在函数外部：
-
-<ul>
-<li>global_variable&lt;-newvalue</li>
-<li>global_variable=newvalue</li>
-</ul>
-</li>
-<li> 在函数内部：
-
-<ul>
-<li>global_variable&lt;&lt;-newvalue</li>
-</ul>
-</li>
-</ol>
-
 ]]></content>
   </entry>
   

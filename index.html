@@ -9,11 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="R Load Global Variable in Function *&mdash;&ndash;
-layout: post
-title: &ldquo;R 函数内使用load加载全局变量&rdquo;
-date: 2014-07-07 18:55:04 +0800
-comments: &hellip;">
+	<meta name="description" content="Jul 7th, 2014 R, 技术积累 R 函数内使用load加载全局变量 问题 之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global. &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -119,23 +115,19 @@ comments: &hellip;">
   
 
 
-<time datetime="2014-07-07T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+<time datetime="2014-07-07T18:55:04+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
 		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+
 
 </div>
 		
 	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/r-load-global-variable-in-function/" itemprop="url">R Load Global Variable in Function</a></h1>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/r-load-global-variable-in-function/" itemprop="url">R 函数内使用load加载全局变量</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		<p>*&mdash;&ndash;
-layout: post
-title: &ldquo;R 函数内使用load加载全局变量&rdquo;
-date: 2014-07-07 18:55:04 +0800
-comments: true</p>
-
-<h2>categories: R 技术积累</h2>
-
-<h1>问题</h1>
+		<h1>问题</h1>
 
 <p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，反正load把文件内的变量加载到当前函数environment的局部变量里了。</p>
 
