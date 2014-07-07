@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-06T21:39:10+08:00</updated>
+  <updated>2014-07-07T19:03:06+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R Load Global Variable In Function]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function/"/>
+    <updated>2014-07-07T00:00:00+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function</id>
+    <content type="html"><![CDATA[<p>*&mdash;&ndash;
+layout: post
+title: &ldquo;R 函数内使用load加载全局变量&rdquo;
+date: 2014-07-07 18:55:04 +0800
+comments: true</p>
+
+<h2>categories: R 技术积累</h2>
+
+<h1>问题</h1>
+
+<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，反正load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+
+<h1>解决方案</h1>
+
+<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'> load<span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
+</span><span class='line'> global.model <span class="o">&lt;&lt;-</span> global.model
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 设置工作路径为当前文件所在路径]]></title>
@@ -884,58 +914,6 @@ reads have no option but to wait at the memory controller.</li>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>paraprof --pack pdata.ppk
 </span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[error while loading shared libraries: libjvm.so]]></title>
-    <link href="http://luoyulong.github.io/blog/2013/12/14/oldblog/"/>
-    <updated>2013-12-14T18:39:01+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2013/12/14/oldblog</id>
-    <content type="html"><![CDATA[<h2>问题：</h2>
-
-<p>一个开源项目依赖java的库，在配置编译时，一直报错error while loading shared libraries: libjvm.so</p>
-
-<h2>解决方法：</h2>
-
-<p>下面是找到解决方案</p>
-
-<ul>
-<li>cat /etc/ld.so.conf
-发现里面 include ld.so.conf.d/*.conf</li>
-<li>进入ld.so.conf.d文件夹，内容如下:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
-</span><span class='line'>  
-</span><span class='line'>  kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
-</span><span class='line'>
-</span><span class='line'>  mysql-x86_64.conf                  torque.conf
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>新建java.conf，添加libjvm.so的路径：</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/local/jdk1.6/jre/lib/amd64/server
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>执行ldconfig,重新加载库</li>
-<li>执行ldconfig -p |grep jvm，查看是否成功加载</li>
-<li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
-</ul>
 
 ]]></content>
   </entry>

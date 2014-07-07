@@ -9,7 +9,11 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 6th, 2014 R, 技术积累 R 设置工作路径为当前文件所在路径 问题： 对于R语言来说，要include另一个文件，需要用到命令source；对于在源文件中的R脚本，要source当前文件所在目录下的其他文件，还需要把R语言解释器的工作路径设置为当前文件所在路径， &hellip;">
+	<meta name="description" content="R Load Global Variable in Function *&mdash;&ndash;
+layout: post
+title: &ldquo;R 函数内使用load加载全局变量&rdquo;
+date: 2014-07-07 18:55:04 +0800
+comments: &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,6 +103,58 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-07T00:00:00+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/r-load-global-variable-in-function/" itemprop="url">R Load Global Variable in Function</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>*&mdash;&ndash;
+layout: post
+title: &ldquo;R 函数内使用load加载全局变量&rdquo;
+date: 2014-07-07 18:55:04 +0800
+comments: true</p>
+
+<h2>categories: R 技术积累</h2>
+
+<h1>问题</h1>
+
+<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，反正load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+
+<h1>解决方案</h1>
+
+<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'> load<span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
+</span><span class='line'> global.model <span class="o">&lt;&lt;-</span> global.model
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -718,47 +774,6 @@ reads have no option but to wait at the memory controller.</li>
 <li>在创建AST node变量时，子节点要使用deepCopy进行深度拷贝，防止一个node在语法树中被多次引用；若在编程中不小心出现这种情况，可以通过打印dot图观察依赖关系，从而找到修改被多次引用的node。</li>
 </ul>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-30T10:26:12+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/rose/'>ROSE</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/rose-cuda-varialbe/" itemprop="url">ROSE 声明CUDA类型的变量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>需要声明CUDA类型的变量，如 constant,device,shared等等</p>
-
-<h1>解决方案</h1>
-
-<p>调用<code>get_declarationModifier().get_storageModifier().set</code></p>
 
 		
 		
