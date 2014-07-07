@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 7th, 2014 R, 技术积累 R 函数内使用load加载全局变量 问题 之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global. &hellip;">
+	<meta name="description" content="Jul 7th, 2014 实验 Stencil BenchmarkSets Pochoir benchmark Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including: heat &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,6 +115,57 @@
   
 
 
+<time datetime="2014-07-07T21:00:10+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/shi-yan/'>实验</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/benchmarksets/" itemprop="url">Stencil BenchmarkSets</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>Pochoir benchmark</h1>
+
+<p>Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:</p>
+
+<ul>
+<li>heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;</li>
+<li>Conway’s game of Life (Life) [18];</li>
+<li>finite-difference wave equation (Wave) [32];</li>
+<li>attice Boltzmann method (LBM) [30];</li>
+<li>RNA secondary structure prediction (RNA) [1, 6];</li>
+<li>pairwise sequence alignment (PSA) [19];</li>
+<li>longest common subsequence (LCS) [7];</li>
+<li>American put stock option pricing (APOP) [24].</li>
+</ul>
+
+
+<p>Pochoir achieves a substantial performance improvement over a straightforward loop parallelization for typical stencil applications, such as Heat and Life. Even LBM, which is a complex stencil having many states, achieves good speedup. When Pochoir does not achieve as much speedup over the loop code, it is often due to the space-time grid being too small to yield good paral- lelism, the innermost loop containing many branch conditionals, or the benchmark containing a high ratio of floating-point operations to memory accesses. For example, RNA’s small grid size of 3002 yields a parallelism of just over 5 for both Pochoir and parallel loops, and its innermost loop contains many branch conditionals. PSA operates over a diamond-shaped domain, and so the applica- tion employs many conditional branches in the kernel in order to distinguish interior points from exterior points. These overheadscan sometimes significantly mitigate a cache-efficient algorithm’s advantage in incurring fewer cache misses.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-07-07T18:55:04+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
 		<div class="tags">
 
@@ -129,7 +180,7 @@
 	<div class="entry-content" itemprop="articleBody">
 		<h1>问题</h1>
 
-<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，反正load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，发现load把文件内的变量加载到当前函数environment的局部变量里了。</p>
 
 <h1>解决方案</h1>
 
@@ -727,45 +778,6 @@ reads have no option but to wait at the memory controller.</li>
 
 
 <p>如果数据源配置正确，会出现进入数据库</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-30T15:10:56+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rose/'>ROSE</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/roseimportant/" itemprop="url">ROSE 编程要点</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<ul>
-<li>SgName的输出要使用getString方法，而不能使用unparseToCompleteString</li>
-<li>在创建AST node变量时，子节点要使用deepCopy进行深度拷贝，防止一个node在语法树中被多次引用；若在编程中不小心出现这种情况，可以通过打印dot图观察依赖关系，从而找到修改被多次引用的node。</li>
-</ul>
-
 
 		
 		

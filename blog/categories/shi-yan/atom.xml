@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 实验 | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/shi-yan/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2014-07-07T21:13:31+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[stencil BenchmarkSets]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/"/>
+    <updated>2014-07-07T21:00:10+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/07/benchmarksets</id>
+    <content type="html"><![CDATA[<h1>Pochoir benchmark</h1>
+
+<p>Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:</p>
+
+<ul>
+<li>heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;</li>
+<li>Conway’s game of Life (Life) [18];</li>
+<li>finite-difference wave equation (Wave) [32];</li>
+<li>attice Boltzmann method (LBM) [30];</li>
+<li>RNA secondary structure prediction (RNA) [1, 6];</li>
+<li>pairwise sequence alignment (PSA) [19];</li>
+<li>longest common subsequence (LCS) [7];</li>
+<li>American put stock option pricing (APOP) [24].</li>
+</ul>
+
+
+<p>Pochoir achieves a substantial performance improvement over a straightforward loop parallelization for typical stencil applications, such as Heat and Life. Even LBM, which is a complex stencil having many states, achieves good speedup. When Pochoir does not achieve as much speedup over the loop code, it is often due to the space-time grid being too small to yield good paral- lelism, the innermost loop containing many branch conditionals, or the benchmark containing a high ratio of floating-point operations to memory accesses. For example, RNA’s small grid size of 3002 yields a parallelism of just over 5 for both Pochoir and parallel loops, and its innermost loop contains many branch conditionals. PSA operates over a diamond-shaped domain, and so the applica- tion employs many conditional branches in the kernel in order to distinguish interior points from exterior points. These overheadscan sometimes significantly mitigate a cache-efficient algorithm’s advantage in incurring fewer cache misses.</p>
+]]></content>
+  </entry>
+  
+</feed>

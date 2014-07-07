@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>R 函数内使用load加载全局变量 - 零露漙兮</title>
+	<title>stencil BenchmarkSets - 零露漙兮</title>
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="R 函数内使用load加载全局变量 问题 之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究， &hellip;">
+	<meta name="description" content="Stencil BenchmarkSets Pochoir benchmark Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including: heat equation (Heat) [13] on &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function/">
+	<link rel="canonical" href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -98,21 +98,24 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">R 函数内使用load加载全局变量</h1>
-	<div class="entry-content" itemprop="articleBody"><h1>问题</h1>
+	<h1 class="title" itemprop="name">Stencil BenchmarkSets</h1>
+	<div class="entry-content" itemprop="articleBody"><h1>Pochoir benchmark</h1>
 
-<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，发现load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+<p>Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:</p>
 
-<h1>解决方案</h1>
+<ul>
+<li>heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;</li>
+<li>Conway’s game of Life (Life) [18];</li>
+<li>finite-difference wave equation (Wave) [32];</li>
+<li>attice Boltzmann method (LBM) [30];</li>
+<li>RNA secondary structure prediction (RNA) [1, 6];</li>
+<li>pairwise sequence alignment (PSA) [19];</li>
+<li>longest common subsequence (LCS) [7];</li>
+<li>American put stock option pricing (APOP) [24].</li>
+</ul>
 
-<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'> load<span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
-</span><span class='line'> global.model <span class="o">&lt;&lt;-</span> global.model
-</span></code></pre></td></tr></table></div></figure>
-
+<p>Pochoir achieves a substantial performance improvement over a straightforward loop parallelization for typical stencil applications, such as Heat and Life. Even LBM, which is a complex stencil having many states, achieves good speedup. When Pochoir does not achieve as much speedup over the loop code, it is often due to the space-time grid being too small to yield good paral- lelism, the innermost loop containing many branch conditionals, or the benchmark containing a high ratio of floating-point operations to memory accesses. For example, RNA’s small grid size of 3002 yields a parallelism of just over 5 for both Pochoir and parallel loops, and its innermost loop contains many branch conditionals. PSA operates over a diamond-shaped domain, and so the applica- tion employs many conditional branches in the kernel in order to distinguish interior points from exterior points. These overheadscan sometimes significantly mitigate a cache-efficient algorithm’s advantage in incurring fewer cache misses.</p>
 </div>
 
 </article>
