@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 实验 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/shi-yan/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-07T21:13:31+08:00</updated>
+  <updated>2014-07-08T16:53:04+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -35,6 +35,161 @@
 
 
 <p>Pochoir achieves a substantial performance improvement over a straightforward loop parallelization for typical stencil applications, such as Heat and Life. Even LBM, which is a complex stencil having many states, achieves good speedup. When Pochoir does not achieve as much speedup over the loop code, it is often due to the space-time grid being too small to yield good paral- lelism, the innermost loop containing many branch conditionals, or the benchmark containing a high ratio of floating-point operations to memory accesses. For example, RNA’s small grid size of 3002 yields a parallelism of just over 5 for both Pochoir and parallel loops, and its innermost loop contains many branch conditionals. PSA operates over a diamond-shaped domain, and so the applica- tion employs many conditional branches in the kernel in order to distinguish interior points from exterior points. These overheadscan sometimes significantly mitigate a cache-efficient algorithm’s advantage in incurring fewer cache misses.</p>
+
+<h1>候选benchmark</h1>
+
+<ul>
+<li><del>PloyBench</del>* cell_cuda</li>
+<li>radinia</li>
+<li>FDTD</li>
+<li>Himeno stencil
+
+<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a>
+<code>c++
+for (i=1; i&lt;imax-1; i++)
+for (j=1; j&lt;jmax-1; j++)
+for (k=1; k&lt;kmax-1; k++)
+{
+s0 =  a0[i][j][k]*p[i+1][j][k]+ a1[i][j][k]*p[i][j+1][k]+ a2[i][j][k]*p[i][j][k+1]+ b0[i][j][k]*(p[i+1][j+1][k] - p[i+1][j-1][k]- p[i-1][j+1][k] + p[i-1][j-1][k])+ b1[i][j][k]*(p[i][j+1][k+1] - p[i][j+1][k-1]- p[i][j-1][k+1] + p[i][j-1][k-1])+ b2[i][j][k]*(p[i+1][j][k+1] - p[i+1][j][k-1]- p[i-1][j][k+1] + p[i-1][j][k-1])+ c0[i][j][k]*p[i-1][j][k]+ c1[i][j][k]*p[i][j-1][k]+ c2[i][j][k]*p[i][j][k-1]+ wrk1[i][j][k];
+ss = (s0*a3[i][j][k]-p[i][j][k])*bnd[i][j][k];     //(ss = delta P)
+wrk2[i][j][k]=p[i][j][k]+omega*ss;    //(over-relaxation)
+gosa += ss*ss;                        //(residual, measure of convergence)
+}
+</code></p></blockquote></li>
+<li><p>3D Possion 19-point
+<code>c++
+a1[k][j][i]=c0*(b[k][j][i]+
+              c1*(a0[k][j][i+1]+a0[k][j][i-1]+a0[k][j+1][i]+a0[k][j-1][i]+a0[k][j][i+1]+a0[k][j][i-1])+a0[k][j][i]+a0[k][j][i])+
+              a0[k+1][j+1][i]+a0[k+1][j-1][i]+a0[k-1][j+1][i]+a0[k-1][j-1][i]+
+              a0[k+1][j][i+1]+a0[k+1][j][i-1]+a0[k-1][j][i+1]+a0[k-1][j][i-1]
+              a0[k][j+1][i+1]+a0[k][j+1][i-1]+a0[k][j-1][i+1]+a0[k][j-1][i-1]);
+</code></p></li>
+<li><p>LBM
+``` c++
+/<em> A fluid dynamics simulation of an enclosed, lid-driven cavity, using the Lattice-Boltzmann Method.
+*
+</em>/
+void LBM_performStreamCollide( LBM_Grid srcGrid, LBM_Grid dstGrid ) {
+  SWEEP_VAR
+  float ux, uy, uz, u2, rho;
+  SWEEP_START( 0, 0, 0, 0, 0, SIZE_Z )
+      if( TEST_FLAG_SWEEP( srcGrid, OBSTACLE )) {
+          DST_C ( dstGrid ) = SRC_C ( srcGrid );
+          DST_S ( dstGrid ) = SRC_N ( srcGrid );
+          DST_N ( dstGrid ) = SRC_S ( srcGrid );
+          DST_W ( dstGrid ) = SRC_E ( srcGrid );
+          DST_E ( dstGrid ) = SRC_W ( srcGrid );
+          DST_B ( dstGrid ) = SRC_T ( srcGrid );
+          DST_T ( dstGrid ) = SRC_B ( srcGrid );
+          DST_SW( dstGrid ) = SRC_NE( srcGrid );
+          DST_SE( dstGrid ) = SRC_NW( srcGrid );
+          DST_NW( dstGrid ) = SRC_SE( srcGrid );
+          DST_NE( dstGrid ) = SRC_SW( srcGrid );
+          DST_SB( dstGrid ) = SRC_NT( srcGrid );
+          DST_ST( dstGrid ) = SRC_NB( srcGrid );
+          DST_NB( dstGrid ) = SRC_ST( srcGrid );
+          DST_NT( dstGrid ) = SRC_SB( srcGrid );
+          DST_WB( dstGrid ) = SRC_ET( srcGrid );
+          DST_WT( dstGrid ) = SRC_EB( srcGrid );
+          DST_EB( dstGrid ) = SRC_WT( srcGrid );
+          DST_ET( dstGrid ) = SRC_WB( srcGrid );
+          continue;
+      }
+      rho = + SRC_C ( srcGrid ) + SRC_N ( srcGrid )</p>
+
+<pre><code>        + SRC_S ( srcGrid ) + SRC_E ( srcGrid )
+        + SRC_W ( srcGrid ) + SRC_T ( srcGrid )
+        + SRC_B ( srcGrid ) + SRC_NE( srcGrid )
+        + SRC_NW( srcGrid ) + SRC_SE( srcGrid )
+        + SRC_SW( srcGrid ) + SRC_NT( srcGrid )
+        + SRC_NB( srcGrid ) + SRC_ST( srcGrid )
+        + SRC_SB( srcGrid ) + SRC_ET( srcGrid )
+        + SRC_EB( srcGrid ) + SRC_WT( srcGrid )
+        + SRC_WB( srcGrid );
+  ux = + SRC_E ( srcGrid ) - SRC_W ( srcGrid )
+       + SRC_NE( srcGrid ) - SRC_NW( srcGrid )
+       + SRC_SE( srcGrid ) - SRC_SW( srcGrid )
+       + SRC_ET( srcGrid ) + SRC_EB( srcGrid )
+       - SRC_WT( srcGrid ) - SRC_WB( srcGrid );
+  uy = + SRC_N ( srcGrid ) - SRC_S ( srcGrid )
+       + SRC_NE( srcGrid ) + SRC_NW( srcGrid )
+       - SRC_SE( srcGrid ) - SRC_SW( srcGrid )
+       + SRC_NT( srcGrid ) + SRC_NB( srcGrid )
+       - SRC_ST( srcGrid ) - SRC_SB( srcGrid );
+  uz = + SRC_T ( srcGrid ) - SRC_B ( srcGrid )
+       + SRC_NT( srcGrid ) - SRC_NB( srcGrid )
+       + SRC_ST( srcGrid ) - SRC_SB( srcGrid )
+       + SRC_ET( srcGrid ) - SRC_EB( srcGrid )
+       + SRC_WT( srcGrid ) - SRC_WB( srcGrid );
+  ux /= rho;
+  uy /= rho;
+  uz /= rho;
+  if( TEST_FLAG_SWEEP( srcGrid, ACCEL )) {
+      ux = 0.005f;
+      uy = 0.002f;
+      uz = 0.000f;
+  }
+  u2 = 1.5f * (ux*ux + uy*uy + uz*uz);
+  DST_C ( dstGrid ) = (1.0f-OMEGA)*SRC_C ( srcGrid ) + DFL1*OMEGA*rho*(1.0f                                 - u2);
+  DST_N ( dstGrid ) = (1.0f-OMEGA)*SRC_N ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uy*(4.5f*uy       + 3.0f) - u2);
+  DST_S ( dstGrid ) = (1.0f-OMEGA)*SRC_S ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uy*(4.5f*uy       - 3.0f) - u2);
+  DST_E ( dstGrid ) = (1.0f-OMEGA)*SRC_E ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       ux*(4.5f*ux       + 3.0f) - u2);
+  DST_W ( dstGrid ) = (1.0f-OMEGA)*SRC_W ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       ux*(4.5f*ux       - 3.0f) - u2);
+  DST_T ( dstGrid ) = (1.0f-OMEGA)*SRC_T ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uz*(4.5f*uz       + 3.0f) - u2);
+  DST_B ( dstGrid ) = (1.0f-OMEGA)*SRC_B ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uz*(4.5f*uz       - 3.0f) - u2);
+  DST_NE( dstGrid ) = (1.0f-OMEGA)*SRC_NE( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux+uy)*(4.5f*(+ux+uy) + 3.0f) - u2);
+  DST_NW( dstGrid ) = (1.0f-OMEGA)*SRC_NW( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux+uy)*(4.5f*(-ux+uy) + 3.0f) - u2);
+  DST_SE( dstGrid ) = (1.0f-OMEGA)*SRC_SE( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux-uy)*(4.5f*(+ux-uy) + 3.0f) - u2);
+  DST_SW( dstGrid ) = (1.0f-OMEGA)*SRC_SW( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux-uy)*(4.5f*(-ux-uy) + 3.0f) - u2);
+  DST_NT( dstGrid ) = (1.0f-OMEGA)*SRC_NT( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+uy+uz)*(4.5f*(+uy+uz) + 3.0f) - u2);
+  DST_NB( dstGrid ) = (1.0f-OMEGA)*SRC_NB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+uy-uz)*(4.5f*(+uy-uz) + 3.0f) - u2);
+  DST_ST( dstGrid ) = (1.0f-OMEGA)*SRC_ST( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-uy+uz)*(4.5f*(-uy+uz) + 3.0f) - u2);
+  DST_SB( dstGrid ) = (1.0f-OMEGA)*SRC_SB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-uy-uz)*(4.5f*(-uy-uz) + 3.0f) - u2);
+  DST_ET( dstGrid ) = (1.0f-OMEGA)*SRC_ET( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux+uz)*(4.5f*(+ux+uz) + 3.0f) - u2);
+  DST_EB( dstGrid ) = (1.0f-OMEGA)*SRC_EB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux-uz)*(4.5f*(+ux-uz) + 3.0f) - u2);
+  DST_WT( dstGrid ) = (1.0f-OMEGA)*SRC_WT( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux+uz)*(4.5f*(-ux+uz) + 3.0f) - u2);
+  DST_WB( dstGrid ) = (1.0f-OMEGA)*SRC_WB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux-uz)*(4.5f*(-ux-uz) + 3.0f) - u2);
+</code></pre>
+
+<p>  SWEEP_END
+}
+```</p></li>
+<li><p>3D heat
+``` c++
+a(t, i, j, k) =  0.125 * (a(t-1, i+1, j, k) &ndash; 2.0 * a(t-1, i, j, k) + a(t-1, i-1, j, k))
+       c + 0.125 * (a(t-1, i, j+1, k) &ndash; 2.0 * a(t-1, i, j, k) + a(t-1, i, j-1, k))</p>
+
+<pre><code>   + 0.125 * (a(t-1, i, j, k+1) - 2.0 * a(t-1, i, j, k) + a(t-1, i, j, k-1))
+   + a(t-1, i, j, k); 
+</code></pre>
+
+<p>```</p></li>
+<li><p>Wave equation:3dfd
+``` c++
+/* It&rsquo;s order-4, 3D 15 point stencil, to match up with Matteo Frigo&rsquo;s</p></li>
+<li>hand-optimized wave equation
+*/
+float c0 = coef[0], c1 = coef[1], c2 = coef[2], c3 = coef[3], c4 = coef[4];
+float div = c0 * pa(t, i, j, k) +
+             c1 * ((pa(t, i, j, k+1) + pa(t, i, j, k-1))
+
+<pre><code>             + (pa(t, i, j+1, k) + pa(t, i, j-1, k)) 
+             + (pa(t, i+1, j, k) + pa(t, i-1, j, k))) 
+       + c2 * ((pa(t, i, j, k+2) + pa(t, i, j, k-2)) 
+             + (pa(t, i, j+2, k) + pa(t, i, j-2, k)) 
+             + (pa(t, i+2, j, k) + pa(t, i-2, j, k))) 
+       + c3 * ((pa(t, i, j, k+3) + pa(t, i, j, k-3)) 
+             + (pa(t, i, j+3, k) + pa(t, i, j-3, k)) 
+             + (pa(t, i+3, j, k) + pa(t, i-3, j, k))) 
+       + c4 * ((pa(t, i, j, k+4) + pa(t, i, j, k-4)) 
+             + (pa(t, i, j+4, k) + pa(t, i, j-4, k)) 
+             + (pa(t, i+4, j, k) + pa(t, i-4, j, k)));
+</code></pre>
+
+<p>pa(t+1, i, j, k) = 2 * pa(t, i, j, k) &ndash; pa(t+1, i, j, k) + vsq[i * Nxy + j * Nx + k] * div;
+```</p></li>
+</ul>
+
 ]]></content>
   </entry>
   
