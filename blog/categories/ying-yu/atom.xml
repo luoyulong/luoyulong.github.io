@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 英语 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ying-yu/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-08T16:53:04+08:00</updated>
+  <updated>2014-07-11T10:29:19+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -33,6 +33,7 @@ Failures are costly in terms of &hellip;</li>
 reads have no option but to wait at the memory controller.</li>
 <li>Guard against forgetting &mdash;-防止XXXX</li>
 <li>reason about &mdash;-推出</li>
+<li>At 16 KB per multiprocessor, the shared memory is a scarce resource and must be used sparingly.</li>
 </ul>
 
 ]]></content>

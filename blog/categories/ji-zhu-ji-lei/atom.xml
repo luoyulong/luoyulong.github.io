@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-08T16:53:04+08:00</updated>
+  <updated>2014-07-11T10:29:19+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[cuda 优化]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/11/cudaoptimizion/"/>
+    <updated>2014-07-11T10:28:37+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/11/cudaoptimizion</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 函数内使用load加载全局变量]]></title>
@@ -132,6 +141,7 @@ bestresult &lt;&ndash; result[1:100, ]
 <li><p>shared-memory和分块大小之间有一个<a href="#anchor1">tradeoff</a>，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
 <li><p>除法非常耗时，如果精度允许的话，使用被除数的倒数组成乘法替换除法。</p></li>
 <li><p>GPU适合小而多的运算，对于复杂运算（例如许多除法，大尺寸工作集），CPU反而占据性能优势</p></li>
+<li>分块的大小：block中总的线程数要大于每个sm中硬件线程的个数，这样才能保证硬件线程都处在工作中。</li>
 </ol>
 
 
@@ -172,61 +182,6 @@ XXXX###Device Level
 </ol>
 </div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CUDA 计时的方法]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/07/02/cuda-timing/"/>
-    <updated>2014-07-02T15:04:09+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/07/02/cuda-timing</id>
-    <content type="html"><![CDATA[<h1>问题</h1>
-
-<p>测试CUDA应用的时间</p>
-
-<h1>解决方案</h1>
-
-<p>引用自stackoverflow：</p>
-
-<blockquote><p>You could do sth along the lines of :</p></blockquote>
-
-<p>``` cuda</p>
-
-<h1>include&lt;sys/time.h></h1>
-
-<p>struct timeval t1, t2;</p>
-
-<p>gettimeofday(&amp;t1, 0);</p>
-
-<p>kernel_call&lt;&lt;&lt;dimGrid, dimBlock, 0>>>();</p>
-
-<p>gpuErrchk(cudaThreadSynchronize());</p>
-
-<p>gettimeofday(&amp;t2, 0);</p>
-
-<p>double time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000000.0;</p>
-
-<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
-<code>
-or:
-</code>
-float time;
-cudaEvent_t start, stop;</p>
-
-<p>gpuErrchk( cudaEventCreate(&amp;start) );
-gpuErrchk( cudaEventCreate(&amp;stop) );
-gpuErrchk( cudaEventRecord(start, 0) );</p>
-
-<p>kernel_call&lt;&lt;&lt;dimGrid, dimBlock, 0>>>();</p>
-
-<p>gpuErrchk( cudaEventRecord(stop, 0) );
-gpuErrchk( cudaEventSynchronize(stop) );
-gpuErrchk( cudaEventElapsedTime(&amp;time, start, stop) );</p>
-
-<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
-```</p>
-
-<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 7th, 2014 实验 Stencil BenchmarkSets Pochoir benchmark Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including: heat &hellip;">
+	<meta name="description" content="Jul 11th, 2014 CUDA, 技术积累 Cuda 优化 Jul 7th, 2014 实验 Stencil BenchmarkSets Pochoir benchmark Figure 3 shows Pochoir’s performance on a wider range of &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,6 +99,41 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T10:28:37+08:00" data-updated="true" itemprop="datePublished">Jul 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/11/cudaoptimizion/" itemprop="url">Cuda 优化</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -688,6 +723,7 @@
 <li><p>shared-memory和分块大小之间有一个<a href="#anchor1">tradeoff</a>，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
 <li><p>除法非常耗时，如果精度允许的话，使用被除数的倒数组成乘法替换除法。</p></li>
 <li><p>GPU适合小而多的运算，对于复杂运算（例如许多除法，大尺寸工作集），CPU反而占据性能优势</p></li>
+<li>分块的大小：block中总的线程数要大于每个sm中硬件线程的个数，这样才能保证硬件线程都处在工作中。</li>
 </ol>
 
 
@@ -832,6 +868,7 @@ Failures are costly in terms of &hellip;</li>
 reads have no option but to wait at the memory controller.</li>
 <li>Guard against forgetting &mdash;-防止XXXX</li>
 <li>reason about &mdash;-推出</li>
+<li>At 16 KB per multiprocessor, the shared memory is a scarce resource and must be used sparingly.</li>
 </ul>
 
 
@@ -1015,58 +1052,6 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'>                                                                     <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-30T21:48:21+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/mysql/'>MYSQL</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/linuxodbc/" itemprop="url">检测Linux下 ODBC是否配置成功</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>测试ODBC安装是否成功</p>
-
-<h1>解决方案</h1>
-
-<p>使用isql测试数据源是否配置正确</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># dbname:the username of target database</span>
-</span><span class='line'><span class="c"># dbpsw: the password of target database</span>
-</span><span class='line'>imysql -v datasourcename dbname dbpsw
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果数据源配置正确，会出现进入数据库</p>
 
 		
 		
