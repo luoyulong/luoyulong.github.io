@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-23T08:46:37+08:00</updated>
+  <updated>2014-07-23T08:48:45+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -35,26 +35,16 @@
     <link href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/"/>
     <updated>2014-07-07T21:00:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/07/07/benchmarksets</id>
-    <content type="html"><![CDATA[<!--#Pochoir benchmark
-Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
- 
-* heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
-* Conway’s game of Life (Life) [18];
-* finite-difference wave equation (Wave) [32];
-* attice Boltzmann method (LBM) [30]; 
-* RNA secondary structure prediction (RNA) [1, 6]; 
-* pairwise sequence alignment (PSA) [19];
-* longest common subsequence (LCS) [7];
-* American put stock option pricing (APOP) [24].-->
+    <content type="html"><![CDATA[<h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda</h1>
 
+<ul>
+<li>radinia</li>
+<li>FDTD</li>
+<li>Himeno stencil:test
 
-<p> #候选benchmark
-* <del>PloyBench</del>* cell_cuda
-* radinia
-* FDTD
-* Himeno stencil:test</p>
+<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a></p></blockquote></li>
+</ul>
 
-<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a></p></blockquote>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -153,6 +143,19 @@ Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including
 </span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)));</span>
 </span><span class='line'><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">vsq</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">Nxy</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">Nx</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">div</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<!--#Pochoir benchmark
+Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
+ 
+* heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
+* Conway’s game of Life (Life) [18];
+* finite-difference wave equation (Wave) [32];
+* attice Boltzmann method (LBM) [30]; 
+* RNA secondary structure prediction (RNA) [1, 6]; 
+* pairwise sequence alignment (PSA) [19];
+* longest common subsequence (LCS) [7];
+* American put stock option pricing (APOP) [24].-->
 
 
 
