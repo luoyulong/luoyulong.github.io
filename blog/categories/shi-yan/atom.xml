@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 实验 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/shi-yan/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-23T08:44:32+08:00</updated>
+  <updated>2014-07-23T08:46:37+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -18,31 +18,24 @@
     <link href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/"/>
     <updated>2014-07-07T21:00:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/07/07/benchmarksets</id>
-    <content type="html"><![CDATA[<h1>Pochoir benchmark</h1>
-
-<p>Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:</p>
-
-<ul>
-<li>heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;</li>
-<li>Conway’s game of Life (Life) [18];</li>
-<li>finite-difference wave equation (Wave) [32];</li>
-<li>attice Boltzmann method (LBM) [30];</li>
-<li>RNA secondary structure prediction (RNA) [1, 6];</li>
-<li>pairwise sequence alignment (PSA) [19];</li>
-<li>longest common subsequence (LCS) [7];</li>
-<li>American put stock option pricing (APOP) [24].</li>
-</ul>
+    <content type="html"><![CDATA[<!--#Pochoir benchmark
+Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
+ 
+* heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
+* Conway’s game of Life (Life) [18];
+* finite-difference wave equation (Wave) [32];
+* attice Boltzmann method (LBM) [30]; 
+* RNA secondary structure prediction (RNA) [1, 6]; 
+* pairwise sequence alignment (PSA) [19];
+* longest common subsequence (LCS) [7];
+* American put stock option pricing (APOP) [24].-->
 
 
-<p>Pochoir achieves a substantial performance improvement over a straightforward loop parallelization for typical stencil applications, such as Heat and Life. Even LBM, which is a complex stencil having many states, achieves good speedup. When Pochoir does not achieve as much speedup over the loop code, it is often due to the space-time grid being too small to yield good paral- lelism, the innermost loop containing many branch conditionals, or the benchmark containing a high ratio of floating-point operations to memory accesses. For example, RNA’s small grid size of 3002 yields a parallelism of just over 5 for both Pochoir and parallel loops, and its innermost loop contains many branch conditionals. PSA operates over a diamond-shaped domain, and so the applica- tion employs many conditional branches in the kernel in order to distinguish interior points from exterior points. These overheadscan sometimes significantly mitigate a cache-efficient algorithm’s advantage in incurring fewer cache misses.</p>
-
-<h1>候选benchmark</h1>
-
-<ul>
-<li><del>PloyBench</del>* cell_cuda</li>
-<li>radinia</li>
-<li>FDTD</li>
-<li>Himeno stencil:test
+<p> #候选benchmark
+* <del>PloyBench</del>* cell_cuda
+* radinia
+* FDTD
+* Himeno stencil:test</p>
 
 <blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a>
 <code>c++
@@ -55,107 +48,18 @@ ss = (s0*a3[i][j][k]-p[i][j][k])*bnd[i][j][k];     //(ss = delta P)
 wrk2[i][j][k]=p[i][j][k]+omega*ss;    //(over-relaxation)
 gosa += ss*ss;                        //(residual, measure of convergence)
 }
-</code></p></blockquote></li>
-<li>3D Possion 19-point: test
-<code>c++
-a1[k][j][i]=c0*(b[k][j][i]+
-              c1*(a0[k][j][i+1]+a0[k][j][i-1]+a0[k][j+1][i]+a0[k][j-1][i]+a0[k][j][i+1]+a0[k][j][i-1])+a0[k][j][i]+a0[k][j][i])+
-              a0[k+1][j+1][i]+a0[k+1][j-1][i]+a0[k-1][j+1][i]+a0[k-1][j-1][i]+
-              a0[k+1][j][i+1]+a0[k+1][j][i-1]+a0[k-1][j][i+1]+a0[k-1][j][i-1]
-              a0[k][j+1][i+1]+a0[k][j+1][i-1]+a0[k][j-1][i+1]+a0[k][j-1][i-1]);
-</code></li>
-</ul>
-
-
-<!-- 
-* LBM
+</code>
+* 3D Possion 19-point: test
 ``` c++
-/* A fluid dynamics simulation of an enclosed, lid-driven cavity, using the Lattice-Boltzmann Method.
- *
-*/
-void LBM_performStreamCollide( LBM_Grid srcGrid, LBM_Grid dstGrid ) {
-    SWEEP_VAR
-    float ux, uy, uz, u2, rho;
-    SWEEP_START( 0, 0, 0, 0, 0, SIZE_Z ) 
-        if( TEST_FLAG_SWEEP( srcGrid, OBSTACLE )) {
-            DST_C ( dstGrid ) = SRC_C ( srcGrid );
-            DST_S ( dstGrid ) = SRC_N ( srcGrid );
-            DST_N ( dstGrid ) = SRC_S ( srcGrid );
-            DST_W ( dstGrid ) = SRC_E ( srcGrid );
-            DST_E ( dstGrid ) = SRC_W ( srcGrid );
-            DST_B ( dstGrid ) = SRC_T ( srcGrid );
-            DST_T ( dstGrid ) = SRC_B ( srcGrid );
-            DST_SW( dstGrid ) = SRC_NE( srcGrid );
-            DST_SE( dstGrid ) = SRC_NW( srcGrid );
-            DST_NW( dstGrid ) = SRC_SE( srcGrid );
-            DST_NE( dstGrid ) = SRC_SW( srcGrid );
-            DST_SB( dstGrid ) = SRC_NT( srcGrid );
-            DST_ST( dstGrid ) = SRC_NB( srcGrid );
-            DST_NB( dstGrid ) = SRC_ST( srcGrid );
-            DST_NT( dstGrid ) = SRC_SB( srcGrid );
-            DST_WB( dstGrid ) = SRC_ET( srcGrid );
-            DST_WT( dstGrid ) = SRC_EB( srcGrid );
-            DST_EB( dstGrid ) = SRC_WT( srcGrid );
-            DST_ET( dstGrid ) = SRC_WB( srcGrid );
-            continue;
-        }
-        rho = + SRC_C ( srcGrid ) + SRC_N ( srcGrid )
-              + SRC_S ( srcGrid ) + SRC_E ( srcGrid )
-              + SRC_W ( srcGrid ) + SRC_T ( srcGrid )
-              + SRC_B ( srcGrid ) + SRC_NE( srcGrid )
-              + SRC_NW( srcGrid ) + SRC_SE( srcGrid )
-              + SRC_SW( srcGrid ) + SRC_NT( srcGrid )
-              + SRC_NB( srcGrid ) + SRC_ST( srcGrid )
-              + SRC_SB( srcGrid ) + SRC_ET( srcGrid )
-              + SRC_EB( srcGrid ) + SRC_WT( srcGrid )
-              + SRC_WB( srcGrid );
-        ux = + SRC_E ( srcGrid ) - SRC_W ( srcGrid )
-             + SRC_NE( srcGrid ) - SRC_NW( srcGrid )
-             + SRC_SE( srcGrid ) - SRC_SW( srcGrid )
-             + SRC_ET( srcGrid ) + SRC_EB( srcGrid )
-             - SRC_WT( srcGrid ) - SRC_WB( srcGrid );
-        uy = + SRC_N ( srcGrid ) - SRC_S ( srcGrid )
-             + SRC_NE( srcGrid ) + SRC_NW( srcGrid )
-             - SRC_SE( srcGrid ) - SRC_SW( srcGrid )
-             + SRC_NT( srcGrid ) + SRC_NB( srcGrid )
-             - SRC_ST( srcGrid ) - SRC_SB( srcGrid );
-        uz = + SRC_T ( srcGrid ) - SRC_B ( srcGrid )
-             + SRC_NT( srcGrid ) - SRC_NB( srcGrid )
-             + SRC_ST( srcGrid ) - SRC_SB( srcGrid )
-             + SRC_ET( srcGrid ) - SRC_EB( srcGrid )
-             + SRC_WT( srcGrid ) - SRC_WB( srcGrid );
-        ux /= rho;
-        uy /= rho;
-        uz /= rho;
-        if( TEST_FLAG_SWEEP( srcGrid, ACCEL )) {
-            ux = 0.005f;
-            uy = 0.002f;
-            uz = 0.000f;
-        }
-        u2 = 1.5f * (ux*ux + uy*uy + uz*uz);
-        DST_C ( dstGrid ) = (1.0f-OMEGA)*SRC_C ( srcGrid ) + DFL1*OMEGA*rho*(1.0f                                 - u2);
-        DST_N ( dstGrid ) = (1.0f-OMEGA)*SRC_N ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uy*(4.5f*uy       + 3.0f) - u2);
-        DST_S ( dstGrid ) = (1.0f-OMEGA)*SRC_S ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uy*(4.5f*uy       - 3.0f) - u2);
-        DST_E ( dstGrid ) = (1.0f-OMEGA)*SRC_E ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       ux*(4.5f*ux       + 3.0f) - u2);
-        DST_W ( dstGrid ) = (1.0f-OMEGA)*SRC_W ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       ux*(4.5f*ux       - 3.0f) - u2);
-        DST_T ( dstGrid ) = (1.0f-OMEGA)*SRC_T ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uz*(4.5f*uz       + 3.0f) - u2);
-        DST_B ( dstGrid ) = (1.0f-OMEGA)*SRC_B ( srcGrid ) + DFL2*OMEGA*rho*(1.0f +       uz*(4.5f*uz       - 3.0f) - u2);
-        DST_NE( dstGrid ) = (1.0f-OMEGA)*SRC_NE( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux+uy)*(4.5f*(+ux+uy) + 3.0f) - u2);
-        DST_NW( dstGrid ) = (1.0f-OMEGA)*SRC_NW( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux+uy)*(4.5f*(-ux+uy) + 3.0f) - u2);
-        DST_SE( dstGrid ) = (1.0f-OMEGA)*SRC_SE( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux-uy)*(4.5f*(+ux-uy) + 3.0f) - u2);
-        DST_SW( dstGrid ) = (1.0f-OMEGA)*SRC_SW( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux-uy)*(4.5f*(-ux-uy) + 3.0f) - u2);
-        DST_NT( dstGrid ) = (1.0f-OMEGA)*SRC_NT( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+uy+uz)*(4.5f*(+uy+uz) + 3.0f) - u2);
-        DST_NB( dstGrid ) = (1.0f-OMEGA)*SRC_NB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+uy-uz)*(4.5f*(+uy-uz) + 3.0f) - u2);
-        DST_ST( dstGrid ) = (1.0f-OMEGA)*SRC_ST( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-uy+uz)*(4.5f*(-uy+uz) + 3.0f) - u2);
-        DST_SB( dstGrid ) = (1.0f-OMEGA)*SRC_SB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-uy-uz)*(4.5f*(-uy-uz) + 3.0f) - u2);
-        DST_ET( dstGrid ) = (1.0f-OMEGA)*SRC_ET( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux+uz)*(4.5f*(+ux+uz) + 3.0f) - u2);
-        DST_EB( dstGrid ) = (1.0f-OMEGA)*SRC_EB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (+ux-uz)*(4.5f*(+ux-uz) + 3.0f) - u2);
-        DST_WT( dstGrid ) = (1.0f-OMEGA)*SRC_WT( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux+uz)*(4.5f*(-ux+uz) + 3.0f) - u2);
-        DST_WB( dstGrid ) = (1.0f-OMEGA)*SRC_WB( srcGrid ) + DFL3*OMEGA*rho*(1.0f + (-ux-uz)*(4.5f*(-ux-uz) + 3.0f) - u2);
-    SWEEP_END
-}
-```-->
+a1[k][j][i]=c0*(b[k][j][i]+</p>
 
+<pre><code>            c1*(a0[k][j][i+1]+a0[k][j][i-1]+a0[k][j+1][i]+a0[k][j-1][i]+a0[k][j][i+1]+a0[k][j][i-1])+a0[k][j][i]+a0[k][j][i])+
+            a0[k+1][j+1][i]+a0[k+1][j-1][i]+a0[k-1][j+1][i]+a0[k-1][j-1][i]+
+            a0[k+1][j][i+1]+a0[k+1][j][i-1]+a0[k-1][j][i+1]+a0[k-1][j][i-1]
+            a0[k][j+1][i+1]+a0[k][j+1][i-1]+a0[k][j-1][i+1]+a0[k][j-1][i-1]);
+</code></pre>
+
+<p>```</p></blockquote>
 
 <ul>
 <li><p>3D heat:test

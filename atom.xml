@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-23T08:44:32+08:00</updated>
+  <updated>2014-07-23T08:46:37+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -35,35 +35,26 @@
     <link href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/"/>
     <updated>2014-07-07T21:00:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/07/07/benchmarksets</id>
-    <content type="html"><![CDATA[<h1>Pochoir benchmark</h1>
-
-<p>Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:</p>
-
-<ul>
-<li>heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;</li>
-<li>Conway’s game of Life (Life) [18];</li>
-<li>finite-difference wave equation (Wave) [32];</li>
-<li>attice Boltzmann method (LBM) [30];</li>
-<li>RNA secondary structure prediction (RNA) [1, 6];</li>
-<li>pairwise sequence alignment (PSA) [19];</li>
-<li>longest common subsequence (LCS) [7];</li>
-<li>American put stock option pricing (APOP) [24].</li>
-</ul>
+    <content type="html"><![CDATA[<!--#Pochoir benchmark
+Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
+ 
+* heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
+* Conway’s game of Life (Life) [18];
+* finite-difference wave equation (Wave) [32];
+* attice Boltzmann method (LBM) [30]; 
+* RNA secondary structure prediction (RNA) [1, 6]; 
+* pairwise sequence alignment (PSA) [19];
+* longest common subsequence (LCS) [7];
+* American put stock option pricing (APOP) [24].-->
 
 
-<p>Pochoir achieves a substantial performance improvement over a straightforward loop parallelization for typical stencil applications, such as Heat and Life. Even LBM, which is a complex stencil having many states, achieves good speedup. When Pochoir does not achieve as much speedup over the loop code, it is often due to the space-time grid being too small to yield good paral- lelism, the innermost loop containing many branch conditionals, or the benchmark containing a high ratio of floating-point operations to memory accesses. For example, RNA’s small grid size of 3002 yields a parallelism of just over 5 for both Pochoir and parallel loops, and its innermost loop contains many branch conditionals. PSA operates over a diamond-shaped domain, and so the applica- tion employs many conditional branches in the kernel in order to distinguish interior points from exterior points. These overheadscan sometimes significantly mitigate a cache-efficient algorithm’s advantage in incurring fewer cache misses.</p>
+<p> #候选benchmark
+* <del>PloyBench</del>* cell_cuda
+* radinia
+* FDTD
+* Himeno stencil:test</p>
 
-<h1>候选benchmark</h1>
-
-<ul>
-<li><del>PloyBench</del>* cell_cuda</li>
-<li>radinia</li>
-<li>FDTD</li>
-<li>Himeno stencil:test
-
-<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a></p></blockquote></li>
-</ul>
-
+<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a></p></blockquote>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -102,179 +93,6 @@
 </span><span class='line'>              <span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </span><span class='line'>              <span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
 </span></code></pre></td></tr></table></div></figure>
-
-
-<!-- 
-* LBM
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cm">/* A fluid dynamics simulation of an enclosed, lid-driven cavity, using the Lattice-Boltzmann Method.</span>
-</span><span class='line'><span class="cm"> *</span>
-</span><span class='line'><span class="cm">*/</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">LBM_performStreamCollide</span><span class="p">(</span> <span class="n">LBM_Grid</span> <span class="n">srcGrid</span><span class="p">,</span> <span class="n">LBM_Grid</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">SWEEP_VAR</span>
-</span><span class='line'>  <span class="kt">float</span> <span class="n">ux</span><span class="p">,</span> <span class="n">uy</span><span class="p">,</span> <span class="n">uz</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">rho</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">SWEEP_START</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SIZE_Z</span> <span class="p">)</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">TEST_FLAG_SWEEP</span><span class="p">(</span> <span class="n">srcGrid</span><span class="p">,</span> <span class="n">OBSTACLE</span> <span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">DST_C</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_C</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_S</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_N</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_N</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_S</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_W</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_E</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_E</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_W</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_B</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_T</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_T</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_B</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_SW</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_NE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_SE</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_NW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_NW</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_SE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_NE</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_SW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_SB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_NT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_ST</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_NB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_NB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_ST</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_NT</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_SB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_WB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_ET</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_WT</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_EB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_EB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_WT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="n">DST_ET</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="n">SRC_WB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>          <span class="k">continue</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="n">rho</span> <span class="o">=</span> <span class="o">+</span> <span class="n">SRC_C</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_N</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_S</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_E</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_W</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_T</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_B</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_NE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_NW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_SE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_SW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_NT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_NB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_ST</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_SB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_ET</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_EB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_WT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>            <span class="o">+</span> <span class="n">SRC_WB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>      <span class="n">ux</span> <span class="o">=</span> <span class="o">+</span> <span class="n">SRC_E</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_W</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_NE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_NW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_SE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_SW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_ET</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_EB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">-</span> <span class="n">SRC_WT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_WB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>      <span class="n">uy</span> <span class="o">=</span> <span class="o">+</span> <span class="n">SRC_N</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_S</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_NE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_NW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">-</span> <span class="n">SRC_SE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_SW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_NT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">SRC_NB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">-</span> <span class="n">SRC_ST</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_SB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>      <span class="n">uz</span> <span class="o">=</span> <span class="o">+</span> <span class="n">SRC_T</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_B</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_NT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_NB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_ST</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_SB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_ET</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_EB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span>
-</span><span class='line'>           <span class="o">+</span> <span class="n">SRC_WT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">-</span> <span class="n">SRC_WB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">);</span>
-</span><span class='line'>      <span class="n">ux</span> <span class="o">/=</span> <span class="n">rho</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">uy</span> <span class="o">/=</span> <span class="n">rho</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">uz</span> <span class="o">/=</span> <span class="n">rho</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">TEST_FLAG_SWEEP</span><span class="p">(</span> <span class="n">srcGrid</span><span class="p">,</span> <span class="n">ACCEL</span> <span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">ux</span> <span class="o">=</span> <span class="mf">0.005f</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">uy</span> <span class="o">=</span> <span class="mf">0.002f</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">uz</span> <span class="o">=</span> <span class="mf">0.000f</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="n">u2</span> <span class="o">=</span> <span class="mf">1.5f</span> <span class="o">*</span> <span class="p">(</span><span class="n">ux</span><span class="o">*</span><span class="n">ux</span> <span class="o">+</span> <span class="n">uy</span><span class="o">*</span><span class="n">uy</span> <span class="o">+</span> <span class="n">uz</span><span class="o">*</span><span class="n">uz</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_C</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_C</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL1</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span>                                 <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_N</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_N</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL2</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span>       <span class="n">uy</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="n">uy</span>       <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_S</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_S</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL2</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span>       <span class="n">uy</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="n">uy</span>       <span class="o">-</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_E</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_E</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL2</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span>       <span class="n">ux</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="n">ux</span>       <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_W</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_W</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL2</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span>       <span class="n">ux</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="n">ux</span>       <span class="o">-</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_T</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_T</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL2</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span>       <span class="n">uz</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="n">uz</span>       <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_B</span> <span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_B</span> <span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL2</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span>       <span class="n">uz</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="n">uz</span>       <span class="o">-</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_NE</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_NE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">+</span><span class="n">uy</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">+</span><span class="n">uy</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_NW</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_NW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">+</span><span class="n">uy</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">+</span><span class="n">uy</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_SE</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_SE</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">-</span><span class="n">uy</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">-</span><span class="n">uy</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_SW</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_SW</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">-</span><span class="n">uy</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">-</span><span class="n">uy</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_NT</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_NT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">+</span><span class="n">uy</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">+</span><span class="n">uy</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_NB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_NB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">+</span><span class="n">uy</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">+</span><span class="n">uy</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_ST</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_ST</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">uy</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">uy</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_SB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_SB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">uy</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">uy</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_ET</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_ET</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_EB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_EB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">+</span><span class="n">ux</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_WT</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_WT</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">+</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">DST_WB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_WB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">SWEEP_END</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>&#8211;>
 
 
 <ul>
