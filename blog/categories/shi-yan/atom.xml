@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 实验 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/shi-yan/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-23T08:48:45+08:00</updated>
+  <updated>2014-07-23T08:50:50+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -18,11 +18,9 @@
     <link href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/"/>
     <updated>2014-07-07T21:00:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/07/07/benchmarksets</id>
-    <content type="html"><![CDATA[<h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda</h1>
+    <content type="html"><![CDATA[<h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda<em> radinia</em> FDTD</h1>
 
 <ul>
-<li>radinia</li>
-<li>FDTD</li>
 <li>Himeno stencil:test
 
 <blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a>
@@ -84,7 +82,6 @@ float div = c0 * pa(t, i, j, k) +
 
 <!--#Pochoir benchmark
 Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
- 
 * heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
 * Conway’s game of Life (Life) [18];
 * finite-difference wave equation (Wave) [32];
