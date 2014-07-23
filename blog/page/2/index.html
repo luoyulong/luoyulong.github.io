@@ -9,11 +9,8 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jun 30th, 2014 MYSQL, 技术积累 检测Linux下 ODBC是否配置成功 问题 测试ODBC安装是否成功 解决方案 使用isql测试数据源是否配置正确 1
-2
-3
-# dbname:the username of target database
-# dbpsw: the &hellip;">
+	<meta name="description" content="Jun 30th, 2014 ROSE ROSE 编程要点 SgName的输出要使用getString方法，而不能使用unparseToCompleteString
+在创建AST node变量时，子节点要使用deepCopy进行深度拷贝，防止一个node在语法树中被多次引用； &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,58 +100,6 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-30T21:48:21+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/mysql/'>MYSQL</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/linuxodbc/" itemprop="url">检测Linux下 ODBC是否配置成功</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>测试ODBC安装是否成功</p>
-
-<h1>解决方案</h1>
-
-<p>使用isql测试数据源是否配置正确</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># dbname:the username of target database</span>
-</span><span class='line'><span class="c"># dbpsw: the password of target database</span>
-</span><span class='line'>imysql -v datasourcename dbname dbpsw
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果数据源配置正确，会出现进入数据库</p>
-
-		
-		
-	</div>
-
-</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -718,6 +663,55 @@
 <h2>解决方法</h2>
 
 <p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-13T10:37:02+08:00" data-updated="true" itemprop="datePublished">Mar 13<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/" itemprop="url">Miktex+ Texmarker/Texstudio环境的配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>步骤</h2>
+
+<ul>
+<li><p>下载miktex移植版本：
+<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
+<li><p>解压</p></li>
+<li><p>设置系统环境变量PATH。例如：</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span>E:<span class="se">\P</span>rogram Files<span class="se">\m</span>iktex-portable<span class="se">\m</span>iktex<span class="se">\b</span>in
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>安装Texmarker/Texstudio，即可运行</li>
+</ul>
+
 
 		
 		

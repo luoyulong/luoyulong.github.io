@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-23T08:50:50+08:00</updated>
+  <updated>2014-07-23T08:51:43+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,23 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[cuda 优化]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/07/11/cudaoptimizion/"/>
-    <updated>2014-07-11T10:28:37+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/07/11/cudaoptimizion</id>
-    <content type="html"><![CDATA[<ul>
-<li><p>发现一个很神奇的问题：在访问global memory时，我做coalescing 优化后，global efficiency 提升到100%，但是global memory thoughtput下降，性能也下降了。对于这个现象，我首先搜了下这两者的关系：</p>
-
-<blockquote><p>&ldquo;Global Load Efficiency and Global Store Efficiency describe how well the coalescing of DRAM-accesses and (L2?)Cache-accesses works. If they&rsquo;re 100 percent then you&rsquo;ve got perfect coalescing. Since efficiencies above 100 percent don&rsquo;t make any sense (you cannot be better than optimal) this has to be an error. This error is caused by the Visual Profiler, which counts hardware events to calculate some abstract metrics. But the GPU doesn&rsquo;t have the &#8220;correct&rdquo; events to exactly calculate all those metrics, thus Visual Profiler has to estimate those metrics by using some complex formula and &ldquo;wrong&rdquo; events. There are some metrics which are just rough estimations and Global Load Efficiency and Global Store Efficiency are two of them. Thus if such an efficiency is bigger than 100 percent it is an estimation error. As far as I observed the Global Load Efficiency and Global Store Efficiency both increased above 100 percent in some of my register spilling kernels. That&rsquo;s why i assume that the Visual-Profiler uses some events, which also may be caused by local memory accesses, to calculate those two efficiencies. Furthermore GPUs just uses 32 Bit Counters. Thus long running kernel tend to overflow those counters, which also causes the Visual Profiler to display wrong metrics.&#8221;</p></blockquote></li>
-<li><p>这段话感觉没什么建设性意义。。。</p></li>
-<li><p>然后我忽然发现occupancy很低，我想会不会访存不是瓶颈呢？ 即是说每次请求的效率很高，但是单位时间内发出的请求数很低，导致了总输出低？
-做了一个实验，调整了分块大小，结果性能提高了，global memory thoughtput大幅提升，但Global Load Efficiency不变。感觉自己的猜想有可能正确。</p></li>
-</ul>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[stencil BenchmarkSets]]></title>
@@ -893,6 +876,33 @@ reads have no option but to wait at the memory controller.</li>
 <h2>解决方法</h2>
 
 <p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Miktex+ Texmarker/Texstudio环境的配置  ]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/"/>
+    <updated>2014-03-13T10:37:02+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup</id>
+    <content type="html"><![CDATA[<h2>步骤</h2>
+
+<ul>
+<li><p>下载miktex移植版本：
+<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
+<li><p>解压</p></li>
+<li><p>设置系统环境变量PATH。例如：</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span>E:<span class="se">\P</span>rogram Files<span class="se">\m</span>iktex-portable<span class="se">\m</span>iktex<span class="se">\b</span>in
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>安装Texmarker/Texstudio，即可运行</li>
+</ul>
+
 ]]></content>
   </entry>
   

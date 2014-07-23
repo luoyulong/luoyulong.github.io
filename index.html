@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 11th, 2014 CUDA, 技术积累 Cuda 优化 发现一个很神奇的问题：在访问global memory时，我做coalescing 优化后，global efficiency 提升到100%，但是global memory thoughtput下降，性能也下降了。对于这个现象 &hellip;">
+	<meta name="description" content="Jul 7th, 2014 实验 Stencil BenchmarkSets 候选benchmark PloyBench cell_cuda radinia FDTD Himeno stencil:test Implementing the Himeno Benchmark with CUDA &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,49 +99,6 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-11T10:28:37+08:00" data-updated="true" itemprop="datePublished">Jul 11<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/11/cudaoptimizion/" itemprop="url">Cuda 优化</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<ul>
-<li><p>发现一个很神奇的问题：在访问global memory时，我做coalescing 优化后，global efficiency 提升到100%，但是global memory thoughtput下降，性能也下降了。对于这个现象，我首先搜了下这两者的关系：</p>
-
-<blockquote><p>&ldquo;Global Load Efficiency and Global Store Efficiency describe how well the coalescing of DRAM-accesses and (L2?)Cache-accesses works. If they&rsquo;re 100 percent then you&rsquo;ve got perfect coalescing. Since efficiencies above 100 percent don&rsquo;t make any sense (you cannot be better than optimal) this has to be an error. This error is caused by the Visual Profiler, which counts hardware events to calculate some abstract metrics. But the GPU doesn&rsquo;t have the &#8220;correct&rdquo; events to exactly calculate all those metrics, thus Visual Profiler has to estimate those metrics by using some complex formula and &ldquo;wrong&rdquo; events. There are some metrics which are just rough estimations and Global Load Efficiency and Global Store Efficiency are two of them. Thus if such an efficiency is bigger than 100 percent it is an estimation error. As far as I observed the Global Load Efficiency and Global Store Efficiency both increased above 100 percent in some of my register spilling kernels. That&rsquo;s why i assume that the Visual-Profiler uses some events, which also may be caused by local memory accesses, to calculate those two efficiencies. Furthermore GPUs just uses 32 Bit Counters. Thus long running kernel tend to overflow those counters, which also causes the Visual Profiler to display wrong metrics.&#8221;</p></blockquote></li>
-<li><p>这段话感觉没什么建设性意义。。。</p></li>
-<li><p>然后我忽然发现occupancy很低，我想会不会访存不是瓶颈呢？ 即是说每次请求的效率很高，但是单位时间内发出的请求数很低，导致了总输出低？
-做了一个实验，调整了分块大小，结果性能提高了，global memory thoughtput大幅提升，但Global Load Efficiency不变。感觉自己的猜想有可能正确。</p></li>
-</ul>
-
-
-		
-		
-	</div>
-
-</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -875,6 +832,58 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'>                                                                     <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-30T21:48:21+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/mysql/'>MYSQL</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/linuxodbc/" itemprop="url">检测Linux下 ODBC是否配置成功</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>问题</h1>
+
+<p>测试ODBC安装是否成功</p>
+
+<h1>解决方案</h1>
+
+<p>使用isql测试数据源是否配置正确</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># dbname:the username of target database</span>
+</span><span class='line'><span class="c"># dbpsw: the password of target database</span>
+</span><span class='line'>imysql -v datasourcename dbname dbpsw
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果数据源配置正确，会出现进入数据库</p>
 
 		
 		
