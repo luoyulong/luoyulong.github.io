@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 11th, 2014 CUDA, 技术积累 Cuda 优化 Jul 7th, 2014 实验 Stencil BenchmarkSets Pochoir benchmark Figure 3 shows Pochoir’s performance on a wider range of &hellip;">
+	<meta name="description" content="Jul 11th, 2014 CUDA, 技术积累 Cuda 优化 发现一个很神奇的问题：在访问global memory时，我做coalescing 优化后，global efficiency 提升到100%，但是global memory thoughtput下降，性能也下降了。对于这个现象 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -127,7 +127,15 @@
 	</div>
 	<h1 class="title" itemprop="name"><a href="/blog/2014/07/11/cudaoptimizion/" itemprop="url">Cuda 优化</a></h1>
 	<div class="entry-content" itemprop="articleBody">
-		
+		<ul>
+<li><p>发现一个很神奇的问题：在访问global memory时，我做coalescing 优化后，global efficiency 提升到100%，但是global memory thoughtput下降，性能也下降了。对于这个现象，我首先搜了下这两者的关系：</p>
+
+<blockquote><p>&ldquo;Global Load Efficiency and Global Store Efficiency describe how well the coalescing of DRAM-accesses and (L2?)Cache-accesses works. If they&rsquo;re 100 percent then you&rsquo;ve got perfect coalescing. Since efficiencies above 100 percent don&rsquo;t make any sense (you cannot be better than optimal) this has to be an error. This error is caused by the Visual Profiler, which counts hardware events to calculate some abstract metrics. But the GPU doesn&rsquo;t have the &#8220;correct&rdquo; events to exactly calculate all those metrics, thus Visual Profiler has to estimate those metrics by using some complex formula and &ldquo;wrong&rdquo; events. There are some metrics which are just rough estimations and Global Load Efficiency and Global Store Efficiency are two of them. Thus if such an efficiency is bigger than 100 percent it is an estimation error. As far as I observed the Global Load Efficiency and Global Store Efficiency both increased above 100 percent in some of my register spilling kernels. That&rsquo;s why i assume that the Visual-Profiler uses some events, which also may be caused by local memory accesses, to calculate those two efficiencies. Furthermore GPUs just uses 32 Bit Counters. Thus long running kernel tend to overflow those counters, which also causes the Visual Profiler to display wrong metrics.&#8221;</p></blockquote></li>
+<li><p>这段话感觉没什么建设性意义。。。</p></li>
+<li><p>然后我忽然发现occupancy很低，我想会不会访存不是瓶颈呢？ 即是说每次请求的效率很高，但是单位时间内发出的请求数很低，导致了总输出低？
+做了一个实验，调整了分块大小，结果性能提高了，global memory thoughtput大幅提升，但Global Load Efficiency不变。感觉自己的猜想有可能正确。</p></li>
+</ul>
+
 
 		
 		
@@ -186,7 +194,7 @@
 <li><del>PloyBench</del>* cell_cuda</li>
 <li>radinia</li>
 <li>FDTD</li>
-<li>Himeno stencil
+<li>Himeno stencil:test
 
 <blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a></p></blockquote></li>
 </ul>
@@ -214,7 +222,7 @@
 
 
 <ul>
-<li>3D Possion 19-point</li>
+<li>3D Possion 19-point: test</li>
 </ul>
 
 
@@ -231,11 +239,8 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>LBM</li>
-</ul>
-
-
+<!-- 
+* LBM
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -404,11 +409,11 @@
 </span><span class='line'>      <span class="n">DST_WB</span><span class="p">(</span> <span class="n">dstGrid</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0f</span><span class="o">-</span><span class="n">OMEGA</span><span class="p">)</span><span class="o">*</span><span class="n">SRC_WB</span><span class="p">(</span> <span class="n">srcGrid</span> <span class="p">)</span> <span class="o">+</span> <span class="n">DFL3</span><span class="o">*</span><span class="n">OMEGA</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0f</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">4.5f</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">ux</span><span class="o">-</span><span class="n">uz</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0f</span><span class="p">)</span> <span class="o">-</span> <span class="n">u2</span><span class="p">);</span>
 </span><span class='line'>  <span class="n">SWEEP_END</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure>&#8211;>
 
 
 <ul>
-<li>3D heat</li>
+<li>3D heat:test</li>
 </ul>
 
 
@@ -424,7 +429,7 @@
 
 
 <ul>
-<li>Wave equation:3dfd</li>
+<li>Wave equation:test</li>
 </ul>
 
 
