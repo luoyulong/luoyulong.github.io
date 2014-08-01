@@ -9,11 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jun 30th, 2014 MYSQL, 技术积累 检测Linux下 ODBC是否配置成功 问题 测试ODBC安装是否成功 解决方案 使用isql测试数据源是否配置正确 1
-2
-3
-# dbname:the username of target database
-# dbpsw: the &hellip;">
+	<meta name="description" content="Jul 1st, 2014 ROSE, 技术积累 ROSE 在源文件的include语句之前插入语句 问题 今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,6 +99,76 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T11:50:40+08:00" data-updated="true" itemprop="datePublished">Jul 1<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rose/'>ROSE</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/01/rose-insertstatementbeforeheader/" itemprop="url">ROSE 在源文件的include语句之前插入语句</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>问题</h1>
+
+<p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
+
+<h1>解决方法</h1>
+
+<p>通过比较scope和scope中语句的名字，找到当前源文件中第一个SgStatement</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'> <span class="c1">//find the first statement of current source file</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">firststatement</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">SgStatementPtrList</span> <span class="n">statelist</span><span class="o">=</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">generateStatementList</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">statelist</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">tmp</span><span class="o">=</span><span class="n">statelist</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">()</span><span class="o">==</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>    <span class="n">firststatement</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>                                                                     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -664,60 +730,6 @@
 
 
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-30T21:30:45+08:00" data-updated="true" itemprop="datePublished">Mar 30<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rose/'>rose</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/30/roseproblem/" itemprop="url">A Rose Problem: SgNode::get_numberOfTraversalSuccessors(): Assertion &#8216;False&#8217; Failed</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>问题</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Internal error<span class="o">(</span>!<span class="o">)</span>: called tree traversal mechanism <span class="k">for </span>illegal object:
-</span><span class='line'>static: SgNode
-</span><span class='line'>dynamic:  SgNode
-</span><span class='line'>Aborting ...
-</span><span class='line'>my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
-</span><span class='line'>size_t SgNode::get_numberOfTraversalSuccessors<span class="o">()</span>: Assertion <span class="sb">`</span><span class="nb">false</span><span class="err">&#39;</span> failed.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>解决方法</h2>
-
-<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
 
 		
 		

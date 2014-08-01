@@ -9,8 +9,15 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 28th, 2014 Git版本的重置 问题 当多个人对git进行修改时，会在更新时造成版本冲突，需要合并。当一个版本的修改并不重要时，不想合并 解决方案 调用如下命令，重置修改
-git reset --hard HEAD^ Jul 7th, 2014 实验 Stencil &hellip;">
+	<meta name="description" content="Aug 1st, 2014 latex, 技术积累 Latex 多行公式的对齐 问题 在写论文时要书写一个长公式，把他分成多行并在等号后面左对齐 解决方法 在数学环境内使用数组，代码如下 1
+2
+3
+4
+5
+6
+7
+8
+\begin{equation} \begin{array}{rcl} a+ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +107,66 @@ git reset --hard HEAD^ Jul 7th, 2014 实验 Stencil &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-01T16:52:37+08:00" data-updated="true" itemprop="datePublished">Aug 1<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/latex/'>latex</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/08/01/mutiplelinealigninmath/" itemprop="url">Latex 多行公式的对齐</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>问题</h1>
+
+<p>在写论文时要书写一个长公式，把他分成多行并在等号后面左对齐</p>
+
+<h1>解决方法</h1>
+
+<p>在数学环境内使用数组，代码如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='latex'><span class='line'><span class="k">\begin</span><span class="nb">{</span>equation<span class="nb">}</span>
+</span><span class='line'>    <span class="k">\begin</span><span class="nb">{</span>array<span class="nb">}{</span>rcl<span class="nb">}</span>
+</span><span class='line'>        a+b+c <span class="nb">&amp;</span> = <span class="nb">&amp;</span> d<span class="k">\\</span>
+</span><span class='line'>                  <span class="nb">&amp;</span> = <span class="nb">&amp;</span> e<span class="k">\\</span>
+</span><span class='line'>        f+g <span class="nb">&amp;</span> = <span class="nb">&amp;</span> h<span class="k">\\</span>
+</span><span class='line'>             <span class="nb">&amp;</span> = <span class="nb">&amp;</span>i+j+k
+</span><span class='line'>    <span class="k">\end</span><span class="nb">{</span>array<span class="nb">}</span>
+</span><span class='line'><span class="k">\end</span><span class="nb">{</span>equation<span class="nb">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -801,76 +868,6 @@ reads have no option but to wait at the memory controller.</li>
 
 
 <p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-01T11:50:40+08:00" data-updated="true" itemprop="datePublished">Jul 1<span>st</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rose/'>ROSE</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/01/rose-insertstatementbeforeheader/" itemprop="url">ROSE 在源文件的include语句之前插入语句</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
-
-<h1>解决方法</h1>
-
-<p>通过比较scope和scope中语句的名字，找到当前源文件中第一个SgStatement</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'> <span class="c1">//find the first statement of current source file</span>
-</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">firststatement</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">SgStatementPtrList</span> <span class="n">statelist</span><span class="o">=</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">generateStatementList</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">statelist</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">tmp</span><span class="o">=</span><span class="n">statelist</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">()</span><span class="o">==</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">())</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>    <span class="n">firststatement</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'>                                                                     <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		

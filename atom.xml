@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-07-28T23:59:43+08:00</updated>
+  <updated>2014-08-01T16:55:28+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[latex 多行公式的对齐]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/08/01/mutiplelinealigninmath/"/>
+    <updated>2014-08-01T16:52:37+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/08/01/mutiplelinealigninmath</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>在写论文时要书写一个长公式，把他分成多行并在等号后面左对齐</p>
+
+<h1>解决方法</h1>
+
+<p>在数学环境内使用数组，代码如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='latex'><span class='line'><span class="k">\begin</span><span class="nb">{</span>equation<span class="nb">}</span>
+</span><span class='line'>    <span class="k">\begin</span><span class="nb">{</span>array<span class="nb">}{</span>rcl<span class="nb">}</span>
+</span><span class='line'>        a+b+c <span class="nb">&amp;</span> = <span class="nb">&amp;</span> d<span class="k">\\</span>
+</span><span class='line'>                  <span class="nb">&amp;</span> = <span class="nb">&amp;</span> e<span class="k">\\</span>
+</span><span class='line'>        f+g <span class="nb">&amp;</span> = <span class="nb">&amp;</span> h<span class="k">\\</span>
+</span><span class='line'>             <span class="nb">&amp;</span> = <span class="nb">&amp;</span>i+j+k
+</span><span class='line'>    <span class="k">\end</span><span class="nb">{</span>array<span class="nb">}</span>
+</span><span class='line'><span class="k">\end</span><span class="nb">{</span>equation<span class="nb">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[git版本的重置]]></title>
@@ -864,34 +898,6 @@ reads have no option but to wait at the memory controller.</li>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Rose Problem:  SgNode::get_numberOfTraversalSuccessors(): Assertion 'false' failed]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/03/30/roseproblem/"/>
-    <updated>2014-03-30T21:30:45+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/03/30/roseproblem</id>
-    <content type="html"><![CDATA[<h2>问题</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Internal error<span class="o">(</span>!<span class="o">)</span>: called tree traversal mechanism <span class="k">for </span>illegal object:
-</span><span class='line'>static: SgNode
-</span><span class='line'>dynamic:  SgNode
-</span><span class='line'>Aborting ...
-</span><span class='line'>my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
-</span><span class='line'>size_t SgNode::get_numberOfTraversalSuccessors<span class="o">()</span>: Assertion <span class="sb">`</span><span class="nb">false</span><span class="err">&#39;</span> failed.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>解决方法</h2>
-
-<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
 ]]></content>
   </entry>
   
