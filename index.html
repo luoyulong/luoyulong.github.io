@@ -9,15 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Aug 1st, 2014 latex, 技术积累 Latex 多行公式的对齐 问题 在写论文时要书写一个长公式，把他分成多行并在等号后面左对齐 解决方法 在数学环境内使用数组，代码如下 1
-2
-3
-4
-5
-6
-7
-8
-\begin{equation} \begin{array}{rcl} a+ &hellip;">
+	<meta name="description" content="Sep 21st, 2014 R R语言 Arff 读取错误 问题描述 在arff每行的最后中写入“float”属性，结果一种一行总是与其余几行写入的结果不一样 解决 最终发现是在该行的最后面多了一个空格，删除空格即可正常读取 Aug 1st, 2014 latex, 技术积累 Latex &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -107,6 +99,47 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-21T22:46:18+08:00" data-updated="true" itemprop="datePublished">Sep 21<span>st</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/09/21/arff-reading-problem/" itemprop="url">R语言 Arff 读取错误</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>问题描述</h2>
+
+<p>在arff每行的最后中写入“float”属性，结果一种一行总是与其余几行写入的结果不一样</p>
+
+<h2>解决</h2>
+
+<p>最终发现是在该行的最后面多了一个空格，删除空格即可正常读取</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -757,117 +790,6 @@ reads have no option but to wait at the memory controller.</li>
 <li>At 16 KB per multiprocessor, the shared memory is a scarce resource and must be used sparingly.</li>
 </ul>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-02T15:04:09+08:00" data-updated="true" itemprop="datePublished">Jul 2<span>nd</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/02/cuda-timing/" itemprop="url">CUDA 计时的方法</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>测试CUDA应用的时间</p>
-
-<h1>解决方案</h1>
-
-<p>引用自stackoverflow：</p>
-
-<blockquote><p>You could do sth along the lines of :</p></blockquote>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="cp">#include&lt;sys/time.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">struct</span> <span class="n">timeval</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">());</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">double</span> <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1000000.0</span><span class="o">*</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">tv_sec</span><span class="o">-</span><span class="n">t1</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">)</span> <span class="o">+</span> <span class="n">t2</span><span class="p">.</span><span class="n">tv_usec</span><span class="o">-</span><span class="n">t1</span><span class="p">.</span><span class="n">tv_usec</span><span class="p">)</span><span class="o">/</span><span class="mf">1000000.0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
-</span><span class='line'><span class="n">cudaEvent_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
 
 		
 		

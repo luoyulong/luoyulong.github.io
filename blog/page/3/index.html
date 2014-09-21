@@ -9,13 +9,8 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Mar 30th, 2014 rose, 技术积累 A Rose Problem: SgNode::get_numberOfTraversalSuccessors(): Assertion &#8216;False&#8217; Failed 问题 1
-2
-3
-4
-5
-6
-Internal &hellip;">
+	<meta name="description" content="Jun 19th, 2014 R R语言 行与列的操作 选择列 数据框/dataframe: 引用： dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。
+d[n]、d[&ldquo;name&rdquo &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,6 +100,118 @@ Internal &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T09:43:53+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/" itemprop="url">R语言 行与列的操作</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>选择列</h2>
+
+<h3>数据框/dataframe:</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
+<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
+<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
+
+<h4>其它技巧：</h4></li>
+<li>负号表示剔除。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  allnames=names(rawdata)
+</span><span class='line'>  vnames=c("OptType","OptConfig","Gflops")
+</span><span class='line'>  vnames2=allnames %in% vnames
+</span><span class='line'>  snames=allnames[!vnames2]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>可以用 grep() 搜索变量名。比如
+<code>mydata[grep("^q", names(mydata))]</code>
+选择名称以“q”开头的数据列。</li>
+</ul>
+
+
+<h3>列表/List：</h3>
+
+<h4>list列的引用</h4>
+
+<ul>
+<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
+</ul>
+
+
+<h2>选择行</h2>
+
+<h3>数据框：</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>d[n,] 得到某一行组成的数据框。</li>
+<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
+<li>head() 得到前6行组成的数据框。</li>
+<li>tail() 得到最后6行组成的数据框。</li>
+</ul>
+
+
+<h4>条件引用。例如：</h4>
+
+<ul>
+<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
+<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
+</ul>
+
+
+<h4>数据框行的遍历</h4>
+
+<ul>
+<li>使用索引进行遍历</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for(i in 1:nrow(rawdata))
+</span><span class='line'>  dosomething(rawdata[i,])</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-08-01T16:55:28+08:00</updated>
+  <updated>2014-09-21T22:48:33+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R语言 arff 读取错误]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/09/21/arff-reading-problem/"/>
+    <updated>2014-09-21T22:46:18+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/09/21/arff-reading-problem</id>
+    <content type="html"><![CDATA[<h2>问题描述</h2>
+
+<p>在arff每行的最后中写入“float”属性，结果一种一行总是与其余几行写入的结果不一样</p>
+
+<h2>解决</h2>
+
+<p>最终发现是在该行的最后面多了一个空格，删除空格即可正常读取</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R 函数内使用load加载全局变量]]></title>
@@ -159,35 +174,6 @@ bestresult &lt;&ndash; result[1:100, ]
 </tbody>
 </table>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R语言 使用循环构建dataframe]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/23/raddcolumnbyloop/"/>
-    <updated>2014-06-23T15:31:06+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/23/raddcolumnbyloop</id>
-    <content type="html"><![CDATA[<ul>
-<li>目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe</li>
-</ul>
-
-
-<p>```
- for(item in dataItems)
-  {</p>
-
-<pre><code>itempair &lt;- unlist(strsplit(item, "="))
-eval(parse(text=sprintf("%s=itempair[2]",itempair[1])))
-if(datadf_str!="")
-  datadf_str=paste(datadf_str,itempair[1],sep=",")
-else
-  datadf_str=itempair[1]
-print(datadf_str)
-</code></pre>
-
-<p>  }
-  datadf=eval(parse(text=sprintf(&ldquo;data.frame(%s)&rdquo;,datadf_str)))
-```</p>
 ]]></content>
   </entry>
   
