@@ -4,7 +4,7 @@
   <title><![CDATA[Category: R | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-09-21T22:48:33+08:00</updated>
+  <updated>2014-09-22T11:01:46+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[R_数据框按列排序]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn/"/>
+    <updated>2014-09-22T11:00:40+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn</id>
+    <content type="html"><![CDATA[<p><code>R
+A[order(A[,4],decreasing=T),]＃按照第4列降序排序
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R语言 arff 读取错误]]></title>
@@ -118,61 +129,6 @@ bestresult &lt;&ndash; result[1:100, ]
 ```
 <img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p></li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R 字符操作函数]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/24/r-string-manipulate/"/>
-    <updated>2014-06-24T09:20:29+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/24/r-string-manipulate</id>
-    <content type="html"><![CDATA[<table>
-<thead>
-<tr>
-<th> 函数     </th>
-<th>   描述    </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>nchar(x)  </td>
-<td> 计算x中的字符数量</td>
-</tr>
-<tr>
-<td>substr(x, start, stop)</td>
-<td>   字符串截取 </td>
-</tr>
-<tr>
-<td>grep(pattern, x)   </td>
-<td>  字符串内的查找 </td>
-</tr>
-<tr>
-<td>paste(&hellip;, sep = &ldquo; &rdquo;, collapse = NULL)</td>
-<td>字符串连接</td>
-</tr>
-<tr>
-<td>strsplit(x, split)</td>
-<td>字符串分割</td>
-</tr>
-<tr>
-<td>tolower() </td>
-<td> 把x变成小写</td>
-</tr>
-<tr>
-<td>toupper(x)</td>
-<td>把x变成大写</td>
-</tr>
-<tr>
-<td>casefold(x, upper = FALSE)</td>
-<td>通过指定upper,把x变成大写或者小写</td>
-</tr>
-<tr>
-<td>chartr(old, new, x)</td>
-<td>把x中每个在old中出现的字符翻译成new中相应位置的字符 </td>
-</tr>
-</tbody>
-</table>
 
 ]]></content>
   </entry>
