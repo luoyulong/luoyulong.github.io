@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-09-21T22:48:33+08:00</updated>
+  <updated>2014-10-16T16:56:10+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Latex: 行内长公式换行]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/10/16/latexequationnewline/"/>
+    <updated>2014-10-16T16:42:18+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/10/16/latexequationnewline</id>
+    <content type="html"><![CDATA[<h1>问题描述</h1>
+
+<p>写论文的时候有一个长公式，长度超过了半页宽度，造成了溢出，很丑陋，网上搜了下没有比较满意的换行办法。</p>
+
+<h1>解决方案</h1>
+
+<p>想到一个比较简单地方法，直接在想要换行的地方插入两个美元符号，即$ $，把一个公式拆成两个，顺利换行。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[R 数据框按列排序]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn/"/>
+    <updated>2014-09-22T11:00:40+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn</id>
+    <content type="html"><![CDATA[<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A[order(A[,4],decreasing=T),]＃按照第4列降序排序</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R语言 arff 读取错误]]></title>
@@ -764,68 +792,6 @@ reads have no option but to wait at the memory controller.</li>
 </tr>
 </tbody>
 </table>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R语言 使用循环构建dataframe]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/23/raddcolumnbyloop/"/>
-    <updated>2014-06-23T15:31:06+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/23/raddcolumnbyloop</id>
-    <content type="html"><![CDATA[<ul>
-<li>目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> for(item in dataItems)
-</span><span class='line'>  {
-</span><span class='line'>    itempair &lt;- unlist(strsplit(item, "="))
-</span><span class='line'>    eval(parse(text=sprintf("%s=itempair[2]",itempair[1])))
-</span><span class='line'>    if(datadf_str!="")
-</span><span class='line'>      datadf_str=paste(datadf_str,itempair[1],sep=",")
-</span><span class='line'>    else
-</span><span class='line'>      datadf_str=itempair[1]
-</span><span class='line'>    print(datadf_str)
-</span><span class='line'>  }
-</span><span class='line'>  datadf=eval(parse(text=sprintf("data.frame(%s)",datadf_str)))</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R语言 变量]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/19/r-language-variable/"/>
-    <updated>2014-06-19T09:54:51+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/19/r-language-variable</id>
-    <content type="html"><![CDATA[<h2>对全局变量的赋值</h2>
-
-<ol>
-<li> 在函数外部：
-
-<ul>
-<li>global_variable&lt;-newvalue</li>
-<li>global_variable=newvalue</li>
-</ul>
-</li>
-<li> 在函数内部：
-
-<ul>
-<li>global_variable&lt;&lt;-newvalue</li>
-</ul>
-</li>
-</ol>
 
 ]]></content>
   </entry>

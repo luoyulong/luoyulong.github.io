@@ -9,8 +9,17 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jun 19th, 2014 R R语言 行与列的操作 选择列 数据框/dataframe: 引用： dn、d[,n]、d&#8221;name&#8221;、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。
-d[n]、d[&ldquo;name&rdquo &hellip;">
+	<meta name="description" content="Jun 23rd, 2014 R R语言 使用循环构建dataframe 目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11 for( &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +109,120 @@ d[n]、d[&ldquo;name&rdquo &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-23T15:31:06+08:00" data-updated="true" itemprop="datePublished">Jun 23<span>rd</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/23/raddcolumnbyloop/" itemprop="url">R语言 使用循环构建dataframe</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<ul>
+<li>目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> for(item in dataItems)
+</span><span class='line'>  {
+</span><span class='line'>    itempair &lt;- unlist(strsplit(item, "="))
+</span><span class='line'>    eval(parse(text=sprintf("%s=itempair[2]",itempair[1])))
+</span><span class='line'>    if(datadf_str!="")
+</span><span class='line'>      datadf_str=paste(datadf_str,itempair[1],sep=",")
+</span><span class='line'>    else
+</span><span class='line'>      datadf_str=itempair[1]
+</span><span class='line'>    print(datadf_str)
+</span><span class='line'>  }
+</span><span class='line'>  datadf=eval(parse(text=sprintf("data.frame(%s)",datadf_str)))</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T09:54:51+08:00" data-updated="true" itemprop="datePublished">Jun 19<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/19/r-language-variable/" itemprop="url">R语言 变量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>对全局变量的赋值</h2>
+
+<ol>
+<li> 在函数外部：
+
+<ul>
+<li>global_variable&lt;-newvalue</li>
+<li>global_variable=newvalue</li>
+</ul>
+</li>
+<li> 在函数内部：
+
+<ul>
+<li>global_variable&lt;&lt;-newvalue</li>
+</ul>
+</li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
