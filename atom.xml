@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-10-16T16:56:10+08:00</updated>
+  <updated>2014-10-16T17:02:10+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -33,8 +33,9 @@
     <link href="http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn/"/>
     <updated>2014-09-22T11:00:40+08:00</updated>
     <id>http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn</id>
-    <content type="html"><![CDATA[<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>A[order(A[,4],decreasing=T),]＃按照第4列降序排序</span></code></pre></td></tr></table></div></figure>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'>A<span class="p">[</span>order<span class="p">(</span>A<span class="p">[,</span><span class="m">4</span><span class="p">],</span>decreasing<span class="o">=</span><span class="k-Variable">T</span><span class="p">),]</span>＃按照第<span class="m">4</span>列降序排序
+</span></code></pre></td></tr></table></div></figure>
 
 
 
