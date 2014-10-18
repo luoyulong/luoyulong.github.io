@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-10-16T17:02:10+08:00</updated>
+  <updated>2014-10-18T12:25:23+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Goagentsetup]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/10/18/goagentsetup/"/>
+    <updated>2014-10-18T00:00:00+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/10/18/goagentsetup</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>一直需要打开一些国外的网站，例如google学术，会议官网，但是由于某些原因，不能直接上网。</p>
+
+<h1>解决方案</h1>
+
+<h2>使用google app engin</h2>
+
+<ol>
+<li>使用goagent程序配置好appid，密码</li>
+<li>设置好端口，apc的路径</li>
+<li>设置iplist，<strong>这步是最重要的，设置一个好的iplist可以直接感觉不到中间代理的存在</strong></li>
+<li>速度快的ip主要是通过使用脚本的方法扫描，或者可以网上搜索现场的ip</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Latex: 行内长公式换行]]></title>
@@ -738,61 +761,6 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'><span class="kt">int2</span> <span class="n">A1</span><span class="o">=</span><span class="n">tex1Dfetch</span><span class="p">(</span><span class="n">Atex</span><span class="p">,(</span><span class="n">texoff</span><span class="o">+</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="n">offset</span><span class="p">)</span> <span class="o">*</span><span class="n">lda</span> <span class="o">+</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">));</span>
 </span><span class='line'><span class="n">Bs</span><span class="p">[</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">__hiloint2double</span><span class="p">(</span><span class="n">A1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="n">A1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R 字符操作函数]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/24/r-string-manipulate/"/>
-    <updated>2014-06-24T09:20:29+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/24/r-string-manipulate</id>
-    <content type="html"><![CDATA[<table>
-<thead>
-<tr>
-<th> 函数     </th>
-<th>   描述    </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>nchar(x)  </td>
-<td> 计算x中的字符数量</td>
-</tr>
-<tr>
-<td>substr(x, start, stop)</td>
-<td>   字符串截取 </td>
-</tr>
-<tr>
-<td>grep(pattern, x)   </td>
-<td>  字符串内的查找 </td>
-</tr>
-<tr>
-<td>paste(&hellip;, sep = &ldquo; &rdquo;, collapse = NULL)</td>
-<td>字符串连接</td>
-</tr>
-<tr>
-<td>strsplit(x, split)</td>
-<td>字符串分割</td>
-</tr>
-<tr>
-<td>tolower() </td>
-<td> 把x变成小写</td>
-</tr>
-<tr>
-<td>toupper(x)</td>
-<td>把x变成大写</td>
-</tr>
-<tr>
-<td>casefold(x, upper = FALSE)</td>
-<td>通过指定upper,把x变成大写或者小写</td>
-</tr>
-<tr>
-<td>chartr(old, new, x)</td>
-<td>把x中每个在old中出现的字符翻译成new中相应位置的字符 </td>
-</tr>
-</tbody>
-</table>
 
 ]]></content>
   </entry>
