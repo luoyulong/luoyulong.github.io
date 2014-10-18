@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Goagent | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/goagent/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-10-18T12:25:54+08:00</updated>
+  <updated>2014-10-18T12:26:55+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -31,6 +31,7 @@
 <li>设置好端口，apc的路径</li>
 <li>设置iplist，<strong>这步是最重要的，设置一个好的iplist可以直接感觉不到中间代理的存在</strong></li>
 <li>速度快的ip主要是通过使用脚本的方法扫描，或者可以网上搜索现场的ip</li>
+<li>最后，不要忘记设置dns。</li>
 </ol>
 
 ]]></content>
