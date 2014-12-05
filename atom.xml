@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-10-21T11:03:54+08:00</updated>
+  <updated>2014-12-05T11:01:14+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RStudio Server 环境变量LD_LIBRARY_PATH的配置]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/12/05/rstudio-server-dot-ld-library-path/"/>
+    <updated>2014-12-05T09:59:17+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/12/05/rstudio-server-dot-ld-library-path</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利，直到开发数据库模块需要用到RODBC。在加载ODBC库后，调用函数odbcConnect结果报错：</p>
+
+<blockquote><p>In odbcDriverConnect(&ldquo;DSN=myhps;UID=hps;PWD=hps&rdquo;):<br/>
+  [RODBC] ERROR: state 01000, code 0, message [unixODBC][Driver Manager]Can&rsquo;t open lib &lsquo;/usr/lib/libmyodbc5-5.1.5.so&rsquo; : file not found</p></blockquote>
+
+<p>第一印象是我的odbc装的有问题，但locate了libmyodbc5-5.1.5.so这个文件，存在。同时，发现使用ssh登录到服务器直接进入R，可以正常使用该函数没有报错。看来环境变量出错的概率比较大。<br/>
+为了进一步确认，我在Rstudio-server中键入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>system("source ~/.bashrc;Rscript ~/test.R",intern = TRUE)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，test.R中的内容为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>library(RODBC)
+</span><span class='line'>odbcConnect("myhps","hps","hps")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+运行成功，看来问题就是环境变量中引起的。经过排查，最终确定问题为环境变量<em>LD_LIBRARY_PATH</em>少了路径“/usr/local/lib”。那么下一步要做的事就是更新RStudio-server的<em>LD_LIBRARY_PATH</em>环境变量。
+首先，我在RStudio中调用<code>Sys.getenv()</code>,打印出所有环境变量，其中：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"/usr/local/lib64/R/lib:/lib:/usr/local/lib64:/home/lyl/denpendence/jdk1.7.0_51/jre/lib/amd64/server" 
+</span><span class='line'>LD_LIBRARY_PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从包含的路径来看，RStudio肯定不是使用shell的方式读取.bashrc,/etc/bashrc等文件初始化环境变量（经过实验验证，的确是这样）。于是，google了下RStudio环境变量的设置方法，回答指向了如下链接：</p>
+
+<blockquote><p><a href="https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  ">https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  </a>
+ <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html</a></p></blockquote>
+
+<p> 即通过在文件<code>Renviron.site</code>,<code>Renviron</code>和<code>.Rprofile</code>中设置。起初，文档没看太仔细，直接用shell的语法设置环境变量了，但RStudio对环境变量设置有自己的一套语法，这里要注意:</p>
+
+<blockquote><p>Lines in a site or user environment file should be either comment lines starting with #, or lines of the form name=value. The latter sets the environmental variable name to value, overriding an existing value. If value contains an expression of the form ${foo-bar}, the value is that of the environmental variable foo if that exists and is set to a non-empty value, otherwise bar. (If it is of the form ${foo}, the default is &ldquo;&rdquo;.) This construction can be nested, so bar can be of the same form (as in ${foo-${bar-blah}}). Note that the braces are essential: for example $HOME will not be interpreted.</p></blockquote>
+
+<p> 设置ok，重启RStudio，重启session（这里要注意是重启session，而不是重新登录。Rstudio-server会帮你保存session。重启session的方法： Session->Restart R），环境变量有变化，设置成功。重新运行函数<code>odbcConnect</code>，还是报同样的错误。</p>
+
+<p> 这里之后又折腾了几个小时，最后，重读了下RStudio-server的安装配置文档<a href="https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server">https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server</a> ，发现有这么一句话：</p>
+
+<blockquote><p>You can add elements to the default LD_LIBRARY_PATH for R sessions (as determined by the R ldpaths script) by adding an rsession-ld-library-path entry to the server config file. This might be useful for ensuring that packages can locate external library dependencies that aren&rsquo;t installed in the system standard library paths. For example:
+<code>
+rsession-ld-library-path=/opt/local/lib:/opt/local/someapp/lib
+</code></p></blockquote>
+
+<p> 于是我在配置文件 <code>/etc/rstudio/rserver.conf</code>添加相应设置
+ <code>
+ rsession-ld-library-path=/usr/local/lib
+</code>
+ 重启RStudio-server，重启session，终于成功。看来，RStudio-server的<em>LD_LIBARAR_PATH</em>只有在这里设置才有用,真是个反人类的配置习惯。至此，在该问题上已经花费了5个小时。这同时也提醒我们，仔细看文档是多么的重要！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Goagent 进行科学上网]]></title>
@@ -713,54 +776,6 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'>
 </span><span class='line'><span class="c1">//create the texture type variable &quot;texture_a&quot;</span>
 </span><span class='line'><span class="n">SgVariableDeclaration</span><span class="o">*</span> <span class="n">vdecl</span><span class="o">=</span><span class="n">buildVariableDeclaration</span><span class="p">(</span><span class="s">&quot;texture_a&quot;</span><span class="p">,</span><span class="n">textureType</span><span class="p">,</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_scope</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[error: no instance of overloaded function "tex1Dfetch" matches the argument list argument types are: (texture<double, 1, cudaReadModeElementType>, int)  ]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/29/cudatexture/"/>
-    <updated>2014-06-29T15:59:52+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/29/cudatexture</id>
-    <content type="html"><![CDATA[<h1>问题</h1>
-
-<p>在使用cuda的纹理存储器时，编译器报错</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>stencilexample.cu<span class="o">(</span>147<span class="o">)</span>: error:
-</span><span class='line'>no instance of overloaded <span class="k">function</span> <span class="s2">&quot;tex1Dfetch&quot;</span>
-</span><span class='line'>matches the argument list argument types are:
-</span><span class='line'><span class="o">(</span>texture&lt;double, 1, cudaReadModeElementType&gt;, int<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>解决方法</h1>
-
-<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
-
-<blockquote><p>The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.
-出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p></blockquote>
-
-<p>非要加速的话，可以使用一个int2类型的向量拼接成一个double</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="c1">//declarate the texture using int2 type</span>
-</span><span class='line'><span class="n">texture</span> <span class="o">&lt;</span><span class="kt">int2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cudaReadModeElementType</span><span class="o">&gt;</span> <span class="n">Atex</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//used in global function(cuda kernel)</span>
-</span><span class='line'><span class="kt">int2</span> <span class="n">A1</span><span class="o">=</span><span class="n">tex1Dfetch</span><span class="p">(</span><span class="n">Atex</span><span class="p">,(</span><span class="n">texoff</span><span class="o">+</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="n">offset</span><span class="p">)</span> <span class="o">*</span><span class="n">lda</span> <span class="o">+</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">));</span>
-</span><span class='line'><span class="n">Bs</span><span class="p">[</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">__hiloint2double</span><span class="p">(</span><span class="n">A1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="n">A1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>

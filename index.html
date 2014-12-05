@@ -9,8 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Oct 18th, 2014 Goagent 使用Goagent 进行科学上网 问题 一直需要打开一些国外的网站，例如google学术，会议官网，但是由于某些原因，不能直接上网。 解决方案 使用google app engin 使用goagent程序配置好appid，密码
-设置好端口， &hellip;">
+	<meta name="description" content="Dec 5th, 2014 R, RStudio, server RStudio Server 环境变量LD_LIBRARY_PATH的配置 问题 在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利，直到开发数据库模块需要用到RODBC。在加载ODBC库后， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +99,95 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-05T09:59:17+08:00" data-updated="true" itemprop="datePublished">Dec 5<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/rstudio/'>RStudio</a>, <a class='category' href='/blog/categories/server/'>server</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/" itemprop="url">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>问题</h1>
+
+<p>在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利，直到开发数据库模块需要用到RODBC。在加载ODBC库后，调用函数odbcConnect结果报错：</p>
+
+<blockquote><p>In odbcDriverConnect(&ldquo;DSN=myhps;UID=hps;PWD=hps&rdquo;):<br/>
+  [RODBC] ERROR: state 01000, code 0, message [unixODBC][Driver Manager]Can&rsquo;t open lib &lsquo;/usr/lib/libmyodbc5-5.1.5.so&rsquo; : file not found</p></blockquote>
+
+<p>第一印象是我的odbc装的有问题，但locate了libmyodbc5-5.1.5.so这个文件，存在。同时，发现使用ssh登录到服务器直接进入R，可以正常使用该函数没有报错。看来环境变量出错的概率比较大。<br/>
+为了进一步确认，我在Rstudio-server中键入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>system("source ~/.bashrc;Rscript ~/test.R",intern = TRUE)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，test.R中的内容为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>library(RODBC)
+</span><span class='line'>odbcConnect("myhps","hps","hps")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+运行成功，看来问题就是环境变量中引起的。经过排查，最终确定问题为环境变量<em>LD_LIBRARY_PATH</em>少了路径“/usr/local/lib”。那么下一步要做的事就是更新RStudio-server的<em>LD_LIBRARY_PATH</em>环境变量。
+首先，我在RStudio中调用<code>Sys.getenv()</code>,打印出所有环境变量，其中：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"/usr/local/lib64/R/lib:/lib:/usr/local/lib64:/home/lyl/denpendence/jdk1.7.0_51/jre/lib/amd64/server" 
+</span><span class='line'>LD_LIBRARY_PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从包含的路径来看，RStudio肯定不是使用shell的方式读取.bashrc,/etc/bashrc等文件初始化环境变量（经过实验验证，的确是这样）。于是，google了下RStudio环境变量的设置方法，回答指向了如下链接：</p>
+
+<blockquote><p><a href="https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  ">https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  </a>
+ <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html</a></p></blockquote>
+
+<p> 即通过在文件<code>Renviron.site</code>,<code>Renviron</code>和<code>.Rprofile</code>中设置。起初，文档没看太仔细，直接用shell的语法设置环境变量了，但RStudio对环境变量设置有自己的一套语法，这里要注意:</p>
+
+<blockquote><p>Lines in a site or user environment file should be either comment lines starting with #, or lines of the form name=value. The latter sets the environmental variable name to value, overriding an existing value. If value contains an expression of the form ${foo-bar}, the value is that of the environmental variable foo if that exists and is set to a non-empty value, otherwise bar. (If it is of the form ${foo}, the default is &ldquo;&rdquo;.) This construction can be nested, so bar can be of the same form (as in ${foo-${bar-blah}}). Note that the braces are essential: for example $HOME will not be interpreted.</p></blockquote>
+
+<p> 设置ok，重启RStudio，重启session（这里要注意是重启session，而不是重新登录。Rstudio-server会帮你保存session。重启session的方法： Session->Restart R），环境变量有变化，设置成功。重新运行函数<code>odbcConnect</code>，还是报同样的错误。</p>
+
+<p> 这里之后又折腾了几个小时，最后，重读了下RStudio-server的安装配置文档<a href="https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server">https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server</a> ，发现有这么一句话：</p>
+
+<blockquote><p>You can add elements to the default LD_LIBRARY_PATH for R sessions (as determined by the R ldpaths script) by adding an rsession-ld-library-path entry to the server config file. This might be useful for ensuring that packages can locate external library dependencies that aren&rsquo;t installed in the system standard library paths. For example:
+<code>
+rsession-ld-library-path=/opt/local/lib:/opt/local/someapp/lib
+</code></p></blockquote>
+
+<p> 于是我在配置文件 <code>/etc/rstudio/rserver.conf</code>添加相应设置
+ <code>
+ rsession-ld-library-path=/usr/local/lib
+</code>
+ 重启RStudio-server，重启session，终于成功。看来，RStudio-server的<em>LD_LIBARAR_PATH</em>只有在这里设置才有用,真是个反人类的配置习惯。至此，在该问题上已经花费了5个小时。这同时也提醒我们，仔细看文档是多么的重要！</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -619,107 +707,6 @@ Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including
 </span><span class='line'>setwd<span class="p">(</span>TOPDIR<span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-06T10:34:47+08:00" data-updated="true" itemprop="datePublished">Jul 6<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/06/r-dotchart/" itemprop="url">R 二维点图的绘画</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>对于一个具有二维属性，一维结果的数据库，想把它表现成二维点图的形式，我们可以使用plot函数来绘画，其中使用X，Y两个维度来表示其属性，通过点的颜色，大小来表示其结果</p>
-
-<ul>
-<li>首先，我们先根据其结果值，生成相应的颜色代码，这里我们通过颜色的深浅来表示值的大小，颜色越深，值越大：</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#function GetRBG convert value to a color number  </span>
-</span><span class='line'>GetRGB <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>val<span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  maxval <span class="o">&lt;-</span> max<span class="p">(</span>val<span class="p">)</span>
-</span><span class='line'>  col <span class="o">&lt;-</span> rgb<span class="p">(</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">)</span>
-</span><span class='line'>  <span class="kr">return</span> <span class="p">(</span>col<span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<ul>
-<li>其次，我们使用plot绘画二维点图</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#some preprocess</span>
-</span><span class='line'>result<span class="o">$</span>x <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">2</span><span class="p">)))</span>
-</span><span class='line'>result<span class="o">$</span>y <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">3</span><span class="p">)))</span>
-</span><span class='line'><span class="c1">#achieve the color for value vector</span>
-</span><span class='line'>result<span class="o">$</span>col <span class="o">&lt;-</span> result<span class="o">$</span>Gflops
-</span><span class='line'><span class="c1">#using function plot </span>
-</span><span class='line'>plot<span class="p">(</span>result<span class="o">$</span>x<span class="p">,</span> result<span class="o">$</span>y<span class="p">,</span> ylim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span>max<span class="p">(</span>result<span class="o">$</span>y<span class="p">)),</span> xlim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span> max<span class="p">(</span>result<span class="o">$</span>x<span class="p">)),</span> pch<span class="o">=</span><span class="m">18</span><span class="p">,</span> col<span class="o">=</span>GetRGB<span class="p">(</span>result<span class="o">$</span>col<span class="p">),</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> xlab<span class="o">=</span><span class="s">&quot;X&quot;</span><span class="p">,</span> ylab<span class="o">=</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p>
-
-<ul>
-<li>对于重要的点，使用point进行飘红强调</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#achieve the first 100 results</span>
-</span><span class='line'>bestresult <span class="o">&lt;-</span> result<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">,</span> <span class="p">]</span>
-</span><span class='line'><span class="c1">#paint the 100 results using red</span>
-</span><span class='line'>points<span class="p">(</span>bestresult<span class="o">$</span>x<span class="p">,</span> bestresult<span class="o">$</span>y<span class="p">,</span> pch<span class="o">=</span><span class="m">19</span><span class="p">,</span> col<span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span> <span class="p">,</span>cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p>
 
 		
 		

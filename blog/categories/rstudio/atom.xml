@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: R | 零露漙兮]]></title>
-  <link href="http://luoyulong.github.io/blog/categories/r/atom.xml" rel="self"/>
+  <title><![CDATA[Category: RStudio | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/rstudio/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
   <updated>2014-12-05T11:01:14+08:00</updated>
   <id>http://luoyulong.github.io/</id>
@@ -64,72 +64,6 @@ rsession-ld-library-path=/opt/local/lib:/opt/local/someapp/lib
  rsession-ld-library-path=/usr/local/lib
 </code>
  重启RStudio-server，重启session，终于成功。看来，RStudio-server的<em>LD_LIBARAR_PATH</em>只有在这里设置才有用,真是个反人类的配置习惯。至此，在该问题上已经花费了5个小时。这同时也提醒我们，仔细看文档是多么的重要！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R 数据框按列排序]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn/"/>
-    <updated>2014-09-22T11:00:40+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/09/22/r-orderbycolumn</id>
-    <content type="html"><![CDATA[<p><code>r
-A[order(A[,4],decreasing=T),]＃按照第4列降序排序
-</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R语言 arff 读取错误]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/09/21/arff-reading-problem/"/>
-    <updated>2014-09-21T22:46:18+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/09/21/arff-reading-problem</id>
-    <content type="html"><![CDATA[<h2>问题描述</h2>
-
-<p>在arff每行的最后中写入“float”属性，结果一种一行总是与其余几行写入的结果不一样</p>
-
-<h2>解决</h2>
-
-<p>最终发现是在该行的最后面多了一个空格，删除空格即可正常读取</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R 函数内使用load加载全局变量]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function/"/>
-    <updated>2014-07-07T18:55:04+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/07/07/r-load-global-variable-in-function</id>
-    <content type="html"><![CDATA[<h1>问题</h1>
-
-<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，发现load把文件内的变量加载到当前函数environment的局部变量里了。</p>
-
-<h1>解决方案</h1>
-
-<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。
-<code>r
- load("globalmodels.saved")
- global.model &lt;&lt;- global.model
-</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R 设置工作路径为当前文件所在路径]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/07/06/r-setcurrentpath/"/>
-    <updated>2014-07-06T21:34:32+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/07/06/r-setcurrentpath</id>
-    <content type="html"><![CDATA[<h1>问题：</h1>
-
-<p>对于R语言来说，要include另一个文件，需要用到命令source；对于在源文件中的R脚本，要source当前文件所在目录下的其他文件，还需要把R语言解释器的工作路径设置为当前文件所在路径，否则source某个文件就需要使用绝对路径，不利于项目的移植。</p>
-
-<h1>解决方案:</h1>
-
-<p>通过下方的一块代码片段，就可以把R语言的工作路径设置为文件所在路径
-<code>r
-frame_files &lt;- lapply(sys.frames(), function(x) x$ofile)
-frame_files &lt;- Filter(Negate(is.null), frame_files)
-TOPDIR &lt;- dirname(frame_files[[length(frame_files)]])
-setwd(TOPDIR)
-</code></p>
 ]]></content>
   </entry>
   

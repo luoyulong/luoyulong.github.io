@@ -1,0 +1,218 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>RStudio Server 环境变量LD_LIBRARY_PATH的配置 - 零露漙兮</title>
+	<meta name="author" content="luoyulong">
+
+	
+	<meta name="description" content="RStudio Server 环境变量LD_LIBRARY_PATH的配置 问题 在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利，直到开发数据库模块需要用到RODBC。在加载ODBC库后，调用函数odbcConnect结果报错： In &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://luoyulong.github.io/blog/2014/12/05/rstudio-server-dot-ld-library-path/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'-->
+  	<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+  <img src="/images/avatar.jpg" alt="Profile Picture" style="width: 160px;" />
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+	</script>
+</div>
+
+<nav id="main-nav">
+<section class="aboutme">
+  <h1><a href="/">
+ 零露漙兮BLOG
+ </a></h1>
+  <p>
+    A blogging for high performance optimizing study.
+  </p>
+</section>
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="email" href="mailto:luoyulong@ncic.ac.cn" title="Email">Email</a>
+		
+		
+			<a class="facebook" href="http://www.facebook.com/yulong.luo.1" title="Facebook">Facebook</a>
+		
+		
+		
+		
+			<a class="github" href="https://github.com/luoyulong" title="GitHub">GitHub</a>
+		
+		
+		
+		
+			<a class="linkedin" href="http://www.linkedin.com/in/luoyulong" title="LinkedIn">LinkedIn</a>
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">RStudio Server 环境变量LD_LIBRARY_PATH的配置</h1>
+	<div class="entry-content" itemprop="articleBody"><h1>问题</h1>
+
+<p>在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利，直到开发数据库模块需要用到RODBC。在加载ODBC库后，调用函数odbcConnect结果报错：</p>
+
+<blockquote><p>In odbcDriverConnect(&ldquo;DSN=myhps;UID=hps;PWD=hps&rdquo;):<br/>
+  [RODBC] ERROR: state 01000, code 0, message [unixODBC][Driver Manager]Can&rsquo;t open lib &lsquo;/usr/lib/libmyodbc5-5.1.5.so&rsquo; : file not found</p></blockquote>
+
+<p>第一印象是我的odbc装的有问题，但locate了libmyodbc5-5.1.5.so这个文件，存在。同时，发现使用ssh登录到服务器直接进入R，可以正常使用该函数没有报错。看来环境变量出错的概率比较大。<br/>
+为了进一步确认，我在Rstudio-server中键入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>system("source ~/.bashrc;Rscript ~/test.R",intern = TRUE)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，test.R中的内容为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>library(RODBC)
+</span><span class='line'>odbcConnect("myhps","hps","hps")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+运行成功，看来问题就是环境变量中引起的。经过排查，最终确定问题为环境变量<em>LD_LIBRARY_PATH</em>少了路径“/usr/local/lib”。那么下一步要做的事就是更新RStudio-server的<em>LD_LIBRARY_PATH</em>环境变量。
+首先，我在RStudio中调用<code>Sys.getenv()</code>,打印出所有环境变量，其中：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"/usr/local/lib64/R/lib:/lib:/usr/local/lib64:/home/lyl/denpendence/jdk1.7.0_51/jre/lib/amd64/server" 
+</span><span class='line'>LD_LIBRARY_PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从包含的路径来看，RStudio肯定不是使用shell的方式读取.bashrc,/etc/bashrc等文件初始化环境变量（经过实验验证，的确是这样）。于是，google了下RStudio环境变量的设置方法，回答指向了如下链接：</p>
+
+<blockquote><p><a href="https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  ">https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  </a>
+ <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html</a></p></blockquote>
+
+<p> 即通过在文件<code>Renviron.site</code>,<code>Renviron</code>和<code>.Rprofile</code>中设置。起初，文档没看太仔细，直接用shell的语法设置环境变量了，但RStudio对环境变量设置有自己的一套语法，这里要注意:</p>
+
+<blockquote><p>Lines in a site or user environment file should be either comment lines starting with #, or lines of the form name=value. The latter sets the environmental variable name to value, overriding an existing value. If value contains an expression of the form ${foo-bar}, the value is that of the environmental variable foo if that exists and is set to a non-empty value, otherwise bar. (If it is of the form ${foo}, the default is &ldquo;&rdquo;.) This construction can be nested, so bar can be of the same form (as in ${foo-${bar-blah}}). Note that the braces are essential: for example $HOME will not be interpreted.</p></blockquote>
+
+<p> 设置ok，重启RStudio，重启session（这里要注意是重启session，而不是重新登录。Rstudio-server会帮你保存session。重启session的方法： Session->Restart R），环境变量有变化，设置成功。重新运行函数<code>odbcConnect</code>，还是报同样的错误。</p>
+
+<p> 这里之后又折腾了几个小时，最后，重读了下RStudio-server的安装配置文档<a href="https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server">https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server</a> ，发现有这么一句话：</p>
+
+<blockquote><p>You can add elements to the default LD_LIBRARY_PATH for R sessions (as determined by the R ldpaths script) by adding an rsession-ld-library-path entry to the server config file. This might be useful for ensuring that packages can locate external library dependencies that aren&rsquo;t installed in the system standard library paths. For example:
+<code>
+rsession-ld-library-path=/opt/local/lib:/opt/local/someapp/lib
+</code></p></blockquote>
+
+<p> 于是我在配置文件 <code>/etc/rstudio/rserver.conf</code>添加相应设置
+ <code>
+ rsession-ld-library-path=/usr/local/lib
+</code>
+ 重启RStudio-server，重启session，终于成功。看来，RStudio-server的<em>LD_LIBARAR_PATH</em>只有在这里设置才有用,真是个反人类的配置习惯。至此，在该问题上已经花费了5个小时。这同时也提醒我们，仔细看文档是多么的重要！</p>
+</div>
+
+</article>
+
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section><h1>Comments</h1><div id="comments" aria-live="polite">
+<!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread">
+</div><script type="text/javascript"> 
+var duoshuoQuery = {short_name:"linglublog"}; 
+(function() {    var ds = document.createElement('script'); 
+ ds.type = 'text/javascript';ds.async = true;  
+ ds.src = 'http://static.duoshuo.com/embed.js';  
+ ds.charset = 'UTF-8';  
+ (document.getElementsByTagName('head')[0]     || document.getElementsByTagName('body')[0]).appendChild(ds);  })();
+ </script>
+<!-- Duoshuo Comment END -->
+ </div> 
+</section>
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    luoyulong
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F827d87586e82cbe94424561664edd024' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+</body>
+</html>

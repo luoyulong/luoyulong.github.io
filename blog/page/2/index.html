@@ -9,8 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jul 3rd, 2014 CUDA, 技术积累 CUDA 优化经验 硬件模型 shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位
-warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理一个block kernel时，会经可能多的发射warp， &hellip;">
+	<meta name="description" content="Jul 6th, 2014 R, 技术积累 R 二维点图的绘画 对于一个具有二维属性，一维结果的数据库，想把它表现成二维点图的形式，我们可以使用plot函数来绘画，其中使用X，Y两个维度来表示其属性，通过点的颜色，大小来表示其结果 首先，我们先根据其结果值，生成相应的颜色代码， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +99,107 @@ warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-06T10:34:47+08:00" data-updated="true" itemprop="datePublished">Jul 6<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/06/r-dotchart/" itemprop="url">R 二维点图的绘画</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>对于一个具有二维属性，一维结果的数据库，想把它表现成二维点图的形式，我们可以使用plot函数来绘画，其中使用X，Y两个维度来表示其属性，通过点的颜色，大小来表示其结果</p>
+
+<ul>
+<li>首先，我们先根据其结果值，生成相应的颜色代码，这里我们通过颜色的深浅来表示值的大小，颜色越深，值越大：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#function GetRBG convert value to a color number  </span>
+</span><span class='line'>GetRGB <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>val<span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  maxval <span class="o">&lt;-</span> max<span class="p">(</span>val<span class="p">)</span>
+</span><span class='line'>  col <span class="o">&lt;-</span> rgb<span class="p">(</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">)</span>
+</span><span class='line'>  <span class="kr">return</span> <span class="p">(</span>col<span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<ul>
+<li>其次，我们使用plot绘画二维点图</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#some preprocess</span>
+</span><span class='line'>result<span class="o">$</span>x <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">2</span><span class="p">)))</span>
+</span><span class='line'>result<span class="o">$</span>y <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">3</span><span class="p">)))</span>
+</span><span class='line'><span class="c1">#achieve the color for value vector</span>
+</span><span class='line'>result<span class="o">$</span>col <span class="o">&lt;-</span> result<span class="o">$</span>Gflops
+</span><span class='line'><span class="c1">#using function plot </span>
+</span><span class='line'>plot<span class="p">(</span>result<span class="o">$</span>x<span class="p">,</span> result<span class="o">$</span>y<span class="p">,</span> ylim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span>max<span class="p">(</span>result<span class="o">$</span>y<span class="p">)),</span> xlim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span> max<span class="p">(</span>result<span class="o">$</span>x<span class="p">)),</span> pch<span class="o">=</span><span class="m">18</span><span class="p">,</span> col<span class="o">=</span>GetRGB<span class="p">(</span>result<span class="o">$</span>col<span class="p">),</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> xlab<span class="o">=</span><span class="s">&quot;X&quot;</span><span class="p">,</span> ylab<span class="o">=</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p>
+
+<ul>
+<li>对于重要的点，使用point进行飘红强调</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#achieve the first 100 results</span>
+</span><span class='line'>bestresult <span class="o">&lt;-</span> result<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">,</span> <span class="p">]</span>
+</span><span class='line'><span class="c1">#paint the 100 results using red</span>
+</span><span class='line'>points<span class="p">(</span>bestresult<span class="o">$</span>x<span class="p">,</span> bestresult<span class="o">$</span>y<span class="p">,</span> pch<span class="o">=</span><span class="m">19</span><span class="p">,</span> col<span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span> <span class="p">,</span>cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -661,80 +761,6 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'>
 </span><span class='line'><span class="c1">//create the texture type variable &quot;texture_a&quot;</span>
 </span><span class='line'><span class="n">SgVariableDeclaration</span><span class="o">*</span> <span class="n">vdecl</span><span class="o">=</span><span class="n">buildVariableDeclaration</span><span class="p">(</span><span class="s">&quot;texture_a&quot;</span><span class="p">,</span><span class="n">textureType</span><span class="p">,</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_scope</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-29T15:59:52+08:00" data-updated="true" itemprop="datePublished">Jun 29<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/29/cudatexture/" itemprop="url">Error: No Instance of Overloaded Function &#8220;tex1Dfetch&#8221; Matches the Argument List Argument Types Are: (Texture<double, 1, cudaReadModeElementType>, Int)</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>在使用cuda的纹理存储器时，编译器报错</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>stencilexample.cu<span class="o">(</span>147<span class="o">)</span>: error:
-</span><span class='line'>no instance of overloaded <span class="k">function</span> <span class="s2">&quot;tex1Dfetch&quot;</span>
-</span><span class='line'>matches the argument list argument types are:
-</span><span class='line'><span class="o">(</span>texture&lt;double, 1, cudaReadModeElementType&gt;, int<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>解决方法</h1>
-
-<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
-
-<blockquote><p>The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.
-出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p></blockquote>
-
-<p>非要加速的话，可以使用一个int2类型的向量拼接成一个double</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="c1">//declarate the texture using int2 type</span>
-</span><span class='line'><span class="n">texture</span> <span class="o">&lt;</span><span class="kt">int2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cudaReadModeElementType</span><span class="o">&gt;</span> <span class="n">Atex</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//used in global function(cuda kernel)</span>
-</span><span class='line'><span class="kt">int2</span> <span class="n">A1</span><span class="o">=</span><span class="n">tex1Dfetch</span><span class="p">(</span><span class="n">Atex</span><span class="p">,(</span><span class="n">texoff</span><span class="o">+</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="n">offset</span><span class="p">)</span> <span class="o">*</span><span class="n">lda</span> <span class="o">+</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">));</span>
-</span><span class='line'><span class="n">Bs</span><span class="p">[</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">__hiloint2double</span><span class="p">(</span><span class="n">A1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="n">A1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
