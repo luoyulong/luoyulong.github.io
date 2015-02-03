@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2014-12-05T16:30:35+08:00</updated>
+  <updated>2015-02-03T09:24:42+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[install_rose]]></title>
+    <link href="http://luoyulong.github.io/blog/2015/01/29/install-rose/"/>
+    <updated>2015-01-29T10:01:24+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2015/01/29/install-rose</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RStudio Server 环境变量LD_LIBRARY_PATH的配置]]></title>
@@ -750,34 +759,6 @@ reads have no option but to wait at the memory controller.</li>
 <h1>解决方案</h1>
 
 <p>调用<code>get_declarationModifier().get_storageModifier().set</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ROSE 创建模板类变量的一个取巧办法]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/06/30/rose-create-template-variable/"/>
-    <updated>2014-06-30T09:42:36+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/06/30/rose-create-template-variable</id>
-    <content type="html"><![CDATA[<h1>问题</h1>
-
-<p>用ROSE产生cuda代码时，为了性能需要，使用到了纹理存储器。但在纹理存储器变量声明的时候，遇到了点问题：纹理寄存器变量的类型是模板类实例，e.g,<code>texture&lt;DATATYPE,1,cudaReadModeElementType&gt; t_a</code>,但是rose中模板类变量貌似不怎么好声明，尝试了半天都没有成功。</p>
-
-<h1>解决方案</h1>
-
-<p>使用万金油式的buildOpaqueType直接创建模板类型,然后使用该类型创建纹理存储器变量</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">//create a template instance type directly: texture&lt;DATATYPE,1,cudaReadModelElementType&gt;</span>
-</span><span class='line'><span class="n">SgType</span><span class="o">*</span> <span class="n">textureType</span><span class="o">=</span><span class="n">buildOpaqueType</span><span class="p">(</span><span class="s">&quot;texture&lt;DATATYPE,1,cudaReadModelElementType&gt;&quot;</span><span class="p">,</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_scope</span><span class="p">());</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//create the texture type variable &quot;texture_a&quot;</span>
-</span><span class='line'><span class="n">SgVariableDeclaration</span><span class="o">*</span> <span class="n">vdecl</span><span class="o">=</span><span class="n">buildVariableDeclaration</span><span class="p">(</span><span class="s">&quot;texture_a&quot;</span><span class="p">,</span><span class="n">textureType</span><span class="p">,</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_scope</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
