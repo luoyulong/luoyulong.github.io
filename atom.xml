@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-02-03T11:36:46+08:00</updated>
+  <updated>2015-02-03T11:38:43+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -26,91 +26,111 @@
 
 <p>使用 <code>dd</code> 命令把镜像烧制到磁盘上。再使用如下命令获得SD卡的地址：</p>
 
-<p><code>sudo fdisk -l</code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo fdisk -l
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>获得地址 ‘/dev/mmcblk0’, 之后把镜像烧入磁盘:</p>
 
-<p><code>sudo dd if=2013-12-20-wheezy-raspbian.img of=/dev/mmcblk0 bs=2M</code>
-烧制完成，取下SD卡，插入树莓派卡中。</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo dd <span class="k">if</span><span class="o">=</span>2013-12-20-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/mmcblk0 <span class="nv">bs</span><span class="o">=</span>2M
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>烧制完成，取下SD卡，插入树莓派卡中。</p>
 
 <h1>配置 Raspbian</h1>
 
 <p>在安装Raspbian之前，我们首先要做一些先期工作安装一些一共工具与库。使用ssh登录至树莓派：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh pi@192.168.2.3 # password (default): raspberry</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh pi@192.168.2.3 <span class="c"># password (default): raspberry</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>运行如下命令，选择  ‘Expand Filesystem’ 并重启树莓派:</p>
 
-<p><code>sudo raspi-config</code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo raspi-config
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>运行如下命令更新树莓派并安装相应工具:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update  
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
 </span><span class='line'>sudo apt-get upgrade --yes
-</span><span class='line'>sudo apt-get install vim git-core python-dev python-pip bison libasound2-dev libportaudio-dev python-pyaudio --yes</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>sudo apt-get install vim git-core python-dev python-pip bison libasound2-dev libportaudio-dev python-pyaudio --yes
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>插入USB麦克风。打开ALSA配置文件：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo vim /etc/modprobe.d/alsa-base.conf</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo vim /etc/modprobe.d/alsa-base.conf
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>修改：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Change the following line:
-</span><span class='line'>options snd-usb-audio index=-2</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Change the following line:
+</span><span class='line'>options snd-usb-audio <span class="nv">index</span><span class="o">=</span>-2
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>成:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>options snd-usb-audio index=0</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>options snd-usb-audio <span class="nv">index</span><span class="o">=</span>0
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>返回shell，运行：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo alsa force-reload</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo alsa force-reload
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>之后使用如下命令测试录音功能(可能需要重启树莓派)：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>arecord temp.wav</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>arecord temp.wav
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>确保麦克风正确连接。播放之前录制的音频文件：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aplay -D hw:1,0 temp.wav</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>aplay -D hw:1,0 temp.wav
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>添加如下行至~/.bash_profile(bashrc?)末尾：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export LD_LIBRARY_PATH="/usr/local/lib"
-</span><span class='line'>source .bashrc</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/local/lib&quot;</span>
+</span><span class='line'><span class="nb">source</span> .bashrc
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>把下面的命令添加到 ~/.bashrc 或者 ~/.bash_profile:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>LD_LIBRARY_PATH="/usr/local/lib"
-</span><span class='line'>export LD_LIBRARY_PATH
-</span><span class='line'>PATH=$PATH:/usr/local/lib/
-</span><span class='line'>export PATH</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/local/lib&quot;</span>
+</span><span class='line'><span class="nb">export </span>LD_LIBRARY_PATH
+</span><span class='line'><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/lib/
+</span><span class='line'><span class="nb">export </span>PATH
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>至此，我们完成了安装Jasper前所需的准备工作。</p>
