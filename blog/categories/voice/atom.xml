@@ -4,7 +4,7 @@
   <title><![CDATA[Category: voice | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/voice/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-02-03T11:06:16+08:00</updated>
+  <updated>2015-02-03T11:36:46+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -20,17 +20,11 @@
     <id>http://luoyulong.github.io/blog/2015/02/03/install-jasper</id>
     <content type="html"><![CDATA[<h1>烧制树莓派镜像至SD卡</h1>
 
-<p>Follow these instructions only if you wish to compile your Jasper software from scratch. These steps are unnecessary if you follow the recommended “Quick Start” instructions above.</p>
+<p>我们首先使用GParted（Ubuntu）清理SD卡。右击SD卡的每个分区，选择  ‘Unmount’ 和 ‘Delete’. 通过 Edit &ndash;> Apply All Operations应用改变.</p>
 
-<p>Burn Raspbian image onto SD card</p>
+<p>下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest">http://downloads.raspberrypi.org/raspbian_latest</a> 文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
 
-<p>We’ll first clear the SD card using GParted on Ubuntu, but you can use an equivalent utility or operating system. In GParted: right-click on each partition of the SD card, then select ‘Unmount’ and ‘Delete’. Apply the changes with Edit > Apply All Operations.</p>
-
-<p>我们首先从下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest.">http://downloads.raspberrypi.org/raspbian_latest.</a></p>
-
-<p>文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
-
-<p>我们使用 <code>dd</code> 命令把镜像烧制到磁盘上。我们使用如下命令获得SD卡的地址</p>
+<p>使用 <code>dd</code> 命令把镜像烧制到磁盘上。再使用如下命令获得SD卡的地址：</p>
 
 <p><code>sudo fdisk -l</code></p>
 
@@ -38,6 +32,66 @@
 
 <p><code>sudo dd if=2013-12-20-wheezy-raspbian.img of=/dev/mmcblk0 bs=2M</code>
 烧制完成，取下SD卡，插入树莓派卡中。</p>
+
+<h1>配置 Raspbian</h1>
+
+<p>在安装Raspbian之前，我们首先要做一些先期工作安装一些一共工具与库。使用ssh登录至树莓派：
+<code>
+ssh pi@192.168.2.3 # password (default): raspberry
+</code>
+运行如下命令，选择  ‘Expand Filesystem’ 并重启树莓派:</p>
+
+<p><code>sudo raspi-config</code></p>
+
+<p>运行如下命令更新树莓派并安装相应工具:</p>
+
+<p><code>
+sudo apt-get update  
+sudo apt-get upgrade --yes
+sudo apt-get install vim git-core python-dev python-pip bison libasound2-dev libportaudio-dev python-pyaudio --yes
+</code>
+插入USB麦克风。打开ALSA配置文件：
+<code>
+sudo vim /etc/modprobe.d/alsa-base.conf
+</code>
+修改：
+<code>
+Change the following line:
+options snd-usb-audio index=-2
+</code>
+成:
+<code>
+options snd-usb-audio index=0
+</code>
+返回shell，运行：
+<code>
+sudo alsa force-reload
+</code>
+之后使用如下命令测试录音功能(可能需要重启树莓派)：</p>
+
+<p><code>
+arecord temp.wav
+</code></p>
+
+<p>确保麦克风正确连接。播放之前录制的音频文件：</p>
+
+<p><code>
+aplay -D hw:1,0 temp.wav
+</code>
+添加如下行至~/.bash_profile(bashrc?)末尾：</p>
+
+<p><code>
+export LD_LIBRARY_PATH="/usr/local/lib"
+source .bashrc
+</code>
+把下面的命令添加到 ~/.bashrc 或者 ~/.bash_profile:
+<code>
+LD_LIBRARY_PATH="/usr/local/lib"
+export LD_LIBRARY_PATH
+PATH=$PATH:/usr/local/lib/
+export PATH
+</code>
+至此，我们完成了安装Jasper前所需的准备工作。</p>
 ]]></content>
   </entry>
   

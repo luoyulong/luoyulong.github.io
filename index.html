@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Feb 3rd, 2015 raspberryPi, voice 在树莓派平台上安装 Jasper 烧制树莓派镜像至SD卡 Follow these instructions only if you wish to compile your Jasper software from &hellip;">
+	<meta name="description" content="Feb 3rd, 2015 raspberryPi, voice 在树莓派平台上安装 Jasper 烧制树莓派镜像至SD卡 我们首先使用GParted（Ubuntu）清理SD卡。右击SD卡的每个分区，选择 ‘Unmount’ 和 ‘Delete’. 通过 Edit &ndash;> Apply &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -129,17 +129,11 @@
 	<div class="entry-content" itemprop="articleBody">
 		<h1>烧制树莓派镜像至SD卡</h1>
 
-<p>Follow these instructions only if you wish to compile your Jasper software from scratch. These steps are unnecessary if you follow the recommended “Quick Start” instructions above.</p>
+<p>我们首先使用GParted（Ubuntu）清理SD卡。右击SD卡的每个分区，选择  ‘Unmount’ 和 ‘Delete’. 通过 Edit &ndash;> Apply All Operations应用改变.</p>
 
-<p>Burn Raspbian image onto SD card</p>
+<p>下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest">http://downloads.raspberrypi.org/raspbian_latest</a> 文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
 
-<p>We’ll first clear the SD card using GParted on Ubuntu, but you can use an equivalent utility or operating system. In GParted: right-click on each partition of the SD card, then select ‘Unmount’ and ‘Delete’. Apply the changes with Edit > Apply All Operations.</p>
-
-<p>我们首先从下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest.">http://downloads.raspberrypi.org/raspbian_latest.</a></p>
-
-<p>文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
-
-<p>我们使用 <code>dd</code> 命令把镜像烧制到磁盘上。我们使用如下命令获得SD卡的地址</p>
+<p>使用 <code>dd</code> 命令把镜像烧制到磁盘上。再使用如下命令获得SD卡的地址：</p>
 
 <p><code>sudo fdisk -l</code></p>
 
@@ -147,6 +141,88 @@
 
 <p><code>sudo dd if=2013-12-20-wheezy-raspbian.img of=/dev/mmcblk0 bs=2M</code>
 烧制完成，取下SD卡，插入树莓派卡中。</p>
+
+<h1>配置 Raspbian</h1>
+
+<p>在安装Raspbian之前，我们首先要做一些先期工作安装一些一共工具与库。使用ssh登录至树莓派：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh pi@192.168.2.3 # password (default): raspberry</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行如下命令，选择  ‘Expand Filesystem’ 并重启树莓派:</p>
+
+<p><code>sudo raspi-config</code></p>
+
+<p>运行如下命令更新树莓派并安装相应工具:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update  
+</span><span class='line'>sudo apt-get upgrade --yes
+</span><span class='line'>sudo apt-get install vim git-core python-dev python-pip bison libasound2-dev libportaudio-dev python-pyaudio --yes</span></code></pre></td></tr></table></div></figure>
+
+
+<p>插入USB麦克风。打开ALSA配置文件：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo vim /etc/modprobe.d/alsa-base.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Change the following line:
+</span><span class='line'>options snd-usb-audio index=-2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>成:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>options snd-usb-audio index=0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>返回shell，运行：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo alsa force-reload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之后使用如下命令测试录音功能(可能需要重启树莓派)：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>arecord temp.wav</span></code></pre></td></tr></table></div></figure>
+
+
+<p>确保麦克风正确连接。播放之前录制的音频文件：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>aplay -D hw:1,0 temp.wav</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加如下行至~/.bash_profile(bashrc?)末尾：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export LD_LIBRARY_PATH="/usr/local/lib"
+</span><span class='line'>source .bashrc</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把下面的命令添加到 ~/.bashrc 或者 ~/.bash_profile:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>LD_LIBRARY_PATH="/usr/local/lib"
+</span><span class='line'>export LD_LIBRARY_PATH
+</span><span class='line'>PATH=$PATH:/usr/local/lib/
+</span><span class='line'>export PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，我们完成了安装Jasper前所需的准备工作。</p>
 
 		
 		
