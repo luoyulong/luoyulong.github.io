@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: raspberryPi | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/raspberrypi/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2015-02-03T11:06:16+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[在树莓派平台上安装 jasper]]></title>
+    <link href="http://luoyulong.github.io/blog/2015/02/03/install-jasper/"/>
+    <updated>2015-02-03T10:43:05+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2015/02/03/install-jasper</id>
+    <content type="html"><![CDATA[<h1>烧制树莓派镜像至SD卡</h1>
+
+<p>Follow these instructions only if you wish to compile your Jasper software from scratch. These steps are unnecessary if you follow the recommended “Quick Start” instructions above.</p>
+
+<p>Burn Raspbian image onto SD card</p>
+
+<p>We’ll first clear the SD card using GParted on Ubuntu, but you can use an equivalent utility or operating system. In GParted: right-click on each partition of the SD card, then select ‘Unmount’ and ‘Delete’. Apply the changes with Edit > Apply All Operations.</p>
+
+<p>我们首先从下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest.">http://downloads.raspberrypi.org/raspbian_latest.</a></p>
+
+<p>文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
+
+<p>我们使用 <code>dd</code> 命令把镜像烧制到磁盘上。我们使用如下命令获得SD卡的地址</p>
+
+<p><code>sudo fdisk -l</code></p>
+
+<p>获得地址 ‘/dev/mmcblk0’, 之后把镜像烧入磁盘:</p>
+
+<p><code>sudo dd if=2013-12-20-wheezy-raspbian.img of=/dev/mmcblk0 bs=2M</code>
+烧制完成，取下SD卡，插入树莓派卡中。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jan 29th, 2015 Install_rose Dec 5th, 2014 R, RStudio, server RStudio Server 环境变量LD_LIBRARY_PATH的配置 问题 在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利， &hellip;">
+	<meta name="description" content="Feb 3rd, 2015 raspberryPi, voice 在树莓派平台上安装 Jasper 烧制树莓派镜像至SD卡 Follow these instructions only if you wish to compile your Jasper software from &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,6 +99,60 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-03T10:43:05+08:00" data-updated="true" itemprop="datePublished">Feb 3<span>rd</span>, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/raspberrypi/'>raspberryPi</a>, <a class='category' href='/blog/categories/voice/'>voice</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/02/03/install-jasper/" itemprop="url">在树莓派平台上安装 Jasper</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>烧制树莓派镜像至SD卡</h1>
+
+<p>Follow these instructions only if you wish to compile your Jasper software from scratch. These steps are unnecessary if you follow the recommended “Quick Start” instructions above.</p>
+
+<p>Burn Raspbian image onto SD card</p>
+
+<p>We’ll first clear the SD card using GParted on Ubuntu, but you can use an equivalent utility or operating system. In GParted: right-click on each partition of the SD card, then select ‘Unmount’ and ‘Delete’. Apply the changes with Edit > Apply All Operations.</p>
+
+<p>我们首先从下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest.">http://downloads.raspberrypi.org/raspbian_latest.</a></p>
+
+<p>文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
+
+<p>我们使用 <code>dd</code> 命令把镜像烧制到磁盘上。我们使用如下命令获得SD卡的地址</p>
+
+<p><code>sudo fdisk -l</code></p>
+
+<p>获得地址 ‘/dev/mmcblk0’, 之后把镜像烧入磁盘:</p>
+
+<p><code>sudo dd if=2013-12-20-wheezy-raspbian.img of=/dev/mmcblk0 bs=2M</code>
+烧制完成，取下SD卡，插入树莓派卡中。</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -637,54 +691,6 @@ Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including
 * American put stock option pricing (APOP) [24].-->
 
 
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-07T18:55:04+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/r-load-global-variable-in-function/" itemprop="url">R 函数内使用load加载全局变量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
-
-<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，发现load把文件内的变量加载到当前函数environment的局部变量里了。</p>
-
-<h1>解决方案</h1>
-
-<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'> load<span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
-</span><span class='line'> global.model <span class="o">&lt;&lt;-</span> global.model
-</span></code></pre></td></tr></table></div></figure>
 
 
 		

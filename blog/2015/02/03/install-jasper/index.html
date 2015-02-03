@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Categories - 零露漙兮</title>
+	<title>在树莓派平台上安装 jasper - 零露漙兮</title>
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="英语 [ 2 ] 论文写作 [ 3 ] 技术积累 [ 13 ] Tau [ 1 ] Rose [ 1 ] R [ 10 ] Cuda [ 4 ] Rose [ 4 ] Mysql [ 1 ] 实验 [ 1 ] Latex [ 1 ] Latex [ 1 ] 论文 [ 1 ] Goagent [ &hellip;">
+	<meta name="description" content="在树莓派平台上安装 Jasper 烧制树莓派镜像至SD卡 Follow these instructions only if you wish to compile your Jasper software from scratch. These steps are unnecessary if &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://luoyulong.github.io/blog/categories/">
+	<link rel="canonical" href="http://luoyulong.github.io/blog/2015/02/03/install-jasper/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -97,53 +97,60 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><article class="page">
-    
-    <h1 class="title">Categories</h1>
-    
-    <div class="entry-content"><ul>
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">在树莓派平台上安装 Jasper</h1>
+	<div class="entry-content" itemprop="articleBody"><h1>烧制树莓派镜像至SD卡</h1>
 
-    <li><a href="/blog/categories/英语/">英语</a> [ 2 ]</li>
+<p>Follow these instructions only if you wish to compile your Jasper software from scratch. These steps are unnecessary if you follow the recommended “Quick Start” instructions above.</p>
 
-    <li><a href="/blog/categories/论文写作/">论文写作</a> [ 3 ]</li>
+<p>Burn Raspbian image onto SD card</p>
 
-    <li><a href="/blog/categories/技术积累/">技术积累</a> [ 13 ]</li>
+<p>We’ll first clear the SD card using GParted on Ubuntu, but you can use an equivalent utility or operating system. In GParted: right-click on each partition of the SD card, then select ‘Unmount’ and ‘Delete’. Apply the changes with Edit > Apply All Operations.</p>
 
-    <li><a href="/blog/categories/TAU/">Tau</a> [ 1 ]</li>
+<p>我们首先从下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest.">http://downloads.raspberrypi.org/raspbian_latest.</a></p>
 
-    <li><a href="/blog/categories/rose/">Rose</a> [ 1 ]</li>
+<p>文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
 
-    <li><a href="/blog/categories/R/">R</a> [ 10 ]</li>
+<p>我们使用 <code>dd</code> 命令把镜像烧制到磁盘上。我们使用如下命令获得SD卡的地址</p>
 
-    <li><a href="/blog/categories/CUDA/">Cuda</a> [ 4 ]</li>
+<p><code>sudo fdisk -l</code></p>
 
-    <li><a href="/blog/categories/ROSE/">Rose</a> [ 4 ]</li>
+<p>获得地址 ‘/dev/mmcblk0’, 之后把镜像烧入磁盘:</p>
 
-    <li><a href="/blog/categories/MYSQL/">Mysql</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/实验/">实验</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/latex/">Latex</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/Latex/">Latex</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/论文/">论文</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/Goagent/">Goagent</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/RStudio/">Rstudio</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/server/">Server</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/raspberryPi/">Raspberrypi</a> [ 1 ]</li>
-
-    <li><a href="/blog/categories/voice/">Voice</a> [ 1 ]</li>
-
-</ul>
-
+<p><code>sudo dd if=2013-12-20-wheezy-raspbian.img of=/dev/mmcblk0 bs=2M</code>
+烧制完成，取下SD卡，插入树莓派卡中。</p>
 </div>
+
 </article>
 
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+<section><h1>Comments</h1><div id="comments" aria-live="polite">
+<!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread">
+</div><script type="text/javascript"> 
+var duoshuoQuery = {short_name:"linglublog"}; 
+(function() {    var ds = document.createElement('script'); 
+ ds.type = 'text/javascript';ds.async = true;  
+ ds.src = 'http://static.duoshuo.com/embed.js';  
+ ds.charset = 'UTF-8';  
+ (document.getElementsByTagName('head')[0]     || document.getElementsByTagName('body')[0]).appendChild(ds);  })();
+ </script>
+<!-- Duoshuo Comment END -->
+ </div> 
+</section>
 
 </div>
 			</div>

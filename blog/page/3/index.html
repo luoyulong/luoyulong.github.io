@@ -9,7 +9,7 @@
 	<meta name="author" content="luoyulong">
 
 	
-	<meta name="description" content="Jun 30th, 2014 ROSE, 技术积累 ROSE 创建模板类变量的一个取巧办法 问题 用ROSE产生cuda代码时，为了性能需要，使用到了纹理存储器。但在纹理存储器变量声明的时候，遇到了点问题：纹理寄存器变量的类型是模板类实例，e.g,texture&lt;DATATYPE,1, &hellip;">
+	<meta name="description" content="Jun 30th, 2014 CUDA, ROSE ROSE 声明CUDA类型的变量 问题 需要声明CUDA类型的变量，如 constant,device,shared等等 解决方案 调用get_declarationModifier().get_storageModifier().set &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,6 +99,47 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-30T10:26:12+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/rose/'>ROSE</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/rose-cuda-varialbe/" itemprop="url">ROSE 声明CUDA类型的变量</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>问题</h1>
+
+<p>需要声明CUDA类型的变量，如 constant,device,shared等等</p>
+
+<h1>解决方案</h1>
+
+<p>调用<code>get_declarationModifier().get_storageModifier().set</code></p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -791,84 +832,6 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>paraprof --pack pdata.ppk
 </span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-14T18:39:01+08:00" data-updated="true" itemprop="datePublished">Dec 14<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/12/14/oldblog/" itemprop="url">Error While Loading Shared Libraries: libjvm.so</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>问题：</h2>
-
-<p>一个开源项目依赖java的库，在配置编译时，一直报错error while loading shared libraries: libjvm.so</p>
-
-<h2>解决方法：</h2>
-
-<p>下面是找到解决方案</p>
-
-<ul>
-<li>cat /etc/ld.so.conf
-发现里面 include ld.so.conf.d/*.conf</li>
-<li>进入ld.so.conf.d文件夹，内容如下:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> atlas-x86_64.conf  python3.34lib.conf  xulrunner-64.conf
-</span><span class='line'>  
-</span><span class='line'>  kernel-2.6.32-279.el6.x86_64.conf  qt-x86_64.conf
-</span><span class='line'>
-</span><span class='line'>  mysql-x86_64.conf                  torque.conf
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>新建java.conf，添加libjvm.so的路径：</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/local/jdk1.6/jre/lib/amd64/server
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>执行ldconfig,重新加载库</li>
-<li>执行ldconfig -p |grep jvm，查看是否成功加载</li>
-<li>发现之前添加的库在列表中后，问题解决。再次执行编译后的文件，就可以成功了，不再报上面的错误</li>
-</ul>
 
 
 		
