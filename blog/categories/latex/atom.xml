@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Latex | 零露漙兮]]></title>
+  <title><![CDATA[Category: latex | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/latex/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-12T22:10:04+08:00</updated>
+  <updated>2015-07-12T22:50:47+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -25,6 +25,35 @@
 <h1>解决方案</h1>
 
 <p>想到一个比较简单地方法，直接在想要换行的地方插入两个美元符号，即$ $，把一个公式拆成两个，顺利换行。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[latex 多行公式的对齐]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/08/01/mutiplelinealigninmath/"/>
+    <updated>2014-08-01T16:52:37+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/08/01/mutiplelinealigninmath</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>在写论文时要书写一个长公式，把他分成多行并在等号后面左对齐</p>
+
+<h1>解决方法</h1>
+
+<p>在数学环境内使用数组，代码如下
+``` latex
+\begin{equation}</p>
+
+<pre><code>\begin{array}{rcl}
+    a+b+c &amp; = &amp; d\\
+              &amp; = &amp; e\\
+    f+g &amp; = &amp; h\\
+         &amp; = &amp;i+j+k 
+\end{array}
+</code></pre>
+
+<p>\end{equation}</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
