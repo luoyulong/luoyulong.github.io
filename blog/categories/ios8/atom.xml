@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios8 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ios8/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-12T22:54:49+08:00</updated>
+  <updated>2015-07-12T22:55:19+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -25,27 +25,6 @@
 <li><p>使用当前页面控制器(viewcontrol)中实现<code>prepareForSegue方法</code>进行页面切换前的准备。其中可以根据跳转页面的SegueIdentifier来分辨跳转目标执行具体逻辑。</p></li>
 </ol>
 
-
-<p>```R
-override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {</p>
-
-<pre><code>    if let identifier = segue.identifier {
-        switch identifier{
-        case History.SegueIdentifier:
-            if let tvc = segue.destinationViewController as? TextViewController
-            {
-                if let ppc = tvc.popoverPresentationController{
-                ppc.delegate = self
-                }
-                tvc.text = "\(diagnostircHistory)"
-            }
-        default: break
-        }
-    }
-}
-</code></pre>
-
-<p>```</p>
 ]]></content>
   </entry>
   
