@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios8 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ios8/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-12T22:59:33+08:00</updated>
+  <updated>2015-07-12T23:01:11+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -18,9 +18,7 @@
     <link href="http://luoyulong.github.io/blog/2015/07/12/iosstudy/"/>
     <updated>2015-07-12T21:21:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2015/07/12/iosstudy</id>
-    <content type="html"><![CDATA[<p>#</p>
-
-<ol>
+    <content type="html"><![CDATA[<ol>
 <li><p>在IOS中所有的页面（view）都遵循MVC架构，即数据存放在model（具体的业务类）中，使用control（viewcontrol）控制数据，在view中显示</p></li>
 <li><p>使用当前页面控制器(viewcontrol)中实现<code>prepareForSegue方法</code>进行页面切换前的准备。其中可以根据跳转页面的SegueIdentifier来分辨跳转目标执行具体逻辑。</p></li>
 </ol>
