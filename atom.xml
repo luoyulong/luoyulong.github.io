@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-02-03T11:38:43+08:00</updated>
+  <updated>2015-07-12T11:01:07+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -56,7 +56,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>运行如下命令更新树莓派并安装相应工具:</p>
+<p>更新树莓派并安装相应工具:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: voice | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/voice/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-02-03T11:38:43+08:00</updated>
+  <updated>2015-07-12T11:01:07+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -49,7 +49,7 @@ ssh pi@192.168.2.3 # password (default): raspberry
 sudo raspi-config
 </code></p>
 
-<p>运行如下命令更新树莓派并安装相应工具:</p>
+<p>更新树莓派并安装相应工具:</p>
 
 <p><code>bash
 sudo apt-get update  
