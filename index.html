@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="# 在IOS中所有的页面（view）都遵循MVC架构，即数据存放在model（具体的业务类）中，使用control（viewcontrol）控制数据，在view中显示
+使用当前页面控制器(viewcontrol)中实现prepareForSegue方法进行页面切换前的准备。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-12T21:21:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:21 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>#</p>
+
+<ol>
+<li><p>在IOS中所有的页面（view）都遵循MVC架构，即数据存放在model（具体的业务类）中，使用control（viewcontrol）控制数据，在view中显示</p></li>
+<li><p>使用当前页面控制器(viewcontrol)中实现<code>prepareForSegue方法</code>进行页面切换前的准备。其中可以根据跳转页面的SegueIdentifier来分辨跳转目标执行具体逻辑。</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">prepareForSegue</span><span class="p">(</span><span class="nl">segue</span><span class="p">:</span> <span class="bp">UIStoryboardSegue</span><span class="p">,</span> <span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">identifier</span> <span class="o">=</span> <span class="n">segue</span><span class="p">.</span><span class="n">identifier</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">switch</span> <span class="n">identifier</span><span class="p">{</span>
+</span><span class='line'>            <span class="k">case</span> <span class="n">History</span><span class="p">.</span><span class="nl">SegueIdentifier</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">if</span> <span class="k">let</span> <span class="n">tvc</span> <span class="o">=</span> <span class="n">segue</span><span class="p">.</span><span class="n">destinationViewController</span> <span class="kt">as</span><span class="o">?</span> <span class="n">TextViewController</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="k">let</span> <span class="n">ppc</span> <span class="o">=</span> <span class="n">tvc</span><span class="p">.</span><span class="n">popoverPresentationController</span><span class="p">{</span>
+</span><span class='line'>                    <span class="n">ppc</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                    <span class="n">tvc</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;\(diagnostircHistory)&quot;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="k">default</span><span class="o">:</span> <span class="k">break</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>对于一些功能组件，为了实现其方法，首先需要为其设置一个代理（类）。该类需要继承该组件指定的特点协议，通过实现协议中的方法实现组件方法。例如：</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span>  <span class="nl">DiagnosedHappinewwViewController</span><span class="p">:</span> <span class="n">HappinessViewController</span><span class="p">,</span><span class="n">UIPopoverPresentationControllerDelegate</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kr">override</span> <span class="k">var</span> <span class="nl">happiness</span><span class="p">:</span> <span class="n">Int</span><span class="p">{</span>
+</span><span class='line'>        <span class="kr">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">diagnostircHistory</span> <span class="o">+=</span> <span class="p">[</span><span class="n">happiness</span><span class="p">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//</span>
+</span><span class='line'>    <span class="n">private</span> <span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">diagnostircHistory</span><span class="p">:[</span><span class="n">Int</span><span class="p">]{</span>
+</span><span class='line'>        <span class="kr">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">defaults</span><span class="p">.</span><span class="n">objectForKey</span><span class="p">(</span><span class="n">History</span><span class="p">.</span><span class="n">DefaultsKey</span><span class="p">)</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">??</span> <span class="p">[]</span> <span class="p">}</span>
+</span><span class='line'>        <span class="kr">set</span> <span class="p">{</span><span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">newValue</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="n">History</span><span class="p">.</span><span class="n">DefaultsKey</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">private</span> <span class="k">struct</span> <span class="n">History</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">static</span> <span class="k">let</span> <span class="n">SegueIdentifier</span> <span class="o">=</span> <span class="s">&quot;Show Diagnostic History&quot;</span>
+</span><span class='line'>        <span class="k">static</span> <span class="k">let</span> <span class="n">DefaultsKey</span> <span class="o">=</span> <span class="s">&quot;DiagnosedHappinessViewController.History&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">prepareForSegue</span><span class="p">(</span><span class="nl">segue</span><span class="p">:</span> <span class="bp">UIStoryboardSegue</span><span class="p">,</span> <span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">identifier</span> <span class="o">=</span> <span class="n">segue</span><span class="p">.</span><span class="n">identifier</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">switch</span> <span class="n">identifier</span><span class="p">{</span>
+</span><span class='line'>            <span class="k">case</span> <span class="n">History</span><span class="p">.</span><span class="nl">SegueIdentifier</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">if</span> <span class="k">let</span> <span class="n">tvc</span> <span class="o">=</span> <span class="n">segue</span><span class="p">.</span><span class="n">destinationViewController</span> <span class="kt">as</span><span class="o">?</span> <span class="n">TextViewController</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="k">let</span> <span class="n">ppc</span> <span class="o">=</span> <span class="n">tvc</span><span class="p">.</span><span class="n">popoverPresentationController</span><span class="p">{</span>
+</span><span class='line'>                    <span class="n">ppc</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                    <span class="n">tvc</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;\(diagnostircHistory)&quot;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="k">default</span><span class="o">:</span> <span class="k">break</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">adaptivePresentationStyleForPresentationController</span><span class="p">(</span><span class="nl">controller</span><span class="p">:</span> <span class="n">UIPresentationController</span><span class="o">!</span><span class="p">,</span> <span class="nl">traitCollection</span><span class="p">:</span> <span class="n">UITraitCollection</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UIModalPresentationStyle</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">UIModalPresentationStyle</span><span class="p">.</span><span class="n">None</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-03T10:43:05+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>烧制树莓派镜像至SD卡</h1>
+
+<p>我们首先使用GParted（Ubuntu）清理SD卡。右击SD卡的每个分区，选择  ‘Unmount’ 和 ‘Delete’. 通过 Edit &ndash;> Apply All Operations应用改变.</p>
+
+<p>下载 Raspbian Wheezy <a href="http://downloads.raspberrypi.org/raspbian_latest">http://downloads.raspberrypi.org/raspbian_latest</a> 文章对2014-01-07的版本进行了测试，之后的版本如无大改动，应该也ok。</p>
+
+<p>使用 <code>dd</code> 命令把镜像烧制到磁盘上。再使用如下命令获得SD卡的地址：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo fdisk -l
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>获得地址 ‘/dev/mmcblk0’, 之后把镜像烧入磁盘:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo dd <span class="k">if</span><span class="o">=</span>2013-12-20-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/mmcblk0 <span class="nv">bs</span><span class="o">=</span>2M
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>烧制完成，取下SD卡，插入树莓派卡中。</p>
+
+<h1>配置 Raspbian</h1>
+
+<p>在安装Raspbian之前，我们首先要做一些先期工作安装一些一共工具与库。使用ssh登录至树莓派：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ssh pi@192.168.2.3 <span class="c"># password (default): raspberry</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行如下命令，选择  ‘Expand Filesystem’ 并重启树莓派:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo raspi-config
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新树莓派并安装相应工具:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get upgrade --yes
+</span><span class='line'>sudo apt-get install vim git-core python-dev python-pip bison libasound2-dev libportaudio-dev python-pyaudio --yes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>插入USB麦克风。打开ALSA配置文件：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo vim /etc/modprobe.d/alsa-base.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Change the following line:
+</span><span class='line'>options snd-usb-audio <span class="nv">index</span><span class="o">=</span>-2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>成:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>options snd-usb-audio <span class="nv">index</span><span class="o">=</span>0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>返回shell，运行：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo alsa force-reload
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>之后使用如下命令测试录音功能(可能需要重启树莓派)：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>arecord temp.wav
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>确保麦克风正确连接。播放之前录制的音频文件：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>aplay -D hw:1,0 temp.wav
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加如下行至~/.bash_profile(bashrc?)末尾：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/local/lib&quot;</span>
+</span><span class='line'><span class="nb">source</span> .bashrc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把下面的命令添加到 ~/.bashrc 或者 ~/.bash_profile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/local/lib&quot;</span>
+</span><span class='line'><span class="nb">export </span>LD_LIBRARY_PATH
+</span><span class='line'><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/lib/
+</span><span class='line'><span class="nb">export </span>PATH
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，我们完成了安装Jasper前所需的准备工作。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/29/install-rose/">Install_rose</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-29T10:01:24+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:01 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-05T09:59:17+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:59 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>在服务器上安装了一个Rstudio-server进行基于R语言的web开发。前期一路顺利，直到开发数据库模块需要用到RODBC。在加载ODBC库后，调用函数odbcConnect结果报错：</p>
+
+<blockquote><p>In odbcDriverConnect(&ldquo;DSN=myhps;UID=hps;PWD=hps&rdquo;):<br/>
+  [RODBC] ERROR: state 01000, code 0, message [unixODBC][Driver Manager]Can&rsquo;t open lib &lsquo;/usr/lib/libmyodbc5-5.1.5.so&rsquo; : file not found</p></blockquote>
+
+<p>第一印象是我的odbc装的有问题，但locate了libmyodbc5-5.1.5.so这个文件，存在。同时，发现使用ssh登录到服务器直接进入R，可以正常使用该函数没有报错。看来环境变量出错的概率比较大。<br/>
+为了进一步确认，我在Rstudio-server中键入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>system("source ~/.bashrc;Rscript ~/test.R",intern = TRUE)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，test.R中的内容为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>library(RODBC)
+</span><span class='line'>odbcConnect("myhps","hps","hps")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+运行成功，看来问题就是环境变量中引起的。经过排查，最终确定问题为环境变量<em>LD_LIBRARY_PATH</em>少了路径“/usr/local/lib”。那么下一步要做的事就是更新RStudio-server的<em>LD_LIBRARY_PATH</em>环境变量。
+首先，我在RStudio中调用<code>Sys.getenv()</code>,打印出所有环境变量，其中：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"/usr/local/lib64/R/lib:/lib:/usr/local/lib64:/home/lyl/denpendence/jdk1.7.0_51/jre/lib/amd64/server" 
+</span><span class='line'>LD_LIBRARY_PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从包含的路径来看，RStudio肯定不是使用shell的方式读取.bashrc,/etc/bashrc等文件初始化环境变量（经过实验验证，的确是这样）。于是，google了下RStudio环境变量的设置方法，回答指向了如下链接：</p>
+
+<blockquote><p><a href="https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  ">https://support.rstudio.com/hc/communities/public/questions/203035636-global-environment-variable  </a>
+ <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html</a></p></blockquote>
+
+<p> 即通过在文件<code>Renviron.site</code>,<code>Renviron</code>和<code>.Rprofile</code>中设置。起初，文档没看太仔细，直接用shell的语法设置环境变量了，但RStudio对环境变量设置有自己的一套语法，这里要注意:</p>
+
+<blockquote><p>Lines in a site or user environment file should be either comment lines starting with #, or lines of the form name=value. The latter sets the environmental variable name to value, overriding an existing value. If value contains an expression of the form ${foo-bar}, the value is that of the environmental variable foo if that exists and is set to a non-empty value, otherwise bar. (If it is of the form ${foo}, the default is &ldquo;&rdquo;.) This construction can be nested, so bar can be of the same form (as in ${foo-${bar-blah}}). Note that the braces are essential: for example $HOME will not be interpreted.</p></blockquote>
+
+<p> 设置ok，重启RStudio，重启session（这里要注意是重启session，而不是重新登录。Rstudio-server会帮你保存session。重启session的方法： Session->Restart R），环境变量有变化，设置成功。重新运行函数<code>odbcConnect</code>，还是报同样的错误。</p>
+
+<p> 这里之后又折腾了几个小时，最后，重读了下RStudio-server的安装配置文档<a href="https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server">https://support.rstudio.com/hc/en-us/articles/200552316-Configuring-the-Server</a> ，发现有这么一句话：</p>
+
+<blockquote><p>You can add elements to the default LD_LIBRARY_PATH for R sessions (as determined by the R ldpaths script) by adding an rsession-ld-library-path entry to the server config file. This might be useful for ensuring that packages can locate external library dependencies that aren&rsquo;t installed in the system standard library paths. For example:
+<code>
+rsession-ld-library-path=/opt/local/lib:/opt/local/someapp/lib
+</code></p></blockquote>
+
+<p> 于是我在配置文件 <code>/etc/rstudio/rserver.conf</code>添加相应设置
+ <code>
+ rsession-ld-library-path=/usr/local/lib
+</code>
+ 重启RStudio-server，重启session，终于成功。看来，RStudio-server的<em>LD_LIBARAR_PATH</em>只有在这里设置才有用,真是个反人类的配置习惯。至此，在该问题上已经花费了5个小时。这同时也提醒我们，仔细看文档是多么的重要！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-18T12:20:04+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:20 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>一直需要打开一些国外的网站，例如google学术，会议官网，但是由于某些原因，不能直接上网。</p>
+
+<h1>解决方案</h1>
+
+<h2>使用google app engin</h2>
+
+<ol>
+<li>使用goagent程序配置好appid，密码</li>
+<li>设置好端口，apc的路径</li>
+<li>设置iplist，<strong>这步是最重要的，设置一个好的iplist可以直接感觉不到中间代理的存在</strong></li>
+<li>速度快的ip主要是通过使用脚本的方法扫描，或者可以网上搜索现场的ip</li>
+<li>最后，不要忘记设置dns。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/16/latexequationnewline/">Latex: 行内长公式换行</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-16T16:42:18+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>4:42 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题描述</h1>
+
+<p>写论文的时候有一个长公式，长度超过了半页宽度，造成了溢出，很丑陋，网上搜了下没有比较满意的换行办法。</p>
+
+<h1>解决方案</h1>
+
+<p>想到一个比较简单地方法，直接在想要换行的地方插入两个美元符号，即$ $，把一个公式拆成两个，顺利换行。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/22/r-orderbycolumn/">R 数据框按列排序</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-22T11:00:40+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>11:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'>A<span class="p">[</span><span class="kp">order</span><span class="p">(</span>A<span class="p">[,</span><span class="m">4</span><span class="p">],</span>decreasing<span class="o">=</span><span class="bp">T</span><span class="p">),]</span>＃按照第<span class="m">4</span>列降序排序
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/21/arff-reading-problem/">R语言 Arff 读取错误</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-21T22:46:18+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>10:46 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>问题描述</h2>
+
+<p>在arff每行的最后中写入“float”属性，结果一种一行总是与其余几行写入的结果不一样</p>
+
+<h2>解决</h2>
+
+<p>最终发现是在该行的最后面多了一个空格，删除空格即可正常读取</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/01/mutiplelinealigninmath/">Latex 多行公式的对齐</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-08-01T16:52:37+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>4:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>在写论文时要书写一个长公式，把他分成多行并在等号后面左对齐</p>
+
+<h1>解决方法</h1>
+
+<p>在数学环境内使用数组，代码如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='latex'><span class='line'><span class="k">\begin</span><span class="nb">{</span>equation<span class="nb">}</span>
+</span><span class='line'>    <span class="k">\begin</span><span class="nb">{</span>array<span class="nb">}{</span>rcl<span class="nb">}</span>
+</span><span class='line'>        a+b+c <span class="nb">&amp;</span> = <span class="nb">&amp;</span> d<span class="k">\\</span>
+</span><span class='line'>                  <span class="nb">&amp;</span> = <span class="nb">&amp;</span> e<span class="k">\\</span>
+</span><span class='line'>        f+g <span class="nb">&amp;</span> = <span class="nb">&amp;</span> h<span class="k">\\</span>
+</span><span class='line'>             <span class="nb">&amp;</span> = <span class="nb">&amp;</span>i+j+k
+</span><span class='line'>    <span class="k">\end</span><span class="nb">{</span>array<span class="nb">}</span>
+</span><span class='line'><span class="k">\end</span><span class="nb">{</span>equation<span class="nb">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/28/gitcommand/">Git版本的重置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-28T23:55:38+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:55 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>当多个人对git进行修改时，会在更新时造成版本冲突，需要合并。当一个版本的修改并不重要时，不想合并</p>
+
+<h1>解决方案</h1>
+
+<p>调用如下命令，重置修改
+<code>git reset --hard HEAD^</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/2">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

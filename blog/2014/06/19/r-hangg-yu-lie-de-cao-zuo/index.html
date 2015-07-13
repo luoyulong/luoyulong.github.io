@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>R语言 行与列的操作 - 零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="选择列 数据框/dataframe: 引用： dn、d[,n]、d"name"、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。
+d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。
+d[c(m,n,&hellip;)]、d[,c(m,n &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">R语言 行与列的操作</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-19T09:43:53+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>选择列</h2>
+
+<h3>数据框/dataframe:</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>dn、d[,n]、d"name"、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
+<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
+<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
+
+<h4>其它技巧：</h4></li>
+<li>负号表示剔除。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='R'><span class='line'>  allnames<span class="o">=</span><span class="kp">names</span><span class="p">(</span>rawdata<span class="p">)</span>
+</span><span class='line'>  vnames<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;OptType&quot;</span><span class="p">,</span><span class="s">&quot;OptConfig&quot;</span><span class="p">,</span><span class="s">&quot;Gflops&quot;</span><span class="p">)</span>
+</span><span class='line'>  vnames2<span class="o">=</span>allnames <span class="o">%in%</span> vnames
+</span><span class='line'>  snames<span class="o">=</span>allnames<span class="p">[</span><span class="o">!</span>vnames2<span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>可以用 grep() 搜索变量名。比如
+<code>mydata[grep("^q", names(mydata))]</code>
+选择名称以“q”开头的数据列。</li>
+</ul>
+
+
+<h3>列表/List：</h3>
+
+<h4>list列的引用</h4>
+
+<ul>
+<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
+</ul>
+
+
+<h2>选择行</h2>
+
+<h3>数据框：</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>d[n,] 得到某一行组成的数据框。</li>
+<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
+<li>head() 得到前6行组成的数据框。</li>
+<li>tail() 得到最后6行组成的数据框。</li>
+</ul>
+
+
+<h4>条件引用。例如：</h4>
+
+<ul>
+<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
+<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
+</ul>
+
+
+<h4>数据框行的遍历</h4>
+
+<ul>
+<li>使用索引进行遍历</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='R'><span class='line'><span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="kp">nrow</span><span class="p">(</span>rawdata<span class="p">))</span>
+</span><span class='line'>  dosomething<span class="p">(</span>rawdata<span class="p">[</span>i<span class="p">,])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">luoyulong</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-06-19T09:43:53+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:43 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/r/'>r</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/30/roseproblem/" title="Previous Post: A Rose Problem:  SgNode::get_numberOfTraversalSuccessors(): Assertion 'false' failed">&laquo; A Rose Problem:  SgNode::get_numberOfTraversalSuccessors(): Assertion 'false' failed</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/06/19/r-language-variable/" title="Next Post: R语言 变量">R语言 变量 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

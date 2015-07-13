@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ROSE 在源文件的include语句之前插入语句 - 零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="问题 今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/blog/2014/07/01/rose-insertstatementbeforeheader/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ROSE 在源文件的include语句之前插入语句</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-01T11:50:40+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>11:50 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>问题</h1>
+
+<p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
+
+<h1>解决方法</h1>
+
+<p>通过比较scope和scope中语句的名字，找到当前源文件中第一个SgStatement</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'> <span class="c1">//find the first statement of current source file</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">firststatement</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">SgStatementPtrList</span> <span class="n">statelist</span><span class="o">=</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">generateStatementList</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">statelist</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">tmp</span><span class="o">=</span><span class="n">statelist</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">()</span><span class="o">==</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>    <span class="n">firststatement</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>                                                                     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">luoyulong</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-07-01T11:50:40+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>11:50 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rose/'>rose</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/30/linuxodbc/" title="Previous Post: 检测Linux下 ODBC是否配置成功">&laquo; 检测Linux下 ODBC是否配置成功</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/07/02/cuda-timing/" title="Next Post: CUDA 计时的方法">CUDA 计时的方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>TAU 中的profile和trace - 零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="预备知识 profile侧重结果，trace侧重过程。
+对于两个不同类型的测试（profile or trace），需要指定不同的makefile文件，各类makefile文件在tau编译配置时根据参数指定生成。 自动化插桩的过程： 添加或者设需要的makefile
+根据待插桩的源码， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/blog/2013/12/19/tau/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">TAU 中的profile和trace</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-12-19T20:51:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:51 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>预备知识</h2>
+
+<ul>
+<li><p>profile侧重结果，trace侧重过程。</p></li>
+<li><p>对于两个不同类型的测试（profile or trace），需要指定不同的makefile文件，各类makefile文件在tau编译配置时根据参数指定生成。</p></li>
+</ul>
+
+
+<h2>自动化插桩的过程：</h2>
+
+<ul>
+<li><p>添加或者设需要的makefile</p></li>
+<li><p>根据待插桩的源码，设置相应的tau编译器（可在makefile中替换或者直接使用tau编译器编译）</p></li>
+</ul>
+
+
+<h3>例子：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#设置tau makefile</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">TAU_MAKEFILE</span><span class="o">=</span>/home/xxxx/tools/tau_TRACE_PAPIWALLCLOCK/x86_64/lib/Makefile.tau-papi-pdt-trace
+</span><span class='line'>
+</span><span class='line'><span class="c">#设置插桩参数</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">TAU_THROTTLE</span><span class="o">=</span>0
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER1</span><span class="o">=</span>P_WALL_CLOCK_TIME
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER2</span><span class="o">=</span>PAPI_L1_DCM
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER3</span><span class="o">=</span>PAPI_FP_INS
+</span><span class='line'>
+</span><span class='line'><span class="c">#调用tau编译器</span>
+</span><span class='line'>tau_f90.sh  -c  hps_em_comp.f90
+</span><span class='line'>tau_cxx.sh  main.cpp  hps_em_comp.o -o mytest
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>此外，进一步的详细插桩可以通过在编译时指定配置文件</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>tau_f90.sh -tau_options<span class="o">=</span>-optTauSelectFile<span class="o">=</span>ins_file -c  hps_em_comp.f90
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置文件格式如下：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Tell tau to not profile these functions</span>
+</span><span class='line'>BEGIN_EXCLUDE_LIST
+</span><span class='line'>double* get<span class="o">(</span>int size<span class="o">)</span>
+</span><span class='line'>END_EXCLUDE_LIST
+</span><span class='line'>
+</span><span class='line'><span class="c">#Exclude these files from profiling</span>
+</span><span class='line'>
+</span><span class='line'>BEGIN_FILE_EXCLUDE_LIST
+</span><span class='line'>*.so
+</span><span class='line'>END_FILE_EXCLUDE_LIST
+</span><span class='line'>
+</span><span class='line'>BEGIN_INSTRUMENT_SECTION
+</span><span class='line'><span class="c">#插桩所有在文件loop_test.cpp中函数multiply内的循环</span>
+</span><span class='line'>loops <span class="nv">file</span><span class="o">=</span><span class="s2">&quot;loop_test.cpp&quot;</span> <span class="nv">routine</span><span class="o">=</span><span class="s2">&quot;multiply&quot;</span>
+</span><span class='line'><span class="c">#插入代码段</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">file</span> <span class="o">=</span> <span class="s2">&quot;line_test.cpp&quot;</span> <span class="nv">line</span> <span class="o">=</span> <span class="m">9</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;printf(\&quot;i=%d: \&quot;, i);&quot;</span>
+</span><span class='line'><span class="nb">exit </span><span class="nv">routine</span> <span class="o">=</span><span class="s2">&quot;int foo()&quot;</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;cout &lt;&lt;\&quot;exiting foo\&quot;&lt;&lt;endl;&quot;</span>
+</span><span class='line'>entry <span class="nv">routine</span> <span class="o">=</span><span class="s2">&quot;int foo()&quot;</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;cout &lt;&lt;\&quot;entering foo\&quot;&lt;&lt;endl;i&quot;</span>
+</span><span class='line'>END_INSTRUMENT_SECTION
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>使用PAPI测量更多指标，首先下指定使用papi参数编译的tau ，makefile，其次，使用环境变量PAPI_EVENT</p></li>
+<li><p>当一次要采集多个指标时，可以通过设置COUNT &lt;1-25>来实现</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">COUNTER1</span><span class="o">=</span>P_WALL_CLOCK_TIME
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER2</span><span class="o">=</span>PAPI_L1_DCM
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER3</span><span class="o">=</span>PAPI_FP_INS
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>之后用paraprof –pack 命令打包结果成ppk，上传至数据库。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>paraprof --pack pdata.ppk
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">luoyulong</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-12-19T20:51:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:51 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tau/'>tau</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/14/oldblog/" title="Previous Post: error while loading shared libraries: libjvm.so">&laquo; error while loading shared libraries: libjvm.so</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/" title="Next Post: Miktex+ Texmarker/Texstudio环境的配置  ">Miktex+ Texmarker/Texstudio环境的配置   &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

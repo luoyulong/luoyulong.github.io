@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Error: No Instance of Overloaded Function "tex1Dfetch" Matches the Argument List Argument Types Are: (Texture<double, 1, cudaReadModeElementType>, Int) - 零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="问题 在使用cuda的纹理存储器时，编译器报错 1
+2
+3
+4
+stencilexample.cu(147): error:
+no instance of overloaded function &quot;tex1Dfetch&quot;
+matches the argument list &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/blog/2014/06/29/cudatexture/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Error: No Instance of Overloaded Function "tex1Dfetch" Matches the Argument List Argument Types Are: (Texture<double, 1, cudaReadModeElementType>, Int)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-29T15:59:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>问题</h1>
+
+<p>在使用cuda的纹理存储器时，编译器报错</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>stencilexample.cu<span class="o">(</span>147<span class="o">)</span>: error:
+</span><span class='line'>no instance of overloaded <span class="k">function</span> <span class="s2">&quot;tex1Dfetch&quot;</span>
+</span><span class='line'>matches the argument list argument types are:
+</span><span class='line'><span class="o">(</span>texture&lt;double, 1, cudaReadModeElementType&gt;, int<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>解决方法</h1>
+
+<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
+
+<blockquote><p>The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.
+出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p></blockquote>
+
+<p>非要加速的话，可以使用一个int2类型的向量拼接成一个double</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="c1">//declarate the texture using int2 type</span>
+</span><span class='line'><span class="n">texture</span> <span class="o">&lt;</span><span class="kt">int2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cudaReadModeElementType</span><span class="o">&gt;</span> <span class="n">Atex</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//used in global function(cuda kernel)</span>
+</span><span class='line'><span class="kt">int2</span> <span class="n">A1</span><span class="o">=</span><span class="n">tex1Dfetch</span><span class="p">(</span><span class="n">Atex</span><span class="p">,(</span><span class="n">texoff</span><span class="o">+</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="n">offset</span><span class="p">)</span> <span class="o">*</span><span class="n">lda</span> <span class="o">+</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">));</span>
+</span><span class='line'><span class="n">Bs</span><span class="p">[</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">__hiloint2double</span><span class="p">(</span><span class="n">A1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="n">A1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">luoyulong</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-06-29T15:59:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:59 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/cuda/'>cuda</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/24/r-string-manipulate/" title="Previous Post: R 字符操作函数">&laquo; R 字符操作函数</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/06/30/rose-create-template-variable/" title="Next Post: ROSE 创建模板类变量的一个取巧办法">ROSE 创建模板类变量的一个取巧办法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

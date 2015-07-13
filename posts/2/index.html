@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="候选benchmark PloyBench cell_cuda radinia FDTD Himeno stencil:test Implementing the Himeno Benchmark with CUDA on GPU Clusters 1
+2
+3
+4
+5
+6
+7
+8
+9
+for (i &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/posts/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/07/benchmarksets/">Stencil BenchmarkSets</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-07T21:00:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:00 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda<em> radinia</em> FDTD</h1>
+
+<ul>
+<li>Himeno stencil:test
+
+<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a></p></blockquote></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">imax</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">jmax</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">kmax</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">s0</span> <span class="o">=</span>  <span class="n">a0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span> <span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span> <span class="n">a2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span> <span class="n">b0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">])</span><span class="o">+</span> <span class="n">b1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span> <span class="n">b2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span> <span class="n">c0</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span> <span class="n">c1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span> <span class="n">c2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span> <span class="n">wrk1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
+</span><span class='line'><span class="n">ss</span> <span class="o">=</span> <span class="p">(</span><span class="n">s0</span><span class="o">*</span><span class="n">a3</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">])</span><span class="o">*</span><span class="n">bnd</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>     <span class="c1">//(ss = delta P)</span>
+</span><span class='line'><span class="n">wrk2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span><span class="n">omega</span><span class="o">*</span><span class="n">ss</span><span class="p">;</span>    <span class="c1">//(over-relaxation)</span>
+</span><span class='line'><span class="n">gosa</span> <span class="o">+=</span> <span class="n">ss</span><span class="o">*</span><span class="n">ss</span><span class="p">;</span>                        <span class="c1">//(residual, measure of convergence)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>3D Possion 19-point: test</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="n">a1</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">c0</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span>
+</span><span class='line'>              <span class="n">c1</span><span class="o">*</span><span class="p">(</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span><span class="o">+</span>
+</span><span class='line'>              <span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">+</span>
+</span><span class='line'>              <span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>              <span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a0</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>3D heat:test</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span>  <span class="mf">0.125</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</span><span class='line'>         <span class="n">c</span> <span class="o">+</span> <span class="mf">0.125</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</span><span class='line'>         <span class="o">+</span> <span class="mf">0.125</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>         <span class="o">+</span> <span class="n">a</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Wave equation:test</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cm">/* It&#39;s order-4, 3D 15 point stencil, to match up with Matteo Frigo&#39;s</span>
+</span><span class='line'><span class="cm"> * hand-optimized wave equation </span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">c0</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c3</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">c4</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">div</span> <span class="o">=</span> <span class="n">c0</span> <span class="o">*</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span>
+</span><span class='line'>                <span class="n">c1</span> <span class="o">*</span> <span class="p">((</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span>
+</span><span class='line'>              <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="p">((</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span>
+</span><span class='line'>              <span class="o">+</span> <span class="n">c3</span> <span class="o">*</span> <span class="p">((</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span>
+</span><span class='line'>              <span class="o">+</span> <span class="n">c4</span> <span class="o">*</span> <span class="p">((</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</span><span class='line'>                    <span class="o">+</span> <span class="p">(</span><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)));</span>
+</span><span class='line'><span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">pa</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">vsq</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">Nxy</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">Nx</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">div</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!--#Pochoir benchmark
+Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
+* heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
+* Conway’s game of Life (Life) [18];
+* finite-difference wave equation (Wave) [32];
+* attice Boltzmann method (LBM) [30]; 
+* RNA secondary structure prediction (RNA) [1, 6]; 
+* pairwise sequence alignment (PSA) [19];
+* longest common subsequence (LCS) [7];
+* American put stock option pricing (APOP) [24].-->
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/07/r-load-global-variable-in-function/">R 函数内使用load加载全局变量</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-07T18:55:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:55 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，发现load把文件内的变量加载到当前函数environment的局部变量里了。</p>
+
+<h1>解决方案</h1>
+
+<p>在调用load之后，把函数内局部变量的值用<code>&lt;&lt;-</code>赋给全局变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'> <span class="kp">load</span><span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
+</span><span class='line'> global.model <span class="o">&lt;&lt;-</span> global.model
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/06/r-setcurrentpath/">R 设置工作路径为当前文件所在路径</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-06T21:34:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题：</h1>
+
+<p>对于R语言来说，要include另一个文件，需要用到命令source；对于在源文件中的R脚本，要source当前文件所在目录下的其他文件，还需要把R语言解释器的工作路径设置为当前文件所在路径，否则source某个文件就需要使用绝对路径，不利于项目的移植。</p>
+
+<h1>解决方案:</h1>
+
+<p>通过下方的一块代码片段，就可以把R语言的工作路径设置为文件所在路径</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'>frame_files <span class="o">&lt;-</span> <span class="kp">lapply</span><span class="p">(</span><span class="kp">sys.frames</span><span class="p">(),</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> x<span class="o">$</span>ofile<span class="p">)</span>
+</span><span class='line'>frame_files <span class="o">&lt;-</span> <span class="kp">Filter</span><span class="p">(</span><span class="kp">Negate</span><span class="p">(</span><span class="kp">is.null</span><span class="p">),</span> frame_files<span class="p">)</span>
+</span><span class='line'>TOPDIR <span class="o">&lt;-</span> <span class="kp">dirname</span><span class="p">(</span>frame_files<span class="p">[[</span><span class="kp">length</span><span class="p">(</span>frame_files<span class="p">)]])</span>
+</span><span class='line'><span class="kp">setwd</span><span class="p">(</span>TOPDIR<span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/03/gpuexperiences/">CUDA 优化经验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-03T17:45:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>5:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>硬件模型</h1>
+
+<ol>
+<li><p>shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位</p></li>
+<li><p>warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理一个block kernel时，会经可能多的发射warp，每个warp内线程的大小为32.</p></li>
+<li><p><span id="anchor1"></span>每个SM可以同时驻留多个 block执行（active block），这主要取决于当前SM是否拥有足够的硬件资源，如Register，shared-memory等等.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p></li>
+<li><p>在200机器上的GPU，每个SM拥有256*256个32位的寄存器（即平均每个线程有256个32-bite的寄存器），49152byte的shared memory,65536byte的constant memory。</p></li>
+</ol>
+
+
+<h1>优化原则</h1>
+
+<ol>
+<li><p>把部分无共享的shared-memory变为global memory， 并没有增加速度，推测是因为对shared-memory减少的还不够 不足以使得同时在SM运行的block增加。（已经验证）</p></li>
+<li><p>有些常量经常被用到，且占用的空间很小。之前使用常量存储器，现改用参数传递，放入寄存器进行加速。</p></li>
+<li><p>把与threadIdx无关的公共计算提到host端计算，再把结果使用参数传递给kernel函数</p></li>
+<li><p>写回的变量不使用shared-memory</p></li>
+<li><p>shared-memory和分块大小之间有一个<a href="#anchor1">tradeoff</a>，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
+<li><p>除法非常耗时，如果精度允许的话，使用被除数的倒数组成乘法替换除法。</p></li>
+<li><p>GPU适合小而多的运算，对于复杂运算（例如许多除法，大尺寸工作集），CPU反而占据性能优势</p></li>
+<li>分块的大小：block中总的线程数要大于每个sm中硬件线程的个数，这样才能保证硬件线程都处在工作中。</li>
+</ol>
+
+
+<h1>CUDA手册:性能优化</h1>
+
+<p>Performance optimization revolves around three basic strategies:<em> Maximize parallel execution to achieve maximum utilization;</em> Optimize memory usage to achieve maximum memory throughput;* Optimize instruction usage to achieve maximum instruction throughput</p>
+
+<h2>Maximize Utilization</h2>
+
+<p>XXXX###Application Level
+XXXX###Device Level
+1. For devices of compute capability 1.x, only one kernel can execute on a device at one time, so the kernel should be launched with at least <strong>as many thread blocks as</strong> there are multiprocessors in the device.2. For devices of compute capability 2.x and higher, multiple kernels can <strong>execute concurrently</strong> on a device, so maximum utilization can also be achieved by using streams to enable enough kernels to execute concurrently as described in Asynchronous Concurrent Execution.</p>
+
+<h3>Multiprocessor Level</h3>
+
+<p>XXXX</p>
+
+<h2>Maximize Memory Throughput</h2>
+
+<p>XXXX</p>
+
+<h3>Device Memory Accesses</h3>
+
+<p>XXXX</p>
+
+<h4>Shared Memory<em> xxxx</em> Because it is on-chip, shared memory has much higher bandwidth and much lower latency than local or global memory.To achieve high bandwidth, shared memory is divided into equally-sized memory modules, called banks, which can be accessed simultaneously. Any memory read or write request made of n addresses that fall in n distinct memory banks can therefore be serviced simultaneously, yielding an overall bandwidth that is n times as high as the bandwidth of a single module.</h4>
+
+<ul>
+<li>However, if two addresses of a memory request fall in the same memory bank, there is a <strong>bank conflict</strong> and the access has to be serialized. The hardware splits a memory request with bank conflicts into as many separate conflict-free requests as necessary, decreasing throughput by a factor equal to the number of separate memory requests. If the number of separate memory requests is n, the initial memory request is said to cause n-way bank conflicts.</li>
+<li>To get maximum performance, it is therefore important to understand how memory addresses map to memory banks in order to schedule the memory requests so as to minimize bank conflicts. This is described in Compute Capability 1.x,Compute Capability 2.x, Compute Capability 3.x, and Compute Capability 5.0 for devices of compute capability 1.x, 2.x, 3.x, and 5.0, respectively.</li>
+</ul>
+
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>详见http://stackoverflow.com/questions/12212003/how-concurrent-blocks-can-run-a-single-gpu-streaming-multiprocessor/12213137#12213137<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/03/paperwritting/">论文写作经验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-03T09:28:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:28 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>对reviewer的误区</h2>
+
+<h3>Reviewers will carefully read my paper ? <strong>Totally wrong!</strong></h3>
+
+<ul>
+<li>A reviewer often has a pile of papers to review</li>
+<li>A reviewer typically makes up his/her mind after 5-minute browsing <strong><em>title/author->abstract->conclusions->references &ndash;>introduction</em></strong>, then spends &lt; 1h to justify (moving to main body of the paper)</li>
+</ul>
+
+
+<h3>Your action:</h3>
+
+<ul>
+<li>make your points <strong><em>EARLY</em></strong></li>
+<li>bring up your results <strong><em>QUICK</em></strong></li>
+<li>highlight your contributions <strong><em>FAST</em></strong></li>
+<li>make your paper easy to read, clear to follow, and good to learn</li>
+</ul>
+
+
+<h2>Component of a paper</h2>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/englishwriting/">英语写作 句子</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-02T21:57:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:57 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>句子</h1>
+
+<ul>
+<li>xxxx,to the best of our knowledge,not been previously studied and is now more compelling than ever</li>
+<li>While a large body of work exists on DRAM in laboratory conditions, little has been reported on real DRAM failures in large production clusters.</li>
+<li>with extremely low energy footprints, all within acceptable area bounds
+Failures are costly in terms of &hellip;</li>
+<li>To our knowledge, these are the first performance results of a shortest path problem on realistic graph instances in the order of billions of vertices and edges.[1]</li>
+<li>In this work, our focus is to attack the dual problems of increasing power consumption and latency for DRAM devices</li>
+<li>These observations have the potential to open up new avenues for architecture research.</li>
+<li>In terms of xxx &mdash;&ndash; 对于xxx方面</li>
+<li>To the best of our knowledge this is the first proposed scheme that &hellip;
+reads have no option but to wait at the memory controller.</li>
+<li>Guard against forgetting &mdash;-防止XXXX</li>
+<li>reason about &mdash;-推出</li>
+<li>At 16 KB per multiprocessor, the shared memory is a scarce resource and must be used sparingly.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/cuda-timing/">CUDA 计时的方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-02T15:04:09+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>3:04 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>测试CUDA应用的时间</p>
+
+<h1>解决方案</h1>
+
+<p>引用自stackoverflow：</p>
+
+<blockquote><p>You could do sth along the lines of :</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include&lt;sys/time.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">timeval</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span><span class="n">cudaThreadSynchronize</span><span class="p">());</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">double</span> <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1000000.0</span><span class="o">*</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">tv_sec</span><span class="o">-</span><span class="n">t1</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">)</span> <span class="o">+</span> <span class="n">t2</span><span class="p">.</span><span class="n">tv_usec</span><span class="o">-</span><span class="n">t1</span><span class="p">.</span><span class="n">tv_usec</span><span class="p">)</span><span class="o">/</span><span class="mf">1000000.0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
+</span><span class='line'><span class="n">cudaEvent_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">kernel_call</span><span class="o">&lt;&lt;&lt;</span><span class="n">dimGrid</span><span class="p">,</span> <span class="n">dimBlock</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">time</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Time to generate:  %3.1f ms </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/01/rose-insertstatementbeforeheader/">ROSE 在源文件的include语句之前插入语句</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-01T11:50:40+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>11:50 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
+
+<h1>解决方法</h1>
+
+<p>通过比较scope和scope中语句的名字，找到当前源文件中第一个SgStatement</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'> <span class="c1">//find the first statement of current source file</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">firststatement</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">SgStatementPtrList</span> <span class="n">statelist</span><span class="o">=</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">generateStatementList</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">statelist</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="n">SgStatement</span><span class="o">*</span> <span class="n">tmp</span><span class="o">=</span><span class="n">statelist</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">()</span><span class="o">==</span><span class="n">currentscope</span><span class="o">-&gt;</span><span class="n">get_file_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_filenameString</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>    <span class="n">firststatement</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>                                                                     <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/30/linuxodbc/">检测Linux下 ODBC是否配置成功</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-30T21:48:21+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:48 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>测试ODBC安装是否成功</p>
+
+<h1>解决方案</h1>
+
+<p>使用isql测试数据源是否配置正确</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># dbname:the username of target database</span>
+</span><span class='line'><span class="c"># dbpsw: the password of target database</span>
+</span><span class='line'>imysql -v datasourcename dbname dbpsw
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果数据源配置正确，会出现进入数据库</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/30/roseimportant/">ROSE 编程要点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-30T15:10:56+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>SgName的输出要使用getString方法，而不能使用unparseToCompleteString</li>
+<li>在创建AST node变量时，子节点要使用deepCopy进行深度拷贝，防止一个node在语法树中被多次引用；若在编程中不小心出现这种情况，可以通过打印dot图观察依赖关系，从而找到修改被多次引用的node。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/3">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/index.html">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

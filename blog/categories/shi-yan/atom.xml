@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 实验 | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/shi-yan/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2015-07-13T12:11:31+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[stencil BenchmarkSets]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/07/benchmarksets/"/>
+    <updated>2014-07-07T21:00:10+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/07/benchmarksets</id>
+    <content type="html"><![CDATA[<h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda<em> radinia</em> FDTD</h1>
+
+<ul>
+<li>Himeno stencil:test
+
+<blockquote><p><a href="https://hpcforge.org/scm/viewvc.php/*checkout*/trunk/debug/cuda/nvidia_himeno_mpicuda/HimenoMultiGPUBenchmark.pdf?root=codes">Implementing the Himeno Benchmark with CUDA on GPU Clusters</a>
+<code>c++
+for (i=1; i&lt;imax-1; i++)
+for (j=1; j&lt;jmax-1; j++)
+for (k=1; k&lt;kmax-1; k++)
+{
+s0 =  a0[i][j][k]*p[i+1][j][k]+ a1[i][j][k]*p[i][j+1][k]+ a2[i][j][k]*p[i][j][k+1]+ b0[i][j][k]*(p[i+1][j+1][k] - p[i+1][j-1][k]- p[i-1][j+1][k] + p[i-1][j-1][k])+ b1[i][j][k]*(p[i][j+1][k+1] - p[i][j+1][k-1]- p[i][j-1][k+1] + p[i][j-1][k-1])+ b2[i][j][k]*(p[i+1][j][k+1] - p[i+1][j][k-1]- p[i-1][j][k+1] + p[i-1][j][k-1])+ c0[i][j][k]*p[i-1][j][k]+ c1[i][j][k]*p[i][j-1][k]+ c2[i][j][k]*p[i][j][k-1]+ wrk1[i][j][k];
+ss = (s0*a3[i][j][k]-p[i][j][k])*bnd[i][j][k];     //(ss = delta P)
+wrk2[i][j][k]=p[i][j][k]+omega*ss;    //(over-relaxation)
+gosa += ss*ss;                        //(residual, measure of convergence)
+}
+</code></p></blockquote></li>
+<li><p>3D Possion 19-point: test
+<code>c++
+a1[k][j][i]=c0*(b[k][j][i]+
+              c1*(a0[k][j][i+1]+a0[k][j][i-1]+a0[k][j+1][i]+a0[k][j-1][i]+a0[k][j][i+1]+a0[k][j][i-1])+a0[k][j][i]+a0[k][j][i])+
+              a0[k+1][j+1][i]+a0[k+1][j-1][i]+a0[k-1][j+1][i]+a0[k-1][j-1][i]+
+              a0[k+1][j][i+1]+a0[k+1][j][i-1]+a0[k-1][j][i+1]+a0[k-1][j][i-1]
+              a0[k][j+1][i+1]+a0[k][j+1][i-1]+a0[k][j-1][i+1]+a0[k][j-1][i-1]);
+</code></p></li>
+<li><p>3D heat:test
+``` c++
+a(t, i, j, k) =  0.125 * (a(t-1, i+1, j, k) &ndash; 2.0 * a(t-1, i, j, k) + a(t-1, i-1, j, k))
+       c + 0.125 * (a(t-1, i, j+1, k) &ndash; 2.0 * a(t-1, i, j, k) + a(t-1, i, j-1, k))</p>
+
+<pre><code>   + 0.125 * (a(t-1, i, j, k+1) - 2.0 * a(t-1, i, j, k) + a(t-1, i, j, k-1))
+   + a(t-1, i, j, k); 
+</code></pre>
+
+<p>```</p></li>
+<li><p>Wave equation:test
+``` c++
+/* It&rsquo;s order-4, 3D 15 point stencil, to match up with Matteo Frigo&rsquo;s</p></li>
+<li>hand-optimized wave equation
+*/
+float c0 = coef[0], c1 = coef[1], c2 = coef[2], c3 = coef[3], c4 = coef[4];
+float div = c0 * pa(t, i, j, k) +
+             c1 * ((pa(t, i, j, k+1) + pa(t, i, j, k-1))
+
+<pre><code>             + (pa(t, i, j+1, k) + pa(t, i, j-1, k)) 
+             + (pa(t, i+1, j, k) + pa(t, i-1, j, k))) 
+       + c2 * ((pa(t, i, j, k+2) + pa(t, i, j, k-2)) 
+             + (pa(t, i, j+2, k) + pa(t, i, j-2, k)) 
+             + (pa(t, i+2, j, k) + pa(t, i-2, j, k))) 
+       + c3 * ((pa(t, i, j, k+3) + pa(t, i, j, k-3)) 
+             + (pa(t, i, j+3, k) + pa(t, i, j-3, k)) 
+             + (pa(t, i+3, j, k) + pa(t, i-3, j, k))) 
+       + c4 * ((pa(t, i, j, k+4) + pa(t, i, j, k-4)) 
+             + (pa(t, i, j+4, k) + pa(t, i, j-4, k)) 
+             + (pa(t, i+4, j, k) + pa(t, i-4, j, k)));
+</code></pre>
+
+<p>pa(t+1, i, j, k) = 2 * pa(t, i, j, k) &ndash; pa(t+1, i, j, k) + vsq[i * Nxy + j * Nx + k] * div;
+```</p></li>
+</ul>
+
+
+<!--#Pochoir benchmark
+Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including:
+* heat equation (Heat) [13] on a 2D grid, a 2D torus, and a 4D grid;
+* Conway’s game of Life (Life) [18];
+* finite-difference wave equation (Wave) [32];
+* attice Boltzmann method (LBM) [30]; 
+* RNA secondary structure prediction (RNA) [1, 6]; 
+* pairwise sequence alignment (PSA) [19];
+* longest common subsequence (LCS) [7];
+* American put stock option pricing (APOP) [24].-->
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

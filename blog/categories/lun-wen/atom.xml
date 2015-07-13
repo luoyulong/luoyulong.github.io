@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 论文 | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/lun-wen/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2015-07-13T12:11:31+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Latex: 行内长公式换行]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/10/16/latexequationnewline/"/>
+    <updated>2014-10-16T16:42:18+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/10/16/latexequationnewline</id>
+    <content type="html"><![CDATA[<h1>问题描述</h1>
+
+<p>写论文的时候有一个长公式，长度超过了半页宽度，造成了溢出，很丑陋，网上搜了下没有比较满意的换行办法。</p>
+
+<h1>解决方案</h1>
+
+<p>想到一个比较简单地方法，直接在想要换行的地方插入两个美元符号，即$ $，把一个公式拆成两个，顺利换行。</p>
+]]></content>
+  </entry>
+  
+</feed>

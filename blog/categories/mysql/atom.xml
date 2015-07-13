@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mysql | 零露漙兮]]></title>
+  <link href="http://luoyulong.github.io/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://luoyulong.github.io/"/>
+  <updated>2015-07-13T12:11:31+08:00</updated>
+  <id>http://luoyulong.github.io/</id>
+  <author>
+    <name><![CDATA[luoyulong]]></name>
+    <email><![CDATA[luoyulong@ncic.ac.cn]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[检测Linux下 ODBC是否配置成功]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/06/30/linuxodbc/"/>
+    <updated>2014-06-30T21:48:21+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/06/30/linuxodbc</id>
+    <content type="html"><![CDATA[<h1>问题</h1>
+
+<p>测试ODBC安装是否成功</p>
+
+<h1>解决方案</h1>
+
+<p>使用isql测试数据源是否配置正确
+``` bash</p>
+
+<h1>dbname:the username of target database</h1>
+
+<h1>dbpsw: the password of target database</h1>
+
+<p>imysql -v datasourcename dbname dbpsw
+```
+如果数据源配置正确，会出现进入数据库</p>
+]]></content>
+  </entry>
+  
+</feed>
