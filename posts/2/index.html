@@ -1,133 +1,86 @@
 
-<!DOCTYPE HTML>
-
-<html>
-
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-	<meta charset="utf-8">
-	<title>零露漙兮</title>
-	<meta name="author" content="luoyulong">
+  <meta charset="utf-8">
+  <title>零露漙兮</title>
+  <meta name="author" content="luoyulong">
 
-	
-	<meta name="description" content="Jul 7th, 2014 实验 Stencil BenchmarkSets 候选benchmark PloyBench cell_cuda radinia FDTD Himeno stencil:test Implementing the Himeno Benchmark with CUDA &hellip;">
-	
+  
+  <meta name="description" content="候选benchmark PloyBench cell_cuda radinia FDTD Himeno stencil:test Implementing the Himeno Benchmark with CUDA on GPU Clusters 1
+2
+3
+4
+5
+6
+7
+8
+9
+for (i &hellip;">
+  
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
-	
-	<link rel="canonical" href="http://luoyulong.github.io/blog/page/2/">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<!--link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'-->
-  	<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
-	
+  
+  <link rel="canonical" href="http://luoyulong.github.io/posts/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
   
 
 </head>
 
-
-<body>
-	<div class="container">
-		<div class="left-col">
-			<div class="intrude-less">
-			<header id="header" class="inner"><div class="profilepic">
-  <img src="/images/avatar.jpg" alt="Profile Picture" style="width: 160px;" />
-	<script src="/javascripts/md5.js"></script>
-	<script type="text/javascript">
-	</script>
-</div>
-
-<nav id="main-nav">
-<section class="aboutme">
-  <h1><a href="/">
- 零露漙兮BLOG
- </a></h1>
-  <p>
-    A blogging for high performance optimizing study.
-  </p>
-</section>
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
 <ul class="main">
     <li><a href="/">博客</a></li>
     <li><a href="/blog/archives">文章列表</a></li>
 </ul>
 
-
 </nav>
-<nav id="sub-nav">
-	<div class="social">
-		
-			<a class="email" href="mailto:luoyulong@ncic.ac.cn" title="Email">Email</a>
-		
-		
-			<a class="facebook" href="http://www.facebook.com/yulong.luo.1" title="Facebook">Facebook</a>
-		
-		
-		
-		
-			<a class="github" href="https://github.com/luoyulong" title="GitHub">GitHub</a>
-		
-		
-		
-		
-			<a class="linkedin" href="http://www.linkedin.com/in/luoyulong" title="LinkedIn">LinkedIn</a>
-		
-		
-		
-		
-		
-		
-		
-    	
-    	
-			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
-</nav>
-</header>				
-			</div>
-		</div>	
-		<div class="mid-col">
-			
-				
-			
-			<div class="mid-col-container">
-				<div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/07/benchmarksets/">Stencil BenchmarkSets</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-<time datetime="2014-07-07T21:00:10+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
-		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/shi-yan/'>实验</a>
+<time class='entry-date' datetime='2014-07-07T21:00:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:00 pm</span></time>
+        
+      </p>
+    
+  </header>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/benchmarksets/" itemprop="url">Stencil BenchmarkSets</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda<em> radinia</em> FDTD</h1>
+  <div class="entry-content"><h1>候选benchmark<em> <del>PloyBench</del></em> cell_cuda<em> radinia</em> FDTD</h1>
 
 <ul>
 <li>Himeno stencil:test
@@ -248,41 +201,35 @@ Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including
 
 
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-07T18:55:04+08:00" data-updated="true" itemprop="datePublished">Jul 7<span>th</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/07/r-load-global-variable-in-function/">R 函数内使用load加载全局变量</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/07/r-load-global-variable-in-function/" itemprop="url">R 函数内使用load加载全局变量</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
+<time class='entry-date' datetime='2014-07-07T18:55:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:55 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
 
 <p>之前的代码中把训练的模型存储到文件中，之后调用的时候会通过函数load加载。这次把load的调用包装到一个函数内，结果怎么都load不进来（当前函数内有效，切换到其他函数时加载的全局变量global.model就为空了）。经过研究，发现load把文件内的变量加载到当前函数environment的局部变量里了。</p>
 
@@ -292,45 +239,39 @@ Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'> load<span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'> <span class="kp">load</span><span class="p">(</span><span class="s">&quot;globalmodels.saved&quot;</span><span class="p">)</span>
 </span><span class='line'> global.model <span class="o">&lt;&lt;-</span> global.model
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-06T21:34:32+08:00" data-updated="true" itemprop="datePublished">Jul 6<span>th</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/06/r-setcurrentpath/">R 设置工作路径为当前文件所在路径</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/06/r-setcurrentpath/" itemprop="url">R 设置工作路径为当前文件所在路径</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题：</h1>
+<time class='entry-date' datetime='2014-07-06T21:34:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题：</h1>
 
 <p>对于R语言来说，要include另一个文件，需要用到命令source；对于在源文件中的R脚本，要source当前文件所在目录下的其他文件，还需要把R语言解释器的工作路径设置为当前文件所在路径，否则source某个文件就需要使用绝对路径，不利于项目的移植。</p>
 
@@ -342,148 +283,41 @@ Figure 3 shows Pochoir’s performance on a wider range of benchmarks, including
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'>frame_files <span class="o">&lt;-</span> lapply<span class="p">(</span>sys.frames<span class="p">(),</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> x<span class="o">$</span>ofile<span class="p">)</span>
-</span><span class='line'>frame_files <span class="o">&lt;-</span> Filter<span class="p">(</span>Negate<span class="p">(</span>is.null<span class="p">),</span> frame_files<span class="p">)</span>
-</span><span class='line'>TOPDIR <span class="o">&lt;-</span> dirname<span class="p">(</span>frame_files<span class="p">[[</span>length<span class="p">(</span>frame_files<span class="p">)]])</span>
-</span><span class='line'>setwd<span class="p">(</span>TOPDIR<span class="p">)</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'>frame_files <span class="o">&lt;-</span> <span class="kp">lapply</span><span class="p">(</span><span class="kp">sys.frames</span><span class="p">(),</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> x<span class="o">$</span>ofile<span class="p">)</span>
+</span><span class='line'>frame_files <span class="o">&lt;-</span> <span class="kp">Filter</span><span class="p">(</span><span class="kp">Negate</span><span class="p">(</span><span class="kp">is.null</span><span class="p">),</span> frame_files<span class="p">)</span>
+</span><span class='line'>TOPDIR <span class="o">&lt;-</span> <span class="kp">dirname</span><span class="p">(</span>frame_files<span class="p">[[</span><span class="kp">length</span><span class="p">(</span>frame_files<span class="p">)]])</span>
+</span><span class='line'><span class="kp">setwd</span><span class="p">(</span>TOPDIR<span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-06T10:34:47+08:00" data-updated="true" itemprop="datePublished">Jul 6<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/06/r-dotchart/" itemprop="url">R 二维点图的绘画</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>对于一个具有二维属性，一维结果的数据库，想把它表现成二维点图的形式，我们可以使用plot函数来绘画，其中使用X，Y两个维度来表示其属性，通过点的颜色，大小来表示其结果</p>
-
-<ul>
-<li>首先，我们先根据其结果值，生成相应的颜色代码，这里我们通过颜色的深浅来表示值的大小，颜色越深，值越大：</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#function GetRBG convert value to a color number  </span>
-</span><span class='line'>GetRGB <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>val<span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  maxval <span class="o">&lt;-</span> max<span class="p">(</span>val<span class="p">)</span>
-</span><span class='line'>  col <span class="o">&lt;-</span> rgb<span class="p">(</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="o">-</span><span class="p">(</span>val<span class="o">/</span>maxval<span class="p">)</span><span class="o">^</span><span class="m">4</span><span class="p">)</span>
-</span><span class='line'>  <span class="kr">return</span> <span class="p">(</span>col<span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<ul>
-<li>其次，我们使用plot绘画二维点图</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#some preprocess</span>
-</span><span class='line'>result<span class="o">$</span>x <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">2</span><span class="p">)))</span>
-</span><span class='line'>result<span class="o">$</span>y <span class="o">&lt;-</span> unlist<span class="p">(</span>lapply<span class="p">(</span>result<span class="o">$</span>OptConfig<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> GetNumberFromStr<span class="p">(</span>x<span class="p">,</span> <span class="m">3</span><span class="p">)))</span>
-</span><span class='line'><span class="c1">#achieve the color for value vector</span>
-</span><span class='line'>result<span class="o">$</span>col <span class="o">&lt;-</span> result<span class="o">$</span>Gflops
-</span><span class='line'><span class="c1">#using function plot </span>
-</span><span class='line'>plot<span class="p">(</span>result<span class="o">$</span>x<span class="p">,</span> result<span class="o">$</span>y<span class="p">,</span> ylim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span>max<span class="p">(</span>result<span class="o">$</span>y<span class="p">)),</span> xlim<span class="o">=</span>c<span class="p">(</span><span class="m">0</span><span class="p">,</span> max<span class="p">(</span>result<span class="o">$</span>x<span class="p">)),</span> pch<span class="o">=</span><span class="m">18</span><span class="p">,</span> col<span class="o">=</span>GetRGB<span class="p">(</span>result<span class="o">$</span>col<span class="p">),</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">,</span> xlab<span class="o">=</span><span class="s">&quot;X&quot;</span><span class="p">,</span> ylab<span class="o">=</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p>
-
-<ul>
-<li>对于重要的点，使用point进行飘红强调</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="c1">#achieve the first 100 results</span>
-</span><span class='line'>bestresult <span class="o">&lt;-</span> result<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">,</span> <span class="p">]</span>
-</span><span class='line'><span class="c1">#paint the 100 results using red</span>
-</span><span class='line'>points<span class="p">(</span>bestresult<span class="o">$</span>x<span class="p">,</span> bestresult<span class="o">$</span>y<span class="p">,</span> pch<span class="o">=</span><span class="m">19</span><span class="p">,</span> col<span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span> type<span class="o">=</span><span class="s">&quot;p&quot;</span> <span class="p">,</span>cex<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+    </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/03/gpuexperiences/">CUDA 优化经验</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-<time datetime="2014-07-03T17:45:10+08:00" data-updated="true" itemprop="datePublished">Jul 3<span>rd</span>, 2014</time></div>
-		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
+<time class='entry-date' datetime='2014-07-03T17:45:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>5:45 pm</span></time>
+        
+      </p>
+    
+  </header>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/03/gpuexperiences/" itemprop="url">CUDA 优化经验</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>硬件模型</h1>
+  <div class="entry-content"><h1>硬件模型</h1>
 
 <ol>
 <li><p>shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位</p></li>
@@ -544,41 +378,35 @@ XXXX###Device Level
 </ol>
 </div>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-03T09:28:32+08:00" data-updated="true" itemprop="datePublished">Jul 3<span>rd</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/03/paperwritting/">论文写作经验</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/lun-wen-xie-zuo/'>论文写作</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/03/paperwritting/" itemprop="url">论文写作经验</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>对reviewer的误区</h2>
+<time class='entry-date' datetime='2014-07-03T09:28:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:28 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>对reviewer的误区</h2>
 
 <h3>Reviewers will carefully read my paper ? <strong>Totally wrong!</strong></h3>
 
@@ -599,41 +427,35 @@ XXXX###Device Level
 
 
 <h2>Component of a paper</h2>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-02T21:57:54+08:00" data-updated="true" itemprop="datePublished">Jul 2<span>nd</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/englishwriting/">英语写作 句子</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/ying-yu/'>英语</a>, <a class='category' href='/blog/categories/lun-wen-xie-zuo/'>论文写作</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/02/englishwriting/" itemprop="url">英语写作 句子</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>句子</h1>
+<time class='entry-date' datetime='2014-07-02T21:57:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:57 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>句子</h1>
 
 <ul>
 <li>xxxx,to the best of our knowledge,not been previously studied and is now more compelling than ever</li>
@@ -651,41 +473,35 @@ reads have no option but to wait at the memory controller.</li>
 <li>At 16 KB per multiprocessor, the shared memory is a scarce resource and must be used sparingly.</li>
 </ul>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-02T15:04:09+08:00" data-updated="true" itemprop="datePublished">Jul 2<span>nd</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/cuda-timing/">CUDA 计时的方法</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/02/cuda-timing/" itemprop="url">CUDA 计时的方法</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
+<time class='entry-date' datetime='2014-07-02T15:04:09+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>3:04 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
 
 <p>测试CUDA应用的时间</p>
 
@@ -710,7 +526,7 @@ reads have no option but to wait at the memory controller.</li>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="cp">#include&lt;sys/time.h&gt;</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include&lt;sys/time.h&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">struct</span> <span class="n">timeval</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">;</span>
 </span><span class='line'>
@@ -744,7 +560,7 @@ reads have no option but to wait at the memory controller.</li>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
 </span><span class='line'><span class="n">cudaEvent_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">gpuErrchk</span><span class="p">(</span> <span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">)</span> <span class="p">);</span>
@@ -762,41 +578,35 @@ reads have no option but to wait at the memory controller.</li>
 
 
 <p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-07-01T11:50:40+08:00" data-updated="true" itemprop="datePublished">Jul 1<span>st</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/01/rose-insertstatementbeforeheader/">ROSE 在源文件的include语句之前插入语句</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/rose/'>ROSE</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/01/rose-insertstatementbeforeheader/" itemprop="url">ROSE 在源文件的include语句之前插入语句</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
+<time class='entry-date' datetime='2014-07-01T11:50:40+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>11:50 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
 
 <p>今天，在使用ROSE自动生成CUDA代码时，遇到一个问题：程序中需要使用纹理存储器对GPU访存进行加速，相应地要生成texture变量声明的代码。由于texture初始化时使用到一个宏，该宏定义在文件头部，这就使得texture的初始化必须在宏定义之后。翻遍了手册，找不到把语句插入preprocessinfo 结点（include，#define ）之后的方法，于是退一步打算找到当前scope中第一个语句，然后插到该语句之后。本打算调用firststatement的方法，报错，并且scope中的statement并不全是源码中的语句，会包含一些头文件中的结点。</p>
 
@@ -832,41 +642,35 @@ reads have no option but to wait at the memory controller.</li>
 </span><span class='line'>                                                                     <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+</div>
+  
   
 
 
-<time datetime="2014-06-30T21:48:21+08:00" data-updated="true" itemprop="datePublished">Jun 30<span>th</span>, 2014</time></div>
-		<div class="tags">
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/30/linuxodbc/">检测Linux下 ODBC是否配置成功</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-	<a class='category' href='/blog/categories/mysql/'>MYSQL</a>, <a class='category' href='/blog/categories/ji-zhu-ji-lei/'>技术积累</a>
 
 
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/06/30/linuxodbc/" itemprop="url">检测Linux下 ODBC是否配置成功</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>问题</h1>
+<time class='entry-date' datetime='2014-06-30T21:48:21+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:48 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
 
 <p>测试ODBC安装是否成功</p>
 
@@ -884,33 +688,130 @@ reads have no option but to wait at the memory controller.</li>
 
 
 <p>如果数据源配置正确，会出现进入数据库</p>
+</div>
+  
+  
 
-		
-		
-	</div>
 
-</article>
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/30/roseimportant/">ROSE 编程要点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-30T15:10:56+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>SgName的输出要使用getString方法，而不能使用unparseToCompleteString</li>
+<li>在创建AST node变量时，子节点要使用deepCopy进行深度拷贝，防止一个node在语法树中被多次引用；若在编程中不小心出现这种情况，可以通过打印dot图观察依赖关系，从而找到修改被多次引用的node。</li>
+</ul>
 
 </div>
-<nav id="pagenavi">
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
     
-        <a href="/" class="prev">Prev</a>
+      <a class="prev" href="/posts/3">&larr; Older</a>
     
+    <a href="/blog/archives">Blog Archives</a>
     
-        <a href="/blog/page/3/" class="next">Next</a>
+    <a class="next" href="/index.html">Newer &rarr;</a>
     
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
-			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2015
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
 
     luoyulong
 
 
-Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-		</div>
-	</div>
-	
+</footer>
+  
 
 
 
@@ -918,12 +819,6 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
 
 
 
-
-
-<script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F827d87586e82cbe94424561664edd024' type='text/javascript'%3E%3C/script%3E"));
-</script>
 
 
 

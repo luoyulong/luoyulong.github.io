@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术积累 | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/ji-zhu-ji-lei/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-12T23:02:54+08:00</updated>
+  <updated>2015-07-13T10:44:42+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -98,55 +98,70 @@ setwd(TOPDIR)
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[R 二维点图的绘画]]></title>
-    <link href="http://luoyulong.github.io/blog/2014/07/06/r-dotchart/"/>
-    <updated>2014-07-06T10:34:47+08:00</updated>
-    <id>http://luoyulong.github.io/blog/2014/07/06/r-dotchart</id>
-    <content type="html"><![CDATA[<p>对于一个具有二维属性，一维结果的数据库，想把它表现成二维点图的形式，我们可以使用plot函数来绘画，其中使用X，Y两个维度来表示其属性，通过点的颜色，大小来表示其结果</p>
+    <title type="html"><![CDATA[CUDA 优化经验]]></title>
+    <link href="http://luoyulong.github.io/blog/2014/07/03/gpuexperiences/"/>
+    <updated>2014-07-03T17:45:10+08:00</updated>
+    <id>http://luoyulong.github.io/blog/2014/07/03/gpuexperiences</id>
+    <content type="html"><![CDATA[<h1>硬件模型</h1>
+
+<ol>
+<li><p>shared-memoy在硬件层是以SM为单位，在逻辑层是以block为单位</p></li>
+<li><p>warp是GPU在硬件层的并行单位。一般来说，warp等于32. SM在处理一个block kernel时，会经可能多的发射warp，每个warp内线程的大小为32.</p></li>
+<li><p><span id="anchor1"></span>每个SM可以同时驻留多个 block执行（active block），这主要取决于当前SM是否拥有足够的硬件资源，如Register，shared-memory等等.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p></li>
+<li><p>在200机器上的GPU，每个SM拥有256*256个32位的寄存器（即平均每个线程有256个32-bite的寄存器），49152byte的shared memory,65536byte的constant memory。</p></li>
+</ol>
+
+
+<h1>优化原则</h1>
+
+<ol>
+<li><p>把部分无共享的shared-memory变为global memory， 并没有增加速度，推测是因为对shared-memory减少的还不够 不足以使得同时在SM运行的block增加。（已经验证）</p></li>
+<li><p>有些常量经常被用到，且占用的空间很小。之前使用常量存储器，现改用参数传递，放入寄存器进行加速。</p></li>
+<li><p>把与threadIdx无关的公共计算提到host端计算，再把结果使用参数传递给kernel函数</p></li>
+<li><p>写回的变量不使用shared-memory</p></li>
+<li><p>shared-memory和分块大小之间有一个<a href="#anchor1">tradeoff</a>，即越多的shared-memory会导致在同一SM上驻留的block减少，但同时其访存的性能会上升</p></li>
+<li><p>除法非常耗时，如果精度允许的话，使用被除数的倒数组成乘法替换除法。</p></li>
+<li><p>GPU适合小而多的运算，对于复杂运算（例如许多除法，大尺寸工作集），CPU反而占据性能优势</p></li>
+<li>分块的大小：block中总的线程数要大于每个sm中硬件线程的个数，这样才能保证硬件线程都处在工作中。</li>
+</ol>
+
+
+<h1>CUDA手册:性能优化</h1>
+
+<p>Performance optimization revolves around three basic strategies:<em> Maximize parallel execution to achieve maximum utilization;</em> Optimize memory usage to achieve maximum memory throughput;* Optimize instruction usage to achieve maximum instruction throughput</p>
+
+<h2>Maximize Utilization</h2>
+
+<p>XXXX###Application Level
+XXXX###Device Level
+1. For devices of compute capability 1.x, only one kernel can execute on a device at one time, so the kernel should be launched with at least <strong>as many thread blocks as</strong> there are multiprocessors in the device.2. For devices of compute capability 2.x and higher, multiple kernels can <strong>execute concurrently</strong> on a device, so maximum utilization can also be achieved by using streams to enable enough kernels to execute concurrently as described in Asynchronous Concurrent Execution.</p>
+
+<h3>Multiprocessor Level</h3>
+
+<p>XXXX</p>
+
+<h2>Maximize Memory Throughput</h2>
+
+<p>XXXX</p>
+
+<h3>Device Memory Accesses</h3>
+
+<p>XXXX</p>
+
+<h4>Shared Memory<em> xxxx</em> Because it is on-chip, shared memory has much higher bandwidth and much lower latency than local or global memory.To achieve high bandwidth, shared memory is divided into equally-sized memory modules, called banks, which can be accessed simultaneously. Any memory read or write request made of n addresses that fall in n distinct memory banks can therefore be serviced simultaneously, yielding an overall bandwidth that is n times as high as the bandwidth of a single module.</h4>
 
 <ul>
-<li><p>首先，我们先根据其结果值，生成相应的颜色代码，这里我们通过颜色的深浅来表示值的大小，颜色越深，值越大：
-``` r</p>
-
-<h1>function GetRBG convert value to a color number</h1>
-
-<p>GetRGB &lt;&ndash; function(val)
-{
-maxval &lt;&ndash; max(val)
-col &lt;&ndash; rgb(1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>,1-(val/maxval)<sup>4</sup>)
-return (col)
-}
-```</p></li>
-<li><p>其次，我们使用plot绘画二维点图
-``` r</p>
-
-<h1>some preprocess</h1>
-
-result$x &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 2)))
-result$y &lt;&ndash; unlist(lapply(result$OptConfig, function(x) GetNumberFromStr(x, 3)))
-
-<h1>achieve the color for value vector</h1>
-
-result$col &lt;&ndash; result$Gflops
-
-<h1>using function plot</h1>
-
-<p>plot(result$x, result$y, ylim=c(0,max(result$y)), xlim=c(0, max(result$x)), pch=18, col=GetRGB(result$col), type=&ldquo;p&rdquo;, xlab=&ldquo;X&rdquo;, ylab=&ldquo;Y&rdquo;, cex=0.7)
-```
-<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/plot_example.jpeg" alt="图片貌似出错啦" /></p></li>
-<li><p>对于重要的点，使用point进行飘红强调
-``` r</p>
-
-<h1>achieve the first 100 results</h1>
-
-bestresult &lt;&ndash; result[1:100, ]
-
-<h1>paint the 100 results using red</h1>
-
-<p>points(bestresult$x, bestresult$y, pch=19, col=&ldquo;red&rdquo;, type=&ldquo;p&rdquo; ,cex=0.7) <br/>
-```
-<img src="https://raw.githubusercontent.com/luoyulong/luoyulong.github.io/source/source/_posts/image/point_red.jpeg" alt="图片貌似出错啦" /></p></li>
+<li>However, if two addresses of a memory request fall in the same memory bank, there is a <strong>bank conflict</strong> and the access has to be serialized. The hardware splits a memory request with bank conflicts into as many separate conflict-free requests as necessary, decreasing throughput by a factor equal to the number of separate memory requests. If the number of separate memory requests is n, the initial memory request is said to cause n-way bank conflicts.</li>
+<li>To get maximum performance, it is therefore important to understand how memory addresses map to memory banks in order to schedule the memory requests so as to minimize bank conflicts. This is described in Compute Capability 1.x,Compute Capability 2.x, Compute Capability 3.x, and Compute Capability 5.0 for devices of compute capability 1.x, 2.x, 3.x, and 5.0, respectively.</li>
 </ul>
+
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>详见http://stackoverflow.com/questions/12212003/how-concurrent-blocks-can-run-a-single-gpu-streaming-multiprocessor/12213137#12213137<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
 
 ]]></content>
   </entry>

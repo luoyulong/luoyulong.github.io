@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>零露漙兮</title>
+  <meta name="author" content="luoyulong">
+
+  
+  <meta name="description" content="问题 需要声明CUDA类型的变量，如 constant,device,shared等等 解决方案 调用get_declarationModifier().get_storageModifier().set
+">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://luoyulong.github.io/posts/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="零露漙兮" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main">
+    <li><a href="/">博客</a></li>
+    <li><a href="/blog/archives">文章列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/30/rose-cuda-varialbe/">ROSE 声明CUDA类型的变量</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-30T10:26:12+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:26 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>需要声明CUDA类型的变量，如 constant,device,shared等等</p>
+
+<h1>解决方案</h1>
+
+<p>调用<code>get_declarationModifier().get_storageModifier().set</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/30/rose-create-template-variable/">ROSE 创建模板类变量的一个取巧办法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-30T09:42:36+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:42 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>用ROSE产生cuda代码时，为了性能需要，使用到了纹理存储器。但在纹理存储器变量声明的时候，遇到了点问题：纹理寄存器变量的类型是模板类实例，e.g,<code>texture&lt;DATATYPE,1,cudaReadModeElementType&gt; t_a</code>,但是rose中模板类变量貌似不怎么好声明，尝试了半天都没有成功。</p>
+
+<h1>解决方案</h1>
+
+<p>使用万金油式的buildOpaqueType直接创建模板类型,然后使用该类型创建纹理存储器变量</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">//create a template instance type directly: texture&lt;DATATYPE,1,cudaReadModelElementType&gt;</span>
+</span><span class='line'><span class="n">SgType</span><span class="o">*</span> <span class="n">textureType</span><span class="o">=</span><span class="n">buildOpaqueType</span><span class="p">(</span><span class="s">&quot;texture&lt;DATATYPE,1,cudaReadModelElementType&gt;&quot;</span><span class="p">,</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_scope</span><span class="p">());</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//create the texture type variable &quot;texture_a&quot;</span>
+</span><span class='line'><span class="n">SgVariableDeclaration</span><span class="o">*</span> <span class="n">vdecl</span><span class="o">=</span><span class="n">buildVariableDeclaration</span><span class="p">(</span><span class="s">&quot;texture_a&quot;</span><span class="p">,</span><span class="n">textureType</span><span class="p">,</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">get_scope</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/29/cudatexture/">Error: No Instance of Overloaded Function "tex1Dfetch" Matches the Argument List Argument Types Are: (Texture<double, 1, cudaReadModeElementType>, Int)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-29T15:59:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>3:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>问题</h1>
+
+<p>在使用cuda的纹理存储器时，编译器报错</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>stencilexample.cu<span class="o">(</span>147<span class="o">)</span>: error:
+</span><span class='line'>no instance of overloaded <span class="k">function</span> <span class="s2">&quot;tex1Dfetch&quot;</span>
+</span><span class='line'>matches the argument list argument types are:
+</span><span class='line'><span class="o">(</span>texture&lt;double, 1, cudaReadModeElementType&gt;, int<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>解决方法</h1>
+
+<p>经过研究，发现原来cuda的纹理存储器不能直接支持double</p>
+
+<blockquote><p>The type of a texel, which is restricted to the basic integer and single-precision floating-point types and any of the 1-, 2-, and 4-component vector types defined in char, short, int, long, longlong, float, double that are derived from the basic integer and single-precision floating-point types.
+出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p></blockquote>
+
+<p>非要加速的话，可以使用一个int2类型的向量拼接成一个double</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cuda'><span class='line'><span class="c1">//declarate the texture using int2 type</span>
+</span><span class='line'><span class="n">texture</span> <span class="o">&lt;</span><span class="kt">int2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cudaReadModeElementType</span><span class="o">&gt;</span> <span class="n">Atex</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//used in global function(cuda kernel)</span>
+</span><span class='line'><span class="kt">int2</span> <span class="n">A1</span><span class="o">=</span><span class="n">tex1Dfetch</span><span class="p">(</span><span class="n">Atex</span><span class="p">,(</span><span class="n">texoff</span><span class="o">+</span><span class="p">(</span><span class="n">ll</span><span class="o">+</span><span class="n">offset</span><span class="p">)</span> <span class="o">*</span><span class="n">lda</span> <span class="o">+</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">));</span>
+</span><span class='line'><span class="n">Bs</span><span class="p">[</span><span class="n">ty</span><span class="o">+</span><span class="n">offset</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">__hiloint2double</span><span class="p">(</span><span class="n">A1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="n">A1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">temp</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/24/r-string-manipulate/">R 字符操作函数</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-24T09:20:29+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><table>
+<thead>
+<tr>
+<th> 函数     </th>
+<th>   描述    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nchar(x)  </td>
+<td> 计算x中的字符数量</td>
+</tr>
+<tr>
+<td>substr(x, start, stop)</td>
+<td>   字符串截取 </td>
+</tr>
+<tr>
+<td>grep(pattern, x)   </td>
+<td>  字符串内的查找 </td>
+</tr>
+<tr>
+<td>paste(&hellip;, sep = &ldquo; &rdquo;, collapse = NULL)</td>
+<td>字符串连接</td>
+</tr>
+<tr>
+<td>strsplit(x, split)</td>
+<td>字符串分割</td>
+</tr>
+<tr>
+<td>tolower() </td>
+<td> 把x变成小写</td>
+</tr>
+<tr>
+<td>toupper(x)</td>
+<td>把x变成大写</td>
+</tr>
+<tr>
+<td>casefold(x, upper = FALSE)</td>
+<td>通过指定upper,把x变成大写或者小写</td>
+</tr>
+<tr>
+<td>chartr(old, new, x)</td>
+<td>把x中每个在old中出现的字符翻译成new中相应位置的字符 </td>
+</tr>
+</tbody>
+</table>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/23/raddcolumnbyloop/">R语言 使用循环构建dataframe</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-23T15:31:06+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>3:31 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>目前有个模块需要动态的确定dataframe的属性和值，属性和值以key=value的形式存在一个str 的list中，使用如下函数循环构建dataframe</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> for(item in dataItems)
+</span><span class='line'>  {
+</span><span class='line'>    itempair &lt;- unlist(strsplit(item, "="))
+</span><span class='line'>    eval(parse(text=sprintf("%s=itempair[2]",itempair[1])))
+</span><span class='line'>    if(datadf_str!="")
+</span><span class='line'>      datadf_str=paste(datadf_str,itempair[1],sep=",")
+</span><span class='line'>    else
+</span><span class='line'>      datadf_str=itempair[1]
+</span><span class='line'>    print(datadf_str)
+</span><span class='line'>  }
+</span><span class='line'>  datadf=eval(parse(text=sprintf("data.frame(%s)",datadf_str)))</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/19/r-language-variable/">R语言 变量</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-19T09:54:51+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:54 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>对全局变量的赋值</h2>
+
+<ol>
+<li> 在函数外部：
+
+<ul>
+<li>global_variable&lt;-newvalue</li>
+<li>global_variable=newvalue</li>
+</ul>
+</li>
+<li> 在函数内部：
+
+<ul>
+<li>global_variable&lt;&lt;-newvalue</li>
+</ul>
+</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/19/r-hangg-yu-lie-de-cao-zuo/">R语言 行与列的操作</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-06-19T09:43:53+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>选择列</h2>
+
+<h3>数据框/dataframe:</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>dn、d[,n]、d"name"、d[,&ldquo;name&rdquo;]、d$name 得到某一列组成的矢量。</li>
+<li>d[n]、d[&ldquo;name&rdquo;] 得到某一列组成的数据框。</li>
+<li>d[c(m,n,&hellip;)]、d[,c(m,n,&hellip;)]、d[,c(&ldquo;name1&rdquo;,&ldquo;name2&rdquo;,&hellip;)]得到若干列组成的数据框。
+
+<h4>其它技巧：</h4></li>
+<li>负号表示剔除。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='R'><span class='line'>  allnames<span class="o">=</span><span class="kp">names</span><span class="p">(</span>rawdata<span class="p">)</span>
+</span><span class='line'>  vnames<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;OptType&quot;</span><span class="p">,</span><span class="s">&quot;OptConfig&quot;</span><span class="p">,</span><span class="s">&quot;Gflops&quot;</span><span class="p">)</span>
+</span><span class='line'>  vnames2<span class="o">=</span>allnames <span class="o">%in%</span> vnames
+</span><span class='line'>  snames<span class="o">=</span>allnames<span class="p">[</span><span class="o">!</span>vnames2<span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>可以用 grep() 搜索变量名。比如
+<code>mydata[grep("^q", names(mydata))]</code>
+选择名称以“q”开头的数据列。</li>
+</ul>
+
+
+<h3>列表/List：</h3>
+
+<h4>list列的引用</h4>
+
+<ul>
+<li>d[[&ldquo;colname&rdquo;]] 得到成分名为colname的列矢量</li>
+</ul>
+
+
+<h2>选择行</h2>
+
+<h3>数据框：</h3>
+
+<h4>引用：</h4>
+
+<ul>
+<li>d[n,] 得到某一行组成的数据框。</li>
+<li>d[c(m,n,&hellip;),n] 得到若干行组成的数据框。</li>
+<li>head() 得到前6行组成的数据框。</li>
+<li>tail() 得到最后6行组成的数据框。</li>
+</ul>
+
+
+<h4>条件引用。例如：</h4>
+
+<ul>
+<li>d[d$y>8,] 得到d中满足y>8的行组成的数据框。</li>
+<li>d$x[d$y>8] 得到d中满足y>8的行的列x组成的矢量。</li>
+</ul>
+
+
+<h4>数据框行的遍历</h4>
+
+<ul>
+<li>使用索引进行遍历</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='R'><span class='line'><span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="kp">nrow</span><span class="p">(</span>rawdata<span class="p">))</span>
+</span><span class='line'>  dosomething<span class="p">(</span>rawdata<span class="p">[</span>i<span class="p">,])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/30/roseproblem/">A Rose Problem: SgNode::get_numberOfTraversalSuccessors(): Assertion 'False' Failed</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-03-30T21:30:45+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:30 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>问题</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Internal error<span class="o">(</span>!<span class="o">)</span>: called tree traversal mechanism <span class="k">for</span> illegal object:
+</span><span class='line'>static: SgNode
+</span><span class='line'>dynamic:  SgNode
+</span><span class='line'>Aborting ...
+</span><span class='line'>my_program: Cxx_GrammarTreeTraversalSuccessorContainer.C:42: virtual
+</span><span class='line'>size_t SgNode::get_numberOfTraversalSuccessors<span class="o">()</span>: Assertion <span class="sb">`</span><span class="nb">false</span><span class="err">&#39;</span> failed.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>解决方法</h2>
+
+<p>这种错误一般是由于语法树具有环路造成的。造成环路的原因一般是因为一个astnode被多次使用，解决方法是利用deepcopy在多次使用的地方克隆。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/13/miktex-plus-texmarker-texstudio-enviroment-setup/">Miktex+ Texmarker/Texstudio环境的配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-03-13T10:37:02+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:37 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>步骤</h2>
+
+<ul>
+<li><p>下载miktex移植版本：
+<a href="http://miktex.org/download">http://miktex.org/download</a></p></li>
+<li><p>解压</p></li>
+<li><p>设置系统环境变量PATH。例如：</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span>E:<span class="se">\P</span>rogram Files<span class="se">\m</span>iktex-portable<span class="se">\m</span>iktex<span class="se">\b</span>in
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>安装Texmarker/Texstudio，即可运行</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/19/tau/">TAU 中的profile和trace</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-12-19T20:51:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:51 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>预备知识</h2>
+
+<ul>
+<li><p>profile侧重结果，trace侧重过程。</p></li>
+<li><p>对于两个不同类型的测试（profile or trace），需要指定不同的makefile文件，各类makefile文件在tau编译配置时根据参数指定生成。</p></li>
+</ul>
+
+
+<h2>自动化插桩的过程：</h2>
+
+<ul>
+<li><p>添加或者设需要的makefile</p></li>
+<li><p>根据待插桩的源码，设置相应的tau编译器（可在makefile中替换或者直接使用tau编译器编译）</p></li>
+</ul>
+
+
+<h3>例子：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#设置tau makefile</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">TAU_MAKEFILE</span><span class="o">=</span>/home/xxxx/tools/tau_TRACE_PAPIWALLCLOCK/x86_64/lib/Makefile.tau-papi-pdt-trace
+</span><span class='line'>
+</span><span class='line'><span class="c">#设置插桩参数</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">TAU_THROTTLE</span><span class="o">=</span>0
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER1</span><span class="o">=</span>P_WALL_CLOCK_TIME
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER2</span><span class="o">=</span>PAPI_L1_DCM
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER3</span><span class="o">=</span>PAPI_FP_INS
+</span><span class='line'>
+</span><span class='line'><span class="c">#调用tau编译器</span>
+</span><span class='line'>tau_f90.sh  -c  hps_em_comp.f90
+</span><span class='line'>tau_cxx.sh  main.cpp  hps_em_comp.o -o mytest
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>此外，进一步的详细插桩可以通过在编译时指定配置文件</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>tau_f90.sh -tau_options<span class="o">=</span>-optTauSelectFile<span class="o">=</span>ins_file -c  hps_em_comp.f90
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置文件格式如下：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Tell tau to not profile these functions</span>
+</span><span class='line'>BEGIN_EXCLUDE_LIST
+</span><span class='line'>double* get<span class="o">(</span>int size<span class="o">)</span>
+</span><span class='line'>END_EXCLUDE_LIST
+</span><span class='line'>
+</span><span class='line'><span class="c">#Exclude these files from profiling</span>
+</span><span class='line'>
+</span><span class='line'>BEGIN_FILE_EXCLUDE_LIST
+</span><span class='line'>*.so
+</span><span class='line'>END_FILE_EXCLUDE_LIST
+</span><span class='line'>
+</span><span class='line'>BEGIN_INSTRUMENT_SECTION
+</span><span class='line'><span class="c">#插桩所有在文件loop_test.cpp中函数multiply内的循环</span>
+</span><span class='line'>loops <span class="nv">file</span><span class="o">=</span><span class="s2">&quot;loop_test.cpp&quot;</span> <span class="nv">routine</span><span class="o">=</span><span class="s2">&quot;multiply&quot;</span>
+</span><span class='line'><span class="c">#插入代码段</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">file</span> <span class="o">=</span> <span class="s2">&quot;line_test.cpp&quot;</span> <span class="nv">line</span> <span class="o">=</span> <span class="m">9</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;printf(\&quot;i=%d: \&quot;, i);&quot;</span>
+</span><span class='line'><span class="nb">exit </span><span class="nv">routine</span> <span class="o">=</span><span class="s2">&quot;int foo()&quot;</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;cout &lt;&lt;\&quot;exiting foo\&quot;&lt;&lt;endl;&quot;</span>
+</span><span class='line'>entry <span class="nv">routine</span> <span class="o">=</span><span class="s2">&quot;int foo()&quot;</span> <span class="nv">code</span> <span class="o">=</span> <span class="s2">&quot;cout &lt;&lt;\&quot;entering foo\&quot;&lt;&lt;endl;i&quot;</span>
+</span><span class='line'>END_INSTRUMENT_SECTION
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>使用PAPI测量更多指标，首先下指定使用papi参数编译的tau ，makefile，其次，使用环境变量PAPI_EVENT</p></li>
+<li><p>当一次要采集多个指标时，可以通过设置COUNT &lt;1-25>来实现</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">COUNTER1</span><span class="o">=</span>P_WALL_CLOCK_TIME
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER2</span><span class="o">=</span>PAPI_L1_DCM
+</span><span class='line'><span class="nb">export </span><span class="nv">COUNTER3</span><span class="o">=</span>PAPI_FP_INS
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>之后用paraprof –pack 命令打包结果成ppk，上传至数据库。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>paraprof --pack pdata.ppk
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/4">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/2">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/12/iosstudy/">IOS 学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/03/install-jasper/">在树莓派平台上安装 Jasper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/29/install-rose/">Install_rose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/05/rstudio-server-dot-ld-library-path/">RStudio Server 环境变量LD_LIBRARY_PATH的配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/18/goagentsetup/">使用Goagent 进行科学上网</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/luoyulong">@luoyulong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'luoyulong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo">Copyright &copy; 2015
+
+    luoyulong
+
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
