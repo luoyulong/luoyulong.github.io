@@ -4,7 +4,7 @@
   <title><![CDATA[零露漙兮]]></title>
   <link href="http://luoyulong.github.io/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-13T13:26:05+08:00</updated>
+  <updated>2015-07-13T13:43:42+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -18,12 +18,12 @@
     <link href="http://luoyulong.github.io/blog/2015/07/12/iosstudy/"/>
     <updated>2015-07-12T21:21:10+08:00</updated>
     <id>http://luoyulong.github.io/blog/2015/07/12/iosstudy</id>
-    <content type="html"><![CDATA[<p>#</p>
+    <content type="html"><![CDATA[<h1>iOS学习笔记</h1>
 
-<ol>
+<ul>
 <li><p>在IOS中所有的页面（view）都遵循MVC架构，即数据存放在model（具体的业务类）中，使用control（viewcontrol）控制数据，在view中显示</p></li>
 <li><p>使用当前页面控制器(viewcontrol)中实现<code>prepareForSegue方法</code>进行页面切换前的准备。其中可以根据跳转页面的SegueIdentifier来分辨跳转目标执行具体逻辑。</p></li>
-</ol>
+</ul>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -59,9 +59,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
+<ul>
 <li>对于一些功能组件，为了实现其方法，首先需要为其设置一个代理（类）。该类需要继承该组件指定的特点协议，通过实现协议中的方法实现组件方法。例如：</li>
-</ol>
+</ul>
 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
