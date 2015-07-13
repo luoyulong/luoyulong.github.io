@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-13T12:11:31+08:00</updated>
+  <updated>2015-07-13T13:26:05+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -31,8 +31,9 @@
 
 <h1>dbpsw: the password of target database</h1>
 
-<p>imysql -v datasourcename dbname dbpsw
-```
+<p>imysql -v datasourcename dbname dbpsw</p>
+
+<p>```
 如果数据源配置正确，会出现进入数据库</p>
 ]]></content>
   </entry>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cuda | 零露漙兮]]></title>
   <link href="http://luoyulong.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://luoyulong.github.io/"/>
-  <updated>2015-07-13T12:11:31+08:00</updated>
+  <updated>2015-07-13T13:26:05+08:00</updated>
   <id>http://luoyulong.github.io/</id>
   <author>
     <name><![CDATA[luoyulong]]></name>
@@ -97,7 +97,7 @@ XXXX###Device Level
 
 <blockquote><p>You could do sth along the lines of :</p></blockquote>
 
-<p>``` cuda</p>
+<p>``` c</p>
 
 <h1>include&lt;sys/time.h></h1>
 
@@ -113,11 +113,15 @@ XXXX###Device Level
 
 <p>double time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000000.0;</p>
 
-<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
-<code>
-or:
-</code>
-float time;
+<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);</p>
+
+<p>```</p>
+
+<p>or:</p>
+
+<p>``` c</p>
+
+<p>float time;
 cudaEvent_t start, stop;</p>
 
 <p>gpuErrchk( cudaEventCreate(&amp;start) );
@@ -130,8 +134,9 @@ gpuErrchk( cudaEventRecord(start, 0) );</p>
 gpuErrchk( cudaEventSynchronize(stop) );
 gpuErrchk( cudaEventElapsedTime(&amp;time, start, stop) );</p>
 
-<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);
-```</p>
+<p>printf(&ldquo;Time to generate:  %3.1f ms \n&rdquo;, time);</p>
+
+<p>```</p>
 
 <p>其中，在cpu端计时，由于GPU的kenernl与cpu是异步执行，所以在获得整个cuda应用的结束时间前，必须要调用cudaThreadSynchronize（现替换成cudaDeviceSynchronize），否则测的时间是最后一个kernel 启动的时间。</p>
 ]]></content>
@@ -175,7 +180,7 @@ matches the argument list argument types are:
 出处：<a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#texture-and-surface-memory" title="Title">cuda-c-programming-guide</a></p></blockquote>
 
 <p>非要加速的话，可以使用一个int2类型的向量拼接成一个double
-``` cuda
+``` c
 //declarate the texture using int2 type
 texture &lt;int2,1,cudaReadModeElementType> Atex;</p>
 
